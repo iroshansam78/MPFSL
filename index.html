@@ -10,61 +10,63 @@
     <title>Modern Pentathlon Federation of Sri Lanka</title>
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@600;700;800&family=DM+Sans:wght@400;500;600;700&display=swap" rel="stylesheet" />
     <link rel="stylesheet" href="styles.css" />
   </head>
   <body>
-    <header class="site-header">
-      
-    </header>
+    <a class="skip-link" href="#main-content">Skip to content</a>
     <header class="site-header">
       <div class="container nav-wrap">
         <a href="#top" class="brand" aria-label="Modern Pentathlon Federation of Sri Lanka home">
           <img class="brand-logo-image" src="mpfsl_logo.svg" alt="Modern Pentathlon Federation of Sri Lanka logo" />
         </a>
 
-        <nav class="main-nav" aria-label="Main navigation">
+        <button class="menu-toggle" id="menuToggle" type="button" aria-expanded="false" aria-controls="mainNav" aria-label="Open navigation">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h16" /></svg>
+          <span>Menu</span>
+        </button>
+
+        <nav class="main-nav" id="mainNav" aria-label="Main navigation">
           <a href="#about">About</a>
           <a href="#programmes">Programmes</a>
+          <a href="#news">News</a>
           <a href="#gallery">Gallery</a>
           <a href="#contact">Contact</a>
         </nav>
 
         <div class="header-actions">
-          <button class="theme-toggle" id="themeToggle" type="button" aria-label="Toggle theme">
-            <span class="theme-toggle-icon">☀️</span>
-            <span class="theme-toggle-text">Light</span>
+          <button class="theme-toggle" id="themeToggle" type="button" aria-label="Switch to dark mode" aria-pressed="false">
+            <span class="theme-toggle-icon theme-icon-moon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M20.2 15.1A8.5 8.5 0 0 1 8.9 3.8 8.7 8.7 0 1 0 20.2 15.1Z" /></svg></span>
+            <span class="theme-toggle-icon theme-icon-sun" aria-hidden="true"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="4" /><path d="M12 2v2m0 16v2M4.93 4.93l1.42 1.42m11.3 11.3 1.42 1.42M2 12h2m16 0h2M4.93 19.07l1.42-1.42m11.3-11.3 1.42-1.42" /></svg></span>
+            <span class="theme-toggle-text">Dark mode</span>
           </button>
         </div>
-
-
-
       </div>
     </header>
 
-    <main id="top">
+    <main id="main-content">
 
-      <section class="hero">
+      <section class="hero" id="top">
         <div class="container hero-grid">
-
-            <div class="social-strip" aria-label="Social media links">
-              <a class="social-link" href="https://www.facebook.com/slmpf" target="_blank" rel="noreferrer" aria-label="Facebook">
+          <div class="hero-copy">
+            <div class="social-strip" role="group" aria-label="Follow the federation">
+              <span class="social-strip-label">Follow MPFSL</span>
+              <a class="social-link" href="https://www.facebook.com/slmpf" target="_blank" rel="noreferrer" aria-label="Facebook" title="Facebook">
                 <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M13.5 22v-8h2.8l.4-3.2h-3.2V7.4c0-.9.3-1.6 1.7-1.6H17V2.8c-.3 0-1.4-.1-2.7-.1-2.7 0-4.6 1.6-4.6 4.7v2.4H7.5V14h2.2v8h3.8Z"/></svg>
               </a>
-              <a class="social-link" href="https://x.com/search?q=%23modernpentathlon" target="_blank" rel="noreferrer" aria-label="X">
+              <a class="social-link" href="https://x.com/search?q=%23modernpentathlon" target="_blank" rel="noreferrer" aria-label="X" title="X">
                 <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M18.9 3h3.2l-7 8 8.2 10h-6.4l-5-6.2-5.7 6.2H2.6l7.1-8.2L2 3h6.5l4.5 5.9L18.9 3Zm-1.1 15.2h1.8L7.3 4.7H5.4l12.4 13.5Z"/></svg>
               </a>
-              <a class="social-link" href="https://www.youtube.com/results?search_query=Modern+Pentathlon+Federation+Sri+Lanka" target="_blank" rel="noreferrer" aria-label="YouTube">
+              <a class="social-link" href="https://www.youtube.com/results?search_query=Modern+Pentathlon+Federation+Sri+Lanka" target="_blank" rel="noreferrer" aria-label="YouTube" title="YouTube">
                 <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M23 12c0-1.7-.1-3.4-.4-5.1-.4-1.9-1.8-3.3-3.7-3.7C16.9 3 14.8 3 12 3s-4.9 0-6.9.2C3.2 3.6 1.8 5 1.4 6.9A64 64 0 0 0 1 12c0 1.7.1 3.4.4 5.1.4 1.9 1.8 3.3 3.7 3.7 2 .2 4.1.2 6.9.2s4.9 0 6.9-.2c1.9-.4 3.3-1.8 3.7-3.7.3-1.7.4-3.4.4-5.1ZM10 15.5v-7l6 3.5-6 3.5Z"/></svg>
               </a>
-              <a class="social-link" href="https://www.instagram.com/" target="_blank" rel="noreferrer" aria-label="Instagram">
+              <a class="social-link" href="https://www.instagram.com/" target="_blank" rel="noreferrer" aria-label="Instagram" title="Instagram">
                 <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7 2h10a5 5 0 0 1 5 5v10a5 5 0 0 1-5 5H7a5 5 0 0 1-5-5V7a5 5 0 0 1 5-5Zm0 2a3 3 0 0 0-3 3v10a3 3 0 0 0 3 3h10a3 3 0 0 0 3-3V7a3 3 0 0 0-3-3H7Zm5 3.2A4.8 4.8 0 1 1 7.2 12 4.8 4.8 0 0 1 12 7.2Zm0 2A2.8 2.8 0 1 0 14.8 12 2.8 2.8 0 0 0 12 9.2Zm5.2-3.3a1.1 1.1 0 1 1-1.1-1.1 1.1 1.1 0 0 1 1.1 1.1Z"/></svg>
               </a>
-              <a class="social-link" href="https://www.facebook.com/hashtag/modernpentathlon" target="_blank" rel="noreferrer" aria-label="Hashtag">
+              <a class="social-link" href="https://www.facebook.com/hashtag/modernpentathlon" target="_blank" rel="noreferrer" aria-label="Modern pentathlon hashtag" title="#modernpentathlon">
                 <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7.8 4.5a1 1 0 0 1 1 1v1.3h5.4V5.5a1 1 0 1 1 2 0v1.3h1.8a2 2 0 0 1 2 2v1.8h-1.7v-1H4.7v1H3v-1.8a2 2 0 0 1 2-2h1.8V5.5a1 1 0 0 1 1-1Zm-3 6.2h15.4v3.3H4.8v-3.3Zm1 5.1h2.2v.8a1 1 0 1 1-2 0v-.8Zm8.8 0h2.6v.8a1 1 0 1 1-2 0v-.8Zm-6.3 0h4.3v1.3a1 1 0 0 1-2 0v-.3h-2.3v-.9Z"/></svg>
               </a>
             </div>
-          <div class="hero-copy">
             <p class="eyebrow">Official national federation</p>
             <h1>Modern Pentathlon Federation of Sri Lanka</h1>
             <p class="lead">
@@ -74,7 +76,8 @@
             </p>
 
             <div class="cta-row">
-              <a class="button button-secondary" href="mailto:mpfsl13@gmail.com">Email Us</a>
+              <a class="button button-primary" href="https://www.facebook.com/slmpf" target="_blank" rel="noreferrer">Follow on Facebook <span aria-hidden="true">↗</span></a>
+              <a class="button button-secondary" href="mailto:mpfsl13@gmail.com">Contact the federation</a>
             </div>
 
 
@@ -102,22 +105,85 @@
       </section>
 
       <section id="about" class="section intro-section">
-        <div class="container split-layout">
-          <div>
-            <p class="section-label">About</p>
-            <h2>Where discipline, precision and endurance meet.</h2>
+        <div class="container">
+          <div class="split-layout about-opening">
+            <div>
+              <p class="section-label">About the sport</p>
+              <h2>Five disciplines. One complete athlete.</h2>
+            </div>
+
+            <div class="intro-copy">
+              <p>
+                Modern pentathlon brings together swimming, running, shooting, fencing, and equestrian
+                in one Olympic sport. Pierre de Coubertin, founder of the modern Olympic Games, is
+                regarded as its founder after adapting the ancient pentathlon. The sport joined the
+                Olympic programme in 1912.
+              </p>
+              <blockquote class="about-quote">
+                “Tested a man’s moral qualities as much as his physical resources and skills, producing thereby the ideal, complete athlete.”
+                <cite>Pierre de Coubertin</cite>
+              </blockquote>
+            </div>
           </div>
 
-          <div class="intro-copy">
-            <p>
-              The Modern Pentathlon Federation of Sri Lanka serves as the national authority
-              for the sport, bringing together athletes, coaches, officials, and supporters
-              around a shared vision of excellence and national advancement.
-            </p>
-            <p>
-              Through structured participation, competitive events, and sustained development,
-              MPFSL supports the sport at every level, from grassroots growth to elite representation.
-            </p>
+          <div class="about-timeline" aria-label="Modern pentathlon development in Sri Lanka">
+            <article class="timeline-entry">
+              <p class="timeline-year">2012–2013</p>
+              <div>
+                <h3>Joining the international movement</h3>
+                <p>
+                  During the 2012 Olympic Games, the Union Internationale de Pentathlon Moderne (UIPM)
+                  sought to extend support to Asian countries. Sri Lanka obtained full UIPM membership
+                  in 2013.
+                </p>
+              </div>
+            </article>
+
+            <article class="timeline-entry">
+              <p class="timeline-year">2014</p>
+              <div>
+                <h3>Coaching and athlete development</h3>
+                <p>
+                  Brazilian UIPM international coach Alexandre Franca led an awareness and coaching
+                  programme for eight coaches and 12 athletes in Sri Lanka. Coaches represented
+                  swimming, middle-distance running (400–800 metres), and shooting.
+                </p>
+              </div>
+            </article>
+
+            <article class="timeline-entry">
+              <p class="timeline-year">2015 snapshot</p>
+              <div>
+                <h3>Taking the sport to schools</h3>
+                <p>
+                  At the time, MPFSL fielded school teams rather than a national team, beginning with
+                  eight international schools in Colombo. The planned early competitions were Biathle
+                  (running and swimming), followed by Triathle (running, swimming, and shooting), with
+                  the first Biathle planned for May and a Triathle later that year. The federation also
+                  aimed to expand to zonal and national schools.
+                </p>
+                <p>
+                  For Olympic Day on 23 June 2015 in Mannar, MPFSL was invited by the National Olympic
+                  Committee of Sri Lanka to organize a Biathle event, training, and introductory school
+                  workshops.
+                </p>
+              </div>
+            </article>
+
+            <article class="timeline-entry">
+              <p class="timeline-year">The pathway</p>
+              <div>
+                <h3>From Biathle to the full pentathlon</h3>
+                <p>
+                  The original development plan described Biathle and Triathle as early competition
+                  steps, with opportunities to progress to World Championships and, ultimately, the
+                  five-discipline Olympic event. Existing running and swimming facilities supported
+                  that start; more laser pistols were identified as a need for Triathle. The account
+                  also noted three UIPM Level 1 coaches and expressed confidence in growing the sport
+                  through commitment and support.
+                </p>
+              </div>
+            </article>
           </div>
         </div>
       </section>
@@ -131,19 +197,19 @@
 
           <div class="feature-grid">
             <article class="feature-card">
-              <div class="feature-icon">🏅</div>
+              <div class="feature-icon" aria-hidden="true">01</div>
               <h3>Athlete Development</h3>
               <p>Creating pathways for emerging talent and supporting elite progression through structured practice and guidance.</p>
             </article>
 
             <article class="feature-card">
-              <div class="feature-icon">🎯</div>
+              <div class="feature-icon" aria-hidden="true">02</div>
               <h3>Competitive Events</h3>
               <p>Promoting disciplined competition and national-level participation across the modern pentathlon disciplines.</p>
             </article>
 
             <article class="feature-card">
-              <div class="feature-icon">🤝</div>
+              <div class="feature-icon" aria-hidden="true">03</div>
               <h3>Community & Growth</h3>
               <p>Connecting administrators, athletes, and supporters to build a vibrant and sustainable sporting culture.</p>
             </article>
@@ -156,50 +222,319 @@
           <div class="section-heading row-between">
             <div>
               <p class="section-label">News</p>
-              <h2>Latest updates from the official Facebook page and #modernpentathlon</h2>
+              <h2>Gayani Dassanayake carries Sri Lanka’s pentathlon story to Nagoya</h2>
             </div>
-            <a class="text-link" href="https://www.facebook.com/hashtag/modernpentathlon" target="_blank" rel="noreferrer">View all updates</a>
           </div>
 
           <article class="news-feature">
-            <div class="news-feature-image">
-              <img src="https://images.unsplash.com/photo-1547347298-4074fc3086f0?auto=format&fit=crop&w=1200&q=80" alt="Modern pentathlon training and competition" />
+              <div class="news-feature-image">
+                <img
+                  src="images/813698683_1595682778922053_3595361724550858176_n.jpg"
+                  alt="Asian Games 2026 poster celebrating Gayani Dassanayake’s 28th-place finish in modern pentathlon for Sri Lanka"
+                  loading="lazy"
+                />
             </div>
             <div class="news-feature-copy">
-              <span class="news-tag">Official Facebook post</span>
-              <h3>From a limited national platform to a growing modern pentathlon journey</h3>
+              <span class="news-tag">Asian Games · Modern Pentathlon</span>
+              <h3>From Dematapelessa to Nagoya: a national champion on the Asian stage</h3>
               <p>
-                A recent MPFSL Facebook update highlights the progression of the sport in Sri Lanka,
-                from the early stages of a limited national federation to the broader national visibility
-                and leadership represented by modern pentathlon development and competitive participation.
+                Raised in Dematapelessa, Ampara, Gayani joined the Sri Lanka Air Force at 18 through her
+                swimming ability and began competing as a full-time athlete with its aquatics team. She
+                became National Triathlon Champion in 2016, then National Modern Pentathlon-Triathle
+                Champion in 2019.
+              </p>
+              <p>
+                After winning the 2025 National Modern Pentathlon Championship in Bandaragama, she
+                represented Sri Lanka at the 2025 World Cup in Egypt, the 2025 Asian Championships in
+                Japan, and the 2026 World Championship in China. Her 2025 performances secured direct
+                qualification for the 2026 Asian Games.
+              </p>
+              <p>
+                In Nagoya, Gayani placed 28th overall, ahead of competitors from Kuwait, Malaysia,
+                Thailand, and Kyrgyzstan. She was the only woman representing South Asia in the modern
+                pentathlon field, a milestone for Sri Lankan sport and women athletes.
               </p>
               <div class="news-meta">
-                <span>20 September</span>
-                <a href="https://www.facebook.com/hashtag/modernpentathlon" target="_blank" rel="noreferrer">Read on Facebook</a>
+                <span>20th Asian Games · Nagoya, Japan</span>
+                <nav class="news-sources" aria-label="Related organizations">
+                  <a href="https://www.facebook.com/WorldPentathlon" target="_blank" rel="noreferrer">UIPM</a>
+                  <a href="https://www.facebook.com/OlympicLK" target="_blank" rel="noreferrer">NOC Sri Lanka</a>
+                  <a href="https://www.facebook.com/moys.srilanka" target="_blank" rel="noreferrer">Youth &amp; Sports</a>
+                </nav>
               </div>
+            </div>
+          </article>
+
+          <article class="news-update">
+            <div>
+              <span class="news-tag">Asian Games · Men’s Individual</span>
+              <h3>Isiwaruna De Silva in action in Semi-final B</h3>
+            </div>
+            <p>
+              Sri Lanka’s Isiwaruna De Silva competed in Semi-final B of the Men’s Individual modern
+              pentathlon at the 20th Asian Games Aichi-Nagoya 2026.
+            </p>
+            <nav class="news-hashtags" aria-label="Related hashtags">
+              <a href="https://www.facebook.com/hashtag/teamsrilanka" target="_blank" rel="noreferrer">#TeamSriLanka</a>
+              <a href="https://www.facebook.com/hashtag/nocsrilanka" target="_blank" rel="noreferrer">#NOCSriLanka</a>
+              <a href="https://www.facebook.com/hashtag/asiangames2026" target="_blank" rel="noreferrer">#AsianGames2026</a>
+              <a href="https://www.facebook.com/hashtag/modernpentathlon" target="_blank" rel="noreferrer">#ModernPentathlon</a>
+              <a href="https://www.facebook.com/hashtag/album" target="_blank" rel="noreferrer">#Album</a>
+            </nav>
+            <div class="news-update-gallery">
+              <figure>
+                <img
+                  src="images/814034509_1541043268048424_7085398105609014943_n.jpg"
+                  alt="Isiwaruna De Silva competing on an obstacle course at Aichi-Nagoya 2026"
+                  loading="lazy"
+                />
+              </figure>
+              <figure>
+                <img
+                  src="images/807727577_1541043358048415_1626123971055853260_n.jpg"
+                  alt="Isiwaruna De Silva fencing an opponent in the Men’s Individual semifinal"
+                  loading="lazy"
+                />
+              </figure>
+            </div>
+          </article>
+
+          <article class="news-update championship-update">
+            <div>
+              <span class="news-tag">National Championship · 13 September 2025</span>
+              <h3>Minister of Sports attends the National Pentathlon Championship</h3>
+            </div>
+            <p>
+              It was a great honor for the Modern Pentathlon Federation of Sri Lanka to welcome the
+              Hon. Minister of Sports to the National Pentathlon Championship, held at Pearl Bay
+              Amusement Park on 13 September 2025.
+            </p>
+            <nav class="news-hashtags" aria-label="Related organization">
+              <a href="https://www.facebook.com/WorldPentathlon" target="_blank" rel="noreferrer">UIPM · World Pentathlon</a>
+            </nav>
+            <div class="news-update-gallery news-photo-grid">
+              <figure>
+                <img
+                  src="images/547305866_3165950006902056_6144605238667924094_n.jpg"
+                  alt="Athletes receive medals at the 2025 National Pentathlon Championship"
+                  loading="lazy"
+                />
+              </figure>
+              <figure>
+                <img
+                  src="images/547361566_3165949766902080_3763351590938533797_n.jpg"
+                  alt="Athletes take part in the shooting discipline at Pearl Bay"
+                  loading="lazy"
+                />
+              </figure>
+              <figure>
+                <img
+                  src="images/547372726_3165949893568734_6696533274407850847_n.jpg"
+                  alt="Young athletes compete in a running event at the championship"
+                  loading="lazy"
+                />
+              </figure>
+              <figure>
+                <img
+                  src="images/548466046_3165950716901985_2666818049645227824_n.jpg"
+                  alt="Athletes, officials, and guests gather at the 2025 National Pentathlon Championship"
+                  loading="lazy"
+                />
+              </figure>
+            </div>
+          </article>
+
+          <article class="news-course">
+            <div class="news-course-heading">
+              <span class="news-tag">Coaching · 27–31 May 2025</span>
+              <h3>UIPM Coaches Certification Course – Level 1 successfully concluded</h3>
+            </div>
+            <div class="news-course-content">
+              <p>
+                The Modern Pentathlon Federation of Sri Lanka proudly hosted the UIPM Coaches
+                Certification Programme (Level 1), a significant milestone in developing coaching
+                standards for modern pentathlon in Sri Lanka.
+              </p>
+              <h4>With thanks to our partners</h4>
+              <ul>
+                <li><strong>Mr. Liu Shen-Hung</strong>, UIPM-certified facilitator, with accommodation generously provided by Cinnamon Grand Colombo.</li>
+                <li><strong>UIPM and AMPC</strong> for their financial support and global leadership.</li>
+                <li><strong>Football House</strong> for hosting the main course.</li>
+                <li><strong>Department of Sports Development</strong> for providing training facilities.</li>
+                <li><strong>Julian Bolling Swimming Academy</strong> for specialized swimming training.</li>
+              </ul>
+              <p>
+                This collaboration between international organizations and local sports institutions
+                supports the continued development of modern pentathlon in Sri Lanka. Thank you to
+                all participating coaches for your enthusiasm and dedication in shaping the future of
+                the sport.
+              </p>
+              <nav class="news-hashtags" aria-label="Related organization and topics">
+                <a href="https://www.facebook.com/WorldPentathlon" target="_blank" rel="noreferrer">UIPM · World Pentathlon</a>
+                <a href="https://www.facebook.com/hashtag/pentathlonsrilanka" target="_blank" rel="noreferrer">#PentathlonSriLanka</a>
+                <a href="https://www.facebook.com/hashtag/uipm" target="_blank" rel="noreferrer">#UIPM</a>
+                <a href="https://www.facebook.com/hashtag/ampc" target="_blank" rel="noreferrer">#AMPC</a>
+                <a href="https://www.facebook.com/hashtag/sportsdevelopment" target="_blank" rel="noreferrer">#SportsDevelopment</a>
+                <a href="https://www.facebook.com/hashtag/modernpentathlon" target="_blank" rel="noreferrer">#ModernPentathlon</a>
+                <a href="https://www.facebook.com/hashtag/srilankasports" target="_blank" rel="noreferrer">#SriLankaSports</a>
+              </nav>
+            </div>
+            <div class="news-update-gallery news-photo-grid">
+              <figure>
+                <img
+                  src="images/502433630_1208982767592058_6716785812403832796_n.jpg"
+                  alt="UIPM facilitator leading a coaches course session at a whiteboard"
+                  loading="lazy"
+                />
+              </figure>
+              <figure>
+                <img
+                  src="images/502505535_1208985620925106_4529821715614537499_n.jpg"
+                  alt="Coaches taking part in a UIPM group activity about event roles"
+                  loading="lazy"
+                />
+              </figure>
+              <figure>
+                <img
+                  src="images/502529265_1208985677591767_4718729454320181412_n.jpg"
+                  alt="Athletes practising running drills in an indoor sports hall"
+                  loading="lazy"
+                />
+              </figure>
+              <figure>
+                <img
+                  src="images/503159544_1208980160925652_1043478118344603189_n.jpg"
+                  alt="Coaches and athletes gathered in a swimming pool during specialized training"
+                  loading="lazy"
+                />
+              </figure>
+            </div>
+          </article>
+
+          <article class="news-course historic-achievement">
+            <div class="news-course-heading">
+              <span class="news-tag">International debut · 2–5 November 2023</span>
+              <h3>Sri Lankan athletes make their mark in Bali</h3>
+            </div>
+            <div class="news-course-content">
+              <p>
+                Sri Lankan athletes made their debut at the UIPM Biathle/Triathle World Championships
+                in Bali, Indonesia, competing against experienced teams from around the world. Their
+                performances marked an important step for the sport in Sri Lanka, just six years after
+                its introduction.
+              </p>
+              <h4>Results in Bali</h4>
+              <ul>
+                <li><strong>Arusha Hettiarachchi, Under 19:</strong> fourth in Triathle and fifth in Biathle. He finished the Triathle just nine seconds short of bronze.</li>
+                <li><strong>Oshada Isiwaruna De Silva, Senior Men:</strong> eighth in Triathle and seventh in Biathle.</li>
+                <li><strong>Ruwansiri Silva, Senior:</strong> 13th in Triathle and ninth in Biathle.</li>
+                <li><strong>Team leader:</strong> former athlete and modern pentathlon coach Ms. Piumi Krishanthi.</li>
+              </ul>
+              <p>
+                The team’s debut showed the progress made in building an international pathway for
+                Sri Lankan athletes and laid a foundation for the federation’s continued development
+                of the sport.
+              </p>
+              <nav class="news-hashtags" aria-label="Related organization and topics">
+                <a href="https://www.facebook.com/WorldPentathlon" target="_blank" rel="noreferrer">UIPM · World Pentathlon</a>
+                <a href="https://www.facebook.com/hashtag/srilankanathletes" target="_blank" rel="noreferrer">#SriLankanAthletes</a>
+                <a href="https://www.facebook.com/hashtag/uipmbiathletriathlechampionship2023" target="_blank" rel="noreferrer">#UIPMBiathleTriathleChampionship2023</a>
+                <a href="https://www.facebook.com/hashtag/proudmoment" target="_blank" rel="noreferrer">#ProudMoment</a>
+                <a href="https://www.facebook.com/hashtag/mpfsl" target="_blank" rel="noreferrer">#MPFSL</a>
+                <a href="https://www.facebook.com/hashtag/teamsrilanka" target="_blank" rel="noreferrer">#TeamSriLanka</a>
+              </nav>
+            </div>
+            <div class="news-update-gallery news-photo-grid single-news-image">
+              <figure>
+                <img
+                  src="images/480322628_1132210791935923_6555151302002079807_n.jpg"
+                  alt="UIPM Biathle and Triathle World Championships Bali 2023 results infographic for Sri Lankan athletes"
+                  loading="lazy"
+                />
+              </figure>
+            </div>
+          </article>
+
+          <article class="news-course historic-coaching">
+            <div class="news-course-heading">
+              <span class="news-tag">Coaching · 23–27 January 2023</span>
+              <h3>UIPM CCP Level 1 coaching programme expands Sri Lanka’s coaching base</h3>
+            </div>
+            <div class="news-course-content">
+              <p>
+                The Modern Pentathlon Federation of Sri Lanka successfully conducted a UIPM Coaches
+                Certification Programme (CCP) Level 1 course from 23 to 27 January 2023. UIPM’s
+                Ms. Carina Vicente (Portugal) led the programme, which brought together 15 coaches
+                from across the country.
+              </p>
+              <h4>Programme partners</h4>
+              <ul>
+                <li><strong>UIPM:</strong> main sponsor and international programme partner.</li>
+                <li><strong>Cinnamon Hotels &amp; Resorts:</strong> official hotel partner.</li>
+                <li><strong>Department of Sports Development:</strong> co-sponsor.</li>
+              </ul>
+              <p>
+                MPFSL’s vision was to bring more coaches into modern pentathlon and build a strong
+                coaching base for the next generation of athletes. The federation thanked all
+                stakeholders for supporting the development of the sport in Sri Lanka.
+              </p>
+              <nav class="news-hashtags" aria-label="Programme partners and topics">
+                <a href="https://www.facebook.com/WorldPentathlon" target="_blank" rel="noreferrer">UIPM · World Pentathlon</a>
+                <a href="https://www.facebook.com/cinnamonhotels" target="_blank" rel="noreferrer">Cinnamon Hotels &amp; Resorts</a>
+                <a href="https://www.facebook.com/slmpf" target="_blank" rel="noreferrer">MPFSL</a>
+                <a href="https://www.facebook.com/hashtag/modernpentathlon" target="_blank" rel="noreferrer">#ModernPentathlon</a>
+                <a href="https://www.facebook.com/hashtag/srilankasports" target="_blank" rel="noreferrer">#SriLankaSports</a>
+              </nav>
+            </div>
+            <div class="news-update-gallery news-photo-grid">
+              <figure>
+                <img
+                  src="images/473040176_1106731504483852_7352548947945736940_n.jpg"
+                  alt="Coaches and athletes warm up together outdoors during the January 2023 UIPM Level 1 course"
+                  loading="lazy"
+                />
+              </figure>
+              <figure>
+                <img
+                  src="images/473108528_1106731871150482_3740142600962602786_n.jpg"
+                  alt="UIPM facilitator Carina Vicente demonstrates a running drill to a coach"
+                  loading="lazy"
+                />
+              </figure>
+              <figure>
+                <img
+                  src="images/473149132_1106731714483831_7420622500165860303_n.jpg"
+                  alt="Carina Vicente and Sri Lankan coaches pose in front of the UIPM Level 1 course presentation"
+                  loading="lazy"
+                />
+              </figure>
+              <figure>
+                <img
+                  src="images/473234301_1106731507817185_390129152218566761_n.jpg"
+                  alt="Coaches practise running drills outdoors during the certification programme"
+                  loading="lazy"
+                />
+              </figure>
             </div>
           </article>
 
           <div class="news-grid">
             <article class="news-card">
-              <span class="news-tag">Federation</span>
-              <h3>National representation</h3>
-              <p>The page continues to spotlight Sri Lanka’s progress in modern pentathlon and its role in the wider sporting community.</p>
+              <span class="news-tag">2016</span>
+              <h3>National Triathlon Champion</h3>
+              <p>Gayani’s national title marked an early milestone in her competitive career.</p>
             </article>
 
             <article class="news-card">
-              <span class="news-tag">Development</span>
-              <h3>Talent and growth</h3>
-              <p>Updates promote the long-term development of athletes, coaches, and the national sporting pathway.</p>
+              <span class="news-tag">2019</span>
+              <h3>National Modern Pentathlon-Triathle Champion</h3>
+              <p>She continued her progress across the federation’s national competitions.</p>
             </article>
 
             <article class="news-card">
-              <span class="news-tag">Hashtag</span>
-              <h3>#modernpentathlon</h3>
-              <p>Explore the latest Facebook discussions, event highlights, and community stories connected to modern pentathlon worldwide.</p>
-              <div class="news-meta">
-                <a href="https://www.facebook.com/hashtag/modernpentathlon" target="_blank" rel="noreferrer">View hashtag</a>
-              </div>
+              <span class="news-tag">2025 · Bandaragama</span>
+              <h3>National Modern Pentathlon Champion</h3>
+              <p>The title preceded her appearances at the World Cup, Asian Championships, World Championship, and Asian Games.</p>
             </article>
           </div>
         </div>
