@@ -1,0 +1,329 @@
+/* ---------- Panels ---------- */
+.panel {
+  position: relative;
+  min-height: 100vh;
+  pointer-events: none;
+  /* the text backdrops below extend past the screen edge; without this, phones widen the whole page */
+  overflow-x: clip;
+}
+
+.panel a,
+.panel button {
+  pointer-events: auto;
+}
+
+.panel h2,
+.panel p,
+.hero-copy h1,
+.display {
+  text-shadow: 0 2px 24px rgba(0, 0, 0, 0.6);
+}
+
+/* Dark radial backdrop behind panel text for legibility over the 3D scene */
+.lower::before,
+.hero-copy::before,
+.finale-copy::before {
+  content: "";
+  position: absolute;
+  inset: -60px -80px -60px -120px;
+  z-index: -1;
+  background: radial-gradient(closest-side, rgba(7, 8, 12, 0.72), transparent);
+}
+
+.kicker,
+.eyebrow {
+  font: 600 12px/1.3 var(--body);
+  letter-spacing: 0.28em;
+  text-transform: uppercase;
+  color: var(--accent);
+  margin: 0;
+}
+
+.kicker b {
+  display: inline-block;
+  color: var(--bg);
+  background: var(--accent);
+  padding: 4px 7px;
+  margin-right: 10px;
+  letter-spacing: 0.05em;
+}
+
+.hint {
+  font-size: 12px;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--accent);
+  animation: blink 1.6s ease-in-out infinite;
+}
+
+@keyframes blink {
+  50% {
+    opacity: 0.35;
+  }
+}
+
+/* ---------- Hero ---------- */
+.hero-copy {
+  position: absolute;
+  left: var(--gutter);
+  top: 50%;
+  transform: translateY(-46%);
+  max-width: min(660px, calc(100vw - 32px));
+}
+
+.eyebrow {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.eyebrow::before {
+  content: "";
+  width: 46px;
+  height: 10px;
+  flex: none;
+  background: linear-gradient(90deg, var(--maroon) 0 50%, var(--gold) 50%);
+  transform: skew(-24deg);
+}
+
+.hero-name {
+  font: 700 clamp(13px, 1.2vw, 15px)/1.3 var(--body);
+  letter-spacing: 0.22em;
+  color: var(--ink);
+  margin: 14px 0 0;
+  text-transform: uppercase;
+}
+
+.display {
+  font: italic 900 clamp(56px, min(9.8vw, 15vh), 156px)/0.84 var(--display);
+  text-transform: uppercase;
+  color: var(--ink);
+  margin: 16px 0 20px;
+  letter-spacing: -0.01em;
+}
+
+.display > span {
+  display: block;
+  animation: slideIn 1s var(--ease) both;
+}
+
+.display > span + span {
+  animation-delay: 0.12s;
+}
+
+@keyframes slideIn {
+  0% {
+    opacity: 0;
+    transform: translate(-40px) skew(-8deg);
+  }
+}
+
+.lead {
+  max-width: 520px;
+  font-size: 17px;
+}
+
+.mini-stats {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px 26px;
+  list-style: none;
+  padding: 0;
+  margin: 28px 0 0;
+  font-size: 13px;
+  color: var(--muted);
+}
+
+.mini-stats strong {
+  font: 800 22px/1 var(--display);
+  color: var(--ink);
+  margin-right: 4px;
+}
+
+.scroll-cue {
+  position: absolute;
+  left: 50%;
+  bottom: 28px;
+  transform: translate(-50%);
+  display: grid;
+  justify-items: center;
+  gap: 10px;
+  font-size: 11px;
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+
+.scroll-cue i {
+  width: 1px;
+  height: 44px;
+  background: linear-gradient(var(--gold), transparent);
+  animation: drop 1.8s ease-in-out infinite;
+  transform-origin: top;
+}
+
+@keyframes drop {
+  0% {
+    transform: scaleY(0);
+  }
+  60% {
+    transform: scaleY(1);
+  }
+  to {
+    transform: scaleY(1);
+    opacity: 0;
+  }
+}
+
+/* ---------- Race clock ---------- */
+.race-clock {
+  position: absolute;
+  right: clamp(56px, 7vw, 120px);
+  bottom: clamp(40px, 9vh, 96px);
+  display: grid;
+  grid-template-columns: auto auto;
+  align-items: stretch;
+  font-family: var(--display);
+  text-transform: uppercase;
+  transform: skew(-8deg);
+  box-shadow: 0 20px 40px -20px #000c;
+  animation: slideUp 0.9s 0.4s var(--ease) both;
+}
+
+@keyframes slideUp {
+  0% {
+    opacity: 0;
+    transform: translateY(20px) skew(-8deg);
+  }
+}
+
+.rc-lane {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 0 14px;
+  background: var(--gold);
+  color: #120a00;
+  font-weight: 800;
+  font-size: 20px;
+}
+
+.rc-lane b {
+  font-size: 34px;
+  font-style: italic;
+}
+
+.flag {
+  width: 22px;
+  height: 14px;
+  background: linear-gradient(90deg, #00534e 0 15%, #eb7400 15% 30%, var(--maroon) 30%);
+}
+
+.race-clock strong {
+  padding: 8px 18px;
+  background: #07080cd9;
+  color: var(--ink);
+  font: italic 800 44px/1 var(--display);
+  font-variant-numeric: tabular-nums;
+  letter-spacing: 0.02em;
+}
+
+.rc-label {
+  grid-column: 1 / -1;
+  padding: 6px 14px;
+  background: var(--maroon);
+  color: #fff;
+  font: 700 11px/1 var(--body);
+  letter-spacing: 0.24em;
+}
+
+/* ---------- Discipline panels ---------- */
+.lower {
+  position: absolute;
+  left: var(--gutter);
+  bottom: clamp(48px, 11vh, 120px);
+  max-width: min(500px, calc(100vw - 32px));
+  padding-left: 20px;
+  border-left: 3px solid var(--accent);
+}
+
+.lower h2,
+.finale-copy h2 {
+  font-style: italic;
+  font-weight: 900;
+}
+
+.lower h2 {
+  font-size: clamp(48px, 7vw, 104px);
+}
+
+.score {
+  display: flex;
+  gap: 28px;
+  margin: 18px 0 12px;
+}
+
+.score div {
+  display: grid;
+}
+
+.score strong {
+  font: 800 46px/1 var(--display);
+  color: var(--ink);
+}
+
+.score span {
+  font-size: 11px;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+
+/* ---------- Finale ---------- */
+.finale-copy {
+  position: absolute;
+  left: 50%;
+  bottom: clamp(40px, 9vh, 100px);
+  transform: translate(-50%);
+  text-align: center;
+  width: min(760px, calc(100vw - 32px));
+}
+
+.finale-copy h2 {
+  font-size: clamp(52px, 8vw, 116px);
+}
+
+@media (max-width: 760px) {
+  .hero-copy {
+    top: auto;
+    bottom: 96px;
+    transform: none;
+  }
+
+  .mini-stats {
+    gap: 6px 18px;
+  }
+
+  .scroll-cue {
+    display: none;
+  }
+
+  .race-clock {
+    right: auto;
+    left: var(--gutter);
+    top: calc(var(--header-h) + 18px);
+    bottom: auto;
+  }
+
+  .race-clock strong {
+    font-size: 30px;
+  }
+
+  .rc-lane {
+    font-size: 15px;
+  }
+
+  .rc-lane b {
+    font-size: 24px;
+  }
+}

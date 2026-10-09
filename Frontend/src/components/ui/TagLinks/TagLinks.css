@@ -1,0 +1,23 @@
+.tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 14px;
+}
+
+.tags a {
+  font-size: 12px;
+  font-weight: 600;
+  text-decoration: none;
+  color: var(--ink);
+  padding: 6px 10px;
+  border: 1px solid var(--line);
+  transition:
+    border-color 0.2s,
+    color 0.2s;
+}
+
+.tags a:hover {
+  border-color: var(--accent, var(--gold));
+  color: var(--accent, var(--gold));
+}

@@ -1,0 +1,8 @@
+.section-head {
+  max-width: 860px;
+  margin-bottom: clamp(32px, 5vw, 56px);
+}
+
+.section-head h2 {
+  font-size: clamp(40px, 5.4vw, 76px);
+}

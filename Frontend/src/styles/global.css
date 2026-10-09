@@ -1,0 +1,289 @@
+/* Base elements, typography and shared helpers used across sections. */
+* {
+  box-sizing: border-box;
+}
+
+html {
+  background: var(--bg);
+}
+
+html.locked {
+  overflow: hidden;
+}
+
+body {
+  margin: 0;
+  color: var(--ink);
+  font-family: var(--body);
+  -webkit-font-smoothing: antialiased;
+  overflow-x: hidden;
+}
+
+img {
+  max-width: 100%;
+  display: block;
+}
+
+a {
+  color: inherit;
+}
+
+h1,
+h2,
+h3,
+h4 {
+  font-family: var(--display);
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.005em;
+}
+
+h2 {
+  font-size: clamp(40px, 6vw, 84px);
+  line-height: 0.92;
+  margin: 0.2em 0 0.3em;
+}
+
+h3 {
+  font-size: clamp(24px, 2.4vw, 32px);
+  line-height: 1;
+  margin: 0.4em 0;
+}
+
+h4 {
+  font-size: 18px;
+  letter-spacing: 0.06em;
+  margin: 1.4em 0 0.6em;
+}
+
+p {
+  color: var(--muted);
+  line-height: 1.65;
+  font-size: 16px;
+  margin: 0 0 1em;
+}
+
+:focus-visible {
+  outline: 2px solid var(--gold);
+  outline-offset: 3px;
+}
+
+/* ---------- Helpers ---------- */
+.container {
+  width: min(1240px, 100% - var(--gutter) * 2);
+  margin-inline: auto;
+}
+
+.si {
+  font-family: var(--si);
+}
+
+.accent {
+  color: var(--accent, var(--gold));
+}
+
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+.skip-link {
+  position: fixed;
+  left: 12px;
+  top: -60px;
+  z-index: 100;
+  background: var(--gold);
+  color: #120a00;
+  padding: 10px 16px;
+  font-weight: 700;
+  text-decoration: none;
+  transition: top 0.2s;
+}
+
+.skip-link:focus {
+  top: 12px;
+}
+
+main {
+  position: relative;
+  z-index: 1;
+}
+
+/* ---------- Buttons ---------- */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font: 700 13px/1 var(--body);
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--ink);
+  text-decoration: none;
+  padding: 16px 24px;
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  transition:
+    transform 0.2s var(--ease),
+    background 0.2s,
+    box-shadow 0.2s;
+  pointer-events: auto;
+}
+
+.btn:hover {
+  transform: translateY(-2px);
+  background: #ffffff14;
+}
+
+.btn.primary {
+  background: var(--gold);
+  color: #120a00;
+  border-color: var(--gold);
+}
+
+.btn.primary:hover {
+  background: #ffd060;
+  box-shadow: 0 10px 30px -10px #ffbe2999;
+}
+
+.btn.small {
+  padding: 12px 18px;
+  font-size: 12px;
+}
+
+.cta-row {
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+  margin: 26px 0 0;
+}
+
+.cta-row.center {
+  justify-content: center;
+}
+
+/* ---------- Content sections (below the journey) ---------- */
+.content {
+  position: relative;
+  background: linear-gradient(to bottom, transparent, var(--bg) 45vh);
+  padding-top: 30vh;
+}
+
+.section {
+  padding: clamp(72px, 11vw, 140px) 0;
+  position: relative;
+}
+
+.section.alt {
+  background: var(--bg-2);
+  border-block: 1px solid var(--line);
+}
+
+.section-label {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  font: 700 12px/1 var(--body);
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+  color: var(--accent, var(--gold));
+  margin: 0;
+}
+
+.section-label::before {
+  content: "";
+  width: 28px;
+  height: 2px;
+  background: currentColor;
+}
+
+.tag {
+  display: inline-block;
+  font: 700 11px/1.3 var(--body);
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--accent, var(--gold));
+}
+
+/* Fade-up on scroll; useReveal adds .in */
+.reveal {
+  opacity: 0;
+  transform: translateY(28px);
+  transition:
+    opacity 0.8s var(--ease),
+    transform 0.8s var(--ease);
+}
+
+.reveal.in {
+  opacity: 1;
+  transform: none;
+}
+
+/* ---------- Lenis smooth scroll ---------- */
+html.lenis,
+html.lenis body {
+  height: auto;
+}
+
+.lenis.lenis-smooth {
+  scroll-behavior: auto !important;
+}
+
+.lenis.lenis-stopped {
+  overflow: hidden;
+}
+
+/* ---------- Film grain overlay (texture from utils/filmGrain.js) ---------- */
+body::after {
+  content: "";
+  position: fixed;
+  inset: -10%;
+  z-index: 30;
+  pointer-events: none;
+  opacity: 0.05;
+  background-image: var(--grain);
+  background-size: 160px 160px;
+  animation: grain 0.5s steps(3) infinite;
+  will-change: transform;
+}
+
+@keyframes grain {
+  0% {
+    transform: translateZ(0);
+  }
+  33% {
+    transform: translate3d(-4%, 3%, 0);
+  }
+  66% {
+    transform: translate3d(3%, -4%, 0);
+  }
+  to {
+    transform: translateZ(0);
+  }
+}
+
+@keyframes fadeIn {
+  0% {
+    opacity: 0;
+    transform: translateY(-6px);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation: none !important;
+    transition: none !important;
+  }
+
+  .reveal {
+    opacity: 1;
+    transform: none;
+  }
+}

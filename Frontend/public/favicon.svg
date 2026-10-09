@@ -1,0 +1,33 @@
+<svg width="860" height="430" viewBox="0 0 860 430" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <rect width="860" height="430" fill="transparent"/>
+
+  <g>
+    <path d="M165 330L430 70L695 330H165Z" fill="#B6302E"/>
+    <path d="M214 295L430 120L646 295H214Z" fill="#C63B37" opacity="0.92"/>
+    <path d="M312 292L430 126L548 292H312Z" fill="#C43A3A" opacity="0.82"/>
+
+    <path d="M390 243C371 243 354 224 354 202V164C354 143 370 125 391 125H393C414 125 431 143 431 164V202C431 224 414 243 393 243H390Z" fill="#F5C649"/>
+    <path d="M430 234L474 180L541 292H430V234Z" fill="#F5C649"/>
+    <path d="M430 234L386 180L319 292H430V234Z" fill="#F5C649"/>
+    <circle cx="421" cy="154" r="22" fill="#F5C649"/>
+    <circle cx="430" cy="177" r="12" fill="#F5C649"/>
+
+    <path d="M257 280C292 263 318 249 338 226L373 251C337 293 289 312 257 280Z" fill="#F5C649"/>
+    <path d="M604 280C569 263 543 249 523 226L488 251C524 293 572 312 604 280Z" fill="#F5C649"/>
+
+    <circle cx="285" cy="162" r="18" fill="#F5C649"/>
+    <circle cx="553" cy="162" r="18" fill="#F5C649"/>
+
+    <path d="M287 194L249 240C261 248 283 255 302 242L327 219L287 194Z" fill="#F5C649"/>
+    <path d="M551 194L589 240C577 248 555 255 536 242L511 219L551 194Z" fill="#F5C649"/>
+
+    <path d="M316 244L358 208L390 244H316Z" fill="#F5C649" opacity="0.88"/>
+    <path d="M482 244L544 208L562 244H482Z" fill="#F5C649" opacity="0.88"/>
+  </g>
+
+  <g>
+    <text x="95" y="255" fill="#0B2C7F" font-size="92" font-weight="900" font-family="Arial, Helvetica, sans-serif" letter-spacing="-4">MODERN</text>
+    <text x="95" y="350" fill="#F5C649" font-size="110" font-weight="900" font-family="Arial, Helvetica, sans-serif" letter-spacing="-5">PENTATHLON</text>
+    <text x="95" y="430" fill="#F5C649" font-size="110" font-weight="900" font-family="Arial, Helvetica, sans-serif" letter-spacing="-5">SRI LANKA</text>
+  </g>
+</svg>

@@ -1,0 +1,33 @@
+:root {
+  /* Surfaces & text */
+  --bg: #07080c;
+  --bg-2: #0c0e14;
+  --panel: #10131b;
+  --line: rgba(255, 255, 255, 0.1);
+  --ink: #f2f4f8;
+  --muted: #9aa3b2;
+
+  /* Brand */
+  --gold: #ffbe29;
+  --maroon: #8d153a;
+
+  /* Discipline accents (keep in sync with scene/constants.js) */
+  --fencing: #5ec8ff;
+  --swim: #00d1b2;
+  --obstacle: #ff7a1a;
+  --laser: #ff2e4d;
+  --run: #b6ff3b;
+
+  /* Journey scroll progress 0 → 1, written by the 3D camera rig */
+  --progress: 0;
+
+  /* Type */
+  --display: "Barlow Condensed", "Arial Narrow", Impact, sans-serif;
+  --body: "DM Sans", system-ui, "Noto Sans Sinhala", sans-serif;
+  --si: "Noto Sans Sinhala", "DM Sans", sans-serif;
+
+  /* Layout & motion */
+  --header-h: 68px;
+  --gutter: clamp(16px, 5vw, 80px);
+  --ease: cubic-bezier(0.2, 0.7, 0.1, 1);
+}

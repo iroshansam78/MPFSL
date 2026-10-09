@@ -1,0 +1,80 @@
+.lightbox {
+  position: fixed;
+  inset: 0;
+  z-index: 50;
+  background: #040508f0;
+  display: grid;
+  place-items: center;
+  padding: 64px 16px;
+  animation: fadeIn 0.25s;
+}
+
+.lightbox figure {
+  margin: 0;
+  max-width: min(1100px, 100%);
+  display: grid;
+  gap: 12px;
+}
+
+.lightbox img,
+.lightbox .img-fallback {
+  max-height: 78vh;
+  width: auto;
+  margin: 0 auto;
+  object-fit: contain;
+}
+
+.lightbox .img-fallback {
+  width: min(720px, 90vw);
+  height: 50vh;
+}
+
+.lightbox figcaption {
+  display: flex;
+  justify-content: space-between;
+  gap: 16px;
+  color: var(--muted);
+  font-size: 14px;
+}
+
+.count {
+  color: var(--gold);
+  font-weight: 700;
+  white-space: nowrap;
+}
+
+.lb-btn {
+  position: fixed;
+  width: 48px;
+  height: 48px;
+  border: 1px solid var(--line);
+  background: #07080c99;
+  color: var(--ink);
+  font-size: 28px;
+  line-height: 1;
+  cursor: pointer;
+}
+
+.lb-btn:hover {
+  background: var(--gold);
+  color: #120a00;
+}
+
+.lb-close {
+  top: 16px;
+  right: 16px;
+}
+
+.lb-prev,
+.lb-next {
+  top: 50%;
+  transform: translateY(-50%);
+}
+
+.lb-prev {
+  left: 16px;
+}
+
+.lb-next {
+  right: 16px;
+}

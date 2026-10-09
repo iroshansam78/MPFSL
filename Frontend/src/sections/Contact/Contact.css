@@ -1,0 +1,59 @@
+.contact {
+  display: grid;
+  grid-template-columns: 1.2fr 1fr;
+  gap: clamp(32px, 6vw, 96px);
+  align-items: center;
+}
+
+.contact-lead {
+  max-width: 520px;
+}
+
+.contact-list {
+  margin: 0;
+  display: grid;
+  border-top: 1px solid var(--line);
+}
+
+.contact-list div {
+  display: grid;
+  grid-template-columns: 110px 1fr;
+  padding: 20px 0;
+  border-bottom: 1px solid var(--line);
+  align-items: baseline;
+}
+
+.contact-list dt {
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.24em;
+  text-transform: uppercase;
+  color: var(--gold);
+}
+
+.contact-list dd {
+  margin: 0;
+  font: 700 clamp(20px, 2vw, 26px)/1.2 var(--display);
+}
+
+.contact-list a {
+  text-decoration: none;
+  overflow-wrap: anywhere;
+}
+
+.contact-list a:hover {
+  color: var(--gold);
+}
+
+@media (max-width: 960px) {
+  .contact {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 760px) {
+  .contact-list div {
+    grid-template-columns: 1fr;
+    gap: 6px;
+  }
+}

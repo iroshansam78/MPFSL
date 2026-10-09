@@ -1,0 +1,83 @@
+.hud {
+  position: fixed;
+  inset: 0;
+  z-index: 5;
+  pointer-events: none;
+  transition: opacity 0.5s;
+}
+
+body:not([data-zone="journey"]) .hud {
+  opacity: 0;
+}
+
+.rail {
+  position: absolute;
+  right: clamp(14px, 2.5vw, 36px);
+  top: 50%;
+  transform: translateY(-50%);
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  gap: 18px;
+}
+
+.rail li {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 10px;
+  font-size: 10px;
+  letter-spacing: 0.25em;
+  text-transform: uppercase;
+  color: transparent;
+  transition: color 0.3s;
+}
+
+.rail li::after {
+  content: "";
+  width: 8px;
+  height: 8px;
+  border: 1px solid rgba(255, 255, 255, 0.4);
+  transform: rotate(45deg);
+  transition: all 0.3s;
+}
+
+body[data-section="0"] .rail li[data-i="0"],
+body[data-section="1"] .rail li[data-i="1"],
+body[data-section="2"] .rail li[data-i="2"],
+body[data-section="3"] .rail li[data-i="3"],
+body[data-section="4"] .rail li[data-i="4"],
+body[data-section="5"] .rail li[data-i="5"] {
+  color: var(--ink);
+}
+
+body[data-section="0"] .rail li[data-i="0"]::after,
+body[data-section="1"] .rail li[data-i="1"]::after,
+body[data-section="2"] .rail li[data-i="2"]::after,
+body[data-section="3"] .rail li[data-i="3"]::after,
+body[data-section="4"] .rail li[data-i="4"]::after,
+body[data-section="5"] .rail li[data-i="5"]::after {
+  background: var(--gold);
+  border-color: var(--gold);
+  transform: rotate(45deg) scale(1.3);
+}
+
+.progress {
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  height: 3px;
+  width: calc(var(--progress) * 100%);
+  background: linear-gradient(90deg, var(--maroon), var(--gold));
+}
+
+@media (max-width: 760px) {
+  .rail {
+    gap: 14px;
+  }
+
+  .rail li span {
+    display: none;
+  }
+}

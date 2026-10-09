@@ -1,0 +1,23 @@
+.site-footer {
+  border-top: 1px solid var(--line);
+  padding: 28px 0;
+  font-size: 13px;
+}
+
+.footer-inner {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  align-items: center;
+  gap: 12px;
+}
+
+.footer-inner p {
+  margin: 0;
+  font-size: 13px;
+}
+
+.footer-inner a {
+  color: var(--gold);
+  text-decoration: none;
+}
