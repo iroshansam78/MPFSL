@@ -24,8 +24,8 @@ function HeroStage() {
       <spotLight position={[6, 8, 10]} angle={0.6} penumbra={1} intensity={40} distance={30} color="#ffd9a8" />
 
       <Runner
-        position={isMobile ? [0.6, TRACK_Y, 2.2] : [2.7, TRACK_Y, 3.4]}
-        rotation-y={isMobile ? -0.7 : (-180 * Math.PI) / 180}
+        position={isMobile ? [0.3, TRACK_Y, -8.5] : [1.8, TRACK_Y, -7.5]}
+        rotation-y={isMobile ? (-180 * Math.PI) / 180 : (-180 * Math.PI) / 180}
         scale={1.15}
       />
     </group>

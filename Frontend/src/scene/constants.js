@@ -4,7 +4,7 @@ export { COLORS } from '../constants/colors.js'
 
 // Z position of each stage along the journey; the camera flies from 0 towards -250.
 export const STAGE_Z = {
-  hero: 0,
+  hero: 10,
   fencing: -50,
   swim: -100,
   obstacle: -150,
