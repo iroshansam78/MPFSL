@@ -25,7 +25,7 @@ function HeroStage() {
 
       <Runner
         position={isMobile ? [0.6, TRACK_Y, 2.2] : [2.7, TRACK_Y, 3.4]}
-        rotation-y={isMobile ? -0.7 : -0.95}
+        rotation-y={isMobile ? -0.7 : (-180 * Math.PI) / 180}
         scale={1.15}
       />
     </group>
