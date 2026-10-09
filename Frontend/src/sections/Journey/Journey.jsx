@@ -18,7 +18,7 @@ function Journey({ score }) {
           <p className="display" aria-hidden="true">
             <span>Five disciplines.</span>
             <span>
-              <span className="accent">One</span> champion.
+              <span className="accent">One</span> sport.
             </span>
           </p>
           <p className="lead">
