@@ -51,23 +51,24 @@ body.scrolled .site-header::before,
 }
 
 .logo img {
-  height: 46px;
+  height: 58px;
   width: auto;
 }
 
-.logo-text {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  font: italic 800 26px/1 var(--display);
-  letter-spacing: 0.02em;
+/* White-lettered logo by default (header over the hero photo, or dark mode);
+   navy-lettered logo once the header turns light in light mode. */
+.logo-on-light {
+  display: none;
 }
 
-.mark {
-  width: 20px;
-  height: 20px;
-  background: conic-gradient(var(--gold) 0 50%, var(--brand) 0);
-  clip-path: polygon(50% 0, 100% 38%, 82% 100%, 18% 100%, 0 38%);
+:root:not([data-theme="dark"]) body.scrolled .logo-on-dark,
+:root:not([data-theme="dark"]) .site-header.open .logo-on-dark {
+  display: none;
+}
+
+:root:not([data-theme="dark"]) body.scrolled .logo-on-light,
+:root:not([data-theme="dark"]) .site-header.open .logo-on-light {
+  display: block;
 }
 
 .main-nav {

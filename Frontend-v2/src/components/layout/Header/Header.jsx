@@ -1,23 +1,17 @@
 import { useEffect, useState } from 'react'
-import logo from '../../../assets/images/mpfsl-logo.svg'
+import logoForDarkBg from '../../../assets/images/logo-dark.png'
+import logoForLightBg from '../../../assets/images/logo-light.png'
 import { navLinks, site } from '../../../data/site.js'
 import ThemeToggle from '../ThemeToggle/ThemeToggle.jsx'
 import './Header.css'
 
-// Logo image, falling back to a text mark if the SVG fails to load.
+// Two versions of the logo; Header.css shows whichever suits the header's current background
+// (white lettering over the hero photo / in dark mode, navy lettering on the light header).
 function Logo() {
-  const [failed, setFailed] = useState(false)
-
   return (
     <a href="#top" className="logo" aria-label={`${site.name} home`}>
-      {failed ? (
-        <span className="logo-text">
-          <span className="mark" aria-hidden="true" />
-          {site.short}
-        </span>
-      ) : (
-        <img src={logo} alt={`${site.name} logo`} onError={() => setFailed(true)} />
-      )}
+      <img className="logo-on-dark" src={logoForDarkBg} alt={`${site.name} logo`} width="231" height="180" />
+      <img className="logo-on-light" src={logoForLightBg} alt="" aria-hidden="true" width="231" height="180" />
     </a>
   )
 }
