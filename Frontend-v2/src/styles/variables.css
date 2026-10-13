@@ -1,0 +1,66 @@
+/* Design tokens. Light is the default; the theme toggle sets <html data-theme="dark">. */
+:root {
+  --bg: #f6f2ec;
+  --bg-2: #eee7dd;
+  --surface: #ffffff;
+  --line: rgba(40, 24, 12, 0.12);
+  --ink: #1c1714;
+  --muted: #5e554d;
+  --brand: #8d153a;
+  --brand-strong: #6f0f2d;
+  --on-brand: #ffffff;
+  --gold: #e8a400;
+  --gold-ink: #8a5d00;
+  --shadow: 0 1px 2px rgba(40, 24, 12, 0.06), 0 12px 32px -16px rgba(40, 24, 12, 0.18);
+  --img-ph: linear-gradient(135deg, #e7dfd3, #d9cfc1);
+
+  /* Discipline accents */
+  --c-fencing: #0a72b5;
+  --c-swim: #00806d;
+  --c-obstacle: #c24f08;
+  --c-laser: #d0173b;
+  --c-run: #4a7a00;
+  --c-gold: #a86f00;
+
+  /* Fixed brand colours (same in both themes) */
+  --maroon: #8d153a;
+  --sun: #ffbe29;
+
+  --accent: var(--brand);
+
+  --display: "Barlow Condensed", "Arial Narrow", Impact, sans-serif;
+  --body: "DM Sans", system-ui, "Noto Sans Sinhala", sans-serif;
+  --si: "Noto Sans Sinhala", "DM Sans", sans-serif;
+
+  --header-h: 72px;
+  --gutter: clamp(16px, 5vw, 72px);
+  --radius: 6px;
+  --ease: cubic-bezier(0.2, 0.7, 0.1, 1);
+
+  color-scheme: light;
+}
+
+:root[data-theme="dark"] {
+  --bg: #141110;
+  --bg-2: #1b1715;
+  --surface: #221d1a;
+  --line: rgba(255, 238, 220, 0.11);
+  --ink: #f3eee7;
+  --muted: #b4aa9f;
+  --brand: #c22a55;
+  --brand-strong: #a51e45;
+  --on-brand: #ffffff;
+  --gold: #ffbe29;
+  --gold-ink: #ffc400;
+  --shadow: 0 1px 2px rgba(0, 0, 0, 0.3), 0 16px 36px -18px rgba(0, 0, 0, 0.7);
+  --img-ph: linear-gradient(135deg, #2a2420, #1e1a17);
+
+  --c-fencing: #5ec8ff;
+  --c-swim: #00d1b2;
+  --c-obstacle: #ff7a1a;
+  --c-laser: #ff4d68;
+  --c-run: #b6ff3b;
+  --c-gold: #ffb300;
+
+  color-scheme: dark;
+}

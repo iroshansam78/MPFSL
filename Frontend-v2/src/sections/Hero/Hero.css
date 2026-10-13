@@ -1,0 +1,298 @@
+.hero {
+  position: relative;
+  height: 100vh;
+  height: 100svh;
+  min-height: 600px;
+  overflow: hidden;
+  color: #fff;
+  background: #120f0d;
+  isolation: isolate;
+}
+
+/* ---------- Background layers ---------- */
+.hero-media {
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+}
+
+/* Plain photo shown instantly, faded out once the WebGL slideshow is ready */
+.hero-still {
+  position: absolute;
+  inset: 0;
+  background-size: cover;
+  background-position: center;
+  transform: scale(1.08);
+  transition: opacity 0.8s;
+}
+
+.hero.is-ready .hero-still {
+  opacity: 0;
+}
+
+.hero-canvas {
+  position: absolute !important;
+  inset: 0;
+  opacity: 0;
+  animation: heroIn 1.2s 0.1s var(--ease) forwards;
+}
+
+@keyframes heroIn {
+  to {
+    opacity: 1;
+  }
+}
+
+/* Darkens the left and bottom so the text stays readable on any photo */
+.hero-scrim {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background:
+    linear-gradient(90deg, #0e0a08c7, #0e0a0873 42%, #0e0a080d 75%),
+    linear-gradient(0deg, #0e0a08bf, #0e0a0800 38%);
+}
+
+/* ---------- Text ---------- */
+.hero-inner {
+  position: relative;
+  height: 100%;
+  display: grid;
+  grid-template-rows: 1fr auto;
+  padding-top: calc(var(--header-h) + 24px);
+  padding-bottom: clamp(24px, 4vh, 40px);
+}
+
+.hero-copy {
+  align-self: end;
+  max-width: 720px;
+  margin-bottom: clamp(28px, 6vh, 64px);
+}
+
+.hero-kicker {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin: 0 0 18px;
+  font: 700 13px/1 var(--body);
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--gold);
+}
+
+.stripe {
+  width: 46px;
+  height: 10px;
+  flex: none;
+  transform: skew(-24deg);
+  background: linear-gradient(90deg, var(--maroon) 0 50%, var(--sun) 50%);
+}
+
+.h1-name {
+  display: block;
+  font: 700 clamp(15px, 1.4vw, 18px)/1.3 var(--body);
+  letter-spacing: 0.06em;
+  text-transform: none;
+  color: #ffffffeb;
+}
+
+.h1-display {
+  display: block;
+  margin: 12px 0 20px;
+  font: italic 900 clamp(48px, min(8.6vw, 11.5vh), 132px)/0.86 var(--display);
+  letter-spacing: -0.01em;
+  text-shadow: 0 2px 30px rgba(0, 0, 0, 0.35);
+}
+
+.h1-display > span {
+  display: block;
+  animation: slideIn 1s var(--ease) both;
+}
+
+.h1-display > span + span {
+  animation-delay: 0.12s;
+}
+
+.h1-display em {
+  font-style: inherit;
+  color: var(--sun);
+}
+
+@keyframes slideIn {
+  0% {
+    opacity: 0;
+    transform: translate(-36px);
+  }
+}
+
+.hero-lead {
+  color: #ffffffdb;
+  font-size: 17px;
+  max-width: 540px;
+  margin-bottom: 28px;
+}
+
+.hero-lead .si {
+  display: block;
+  font-size: 15px;
+  color: #ffffffb3;
+  margin-bottom: 4px;
+}
+
+/* ---------- Bottom row: facts + slide caption ---------- */
+.hero-foot {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  gap: 24px;
+  flex-wrap: wrap;
+}
+
+.hero-facts {
+  display: flex;
+  gap: clamp(18px, 3vw, 40px);
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.hero-facts li {
+  display: grid;
+  gap: 4px;
+  max-width: 180px;
+  padding-left: 14px;
+  border-left: 3px solid var(--sun);
+}
+
+.hero-facts strong {
+  font: italic 800 34px/0.9 var(--display);
+}
+
+.hero-facts span {
+  font-size: 13px;
+  line-height: 1.35;
+  color: #ffffffc7;
+}
+
+.hero-caption {
+  display: grid;
+  gap: 10px;
+  justify-items: end;
+  text-align: right;
+  min-width: 260px;
+}
+
+.cap-text {
+  margin: 0;
+  color: #fff;
+  display: grid;
+  gap: 2px;
+  animation: capIn 0.8s var(--ease) both;
+}
+
+.cap-text strong {
+  font: italic 800 20px/1.1 var(--display);
+  text-transform: uppercase;
+}
+
+.cap-text span {
+  font-size: 13px;
+  color: #ffffffbf;
+}
+
+@keyframes capIn {
+  0% {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+}
+
+/* One bar per slide; the active one fills over the slide duration */
+.cap-bars {
+  display: flex;
+  gap: 6px;
+}
+
+.cap-bars button {
+  width: 44px;
+  height: 18px;
+  padding: 0;
+  border: 0;
+  background: none;
+  cursor: pointer;
+  display: grid;
+  align-items: center;
+}
+
+.cap-bars i {
+  display: block;
+  height: 3px;
+  background: #ffffff4d;
+  position: relative;
+  overflow: hidden;
+}
+
+.cap-bars i::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: var(--sun);
+  transform: scaleX(0);
+  transform-origin: left;
+}
+
+.cap-bars .on i::after {
+  animation: bar var(--dur) linear forwards;
+  animation-play-state: var(--play);
+}
+
+@keyframes bar {
+  to {
+    transform: scaleX(1);
+  }
+}
+
+@media (max-width: 760px) {
+  .hero-scrim {
+    background: linear-gradient(0deg, #0e0a08e0, #0e0a088c 45%, #0e0a0840);
+  }
+
+  .hero-copy {
+    align-self: end;
+    padding-bottom: 20px;
+  }
+
+  .hero-foot {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 18px;
+  }
+
+  .hero-facts {
+    gap: 14px;
+  }
+
+  .hero-facts li {
+    padding-left: 10px;
+  }
+
+  .hero-facts strong {
+    font-size: 26px;
+  }
+
+  .hero-facts span {
+    font-size: 12px;
+  }
+
+  .hero-caption {
+    justify-items: start;
+    text-align: left;
+    min-width: 0;
+  }
+}
+
+@media (max-width: 420px) {
+  .hero-facts li:nth-child(3) {
+    display: none;
+  }
+}

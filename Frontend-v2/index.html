@@ -1,0 +1,36 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta
+      name="description"
+      content="Modern Pentathlon Federation of Sri Lanka — official sports federation website for training, events, and athlete development."
+    />
+    <meta name="theme-color" content="#f6f2ec" media="(prefers-color-scheme: light)" />
+    <meta name="theme-color" content="#141110" media="(prefers-color-scheme: dark)" />
+    <title>Modern Pentathlon Federation of Sri Lanka</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:ital,wght@0,600;0,700;0,800;1,700;1,800;1,900&family=DM+Sans:wght@400;500;600;700&family=Noto+Sans+Sinhala:wght@400;600&display=swap"
+      rel="stylesheet"
+    />
+    <script>
+      // Set the theme before first paint (saved choice, else the system setting) to avoid a flash.
+      // Keep the storage key in sync with src/utils/theme.js.
+      (function () {
+        var t
+        try { t = localStorage.getItem('mpfsl-theme') } catch (e) {}
+        if (t !== 'light' && t !== 'dark')
+          t = window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light'
+        document.documentElement.dataset.theme = t
+      })()
+    </script>
+  </head>
+  <body>
+    <div id="root"></div>
+    <script type="module" src="/src/main.jsx"></script>
+  </body>
+</html>

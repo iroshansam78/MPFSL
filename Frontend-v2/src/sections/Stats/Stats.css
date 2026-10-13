@@ -1,0 +1,35 @@
+/* Maroon band — same in both themes */
+.stats-band {
+  padding: clamp(48px, 7vw, 84px) 0;
+  background: var(--maroon);
+  color: #fff;
+}
+
+.stats {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 24px;
+}
+
+.stat {
+  display: grid;
+  gap: 8px;
+  padding-left: 16px;
+  border-left: 3px solid var(--sun);
+}
+
+.stat strong {
+  font: italic 800 clamp(26px, 2.8vw, 40px)/1 var(--display);
+  text-transform: uppercase;
+}
+
+.stat span {
+  font-size: 14px;
+  color: #fffc;
+}
+
+@media (max-width: 960px) {
+  .stats {
+    grid-template-columns: 1fr 1fr;
+  }
+}

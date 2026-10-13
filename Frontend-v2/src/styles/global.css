@@ -1,0 +1,283 @@
+/* Base elements, typography and shared helpers used across sections. */
+* {
+  box-sizing: border-box;
+}
+
+html {
+  background: var(--bg);
+  overflow-x: clip;
+}
+
+html.locked {
+  overflow: hidden;
+}
+
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--ink);
+  font-family: var(--body);
+  -webkit-font-smoothing: antialiased;
+  transition:
+    background-color 0.3s,
+    color 0.3s;
+}
+
+img {
+  max-width: 100%;
+  display: block;
+}
+
+a {
+  color: inherit;
+}
+
+h1,
+h2,
+h3,
+h4 {
+  font-family: var(--display);
+  text-transform: uppercase;
+  margin: 0;
+}
+
+h2 {
+  font-style: italic;
+  font-weight: 800;
+  font-size: clamp(38px, 5vw, 68px);
+  line-height: 0.95;
+  margin: 0.2em 0 0.35em;
+  letter-spacing: -0.005em;
+}
+
+h3 {
+  font-weight: 800;
+  font-size: clamp(22px, 2.2vw, 30px);
+  line-height: 1.02;
+  margin: 0.35em 0;
+}
+
+h4 {
+  font-weight: 700;
+  font-size: 18px;
+  letter-spacing: 0.04em;
+  margin: 1.4em 0 0.6em;
+}
+
+p {
+  color: var(--muted);
+  line-height: 1.65;
+  font-size: 16px;
+  margin: 0 0 1em;
+}
+
+:focus-visible {
+  outline: 2px solid var(--gold);
+  outline-offset: 3px;
+}
+
+/* ---------- Helpers ---------- */
+.container {
+  width: min(1240px, 100% - var(--gutter) * 2);
+  margin-inline: auto;
+}
+
+.si {
+  font-family: var(--si);
+}
+
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+.skip-link {
+  position: fixed;
+  left: 12px;
+  top: -60px;
+  z-index: 100;
+  background: var(--brand);
+  color: var(--on-brand);
+  padding: 10px 16px;
+  font-weight: 700;
+  text-decoration: none;
+  transition: top 0.2s;
+}
+
+.skip-link:focus {
+  top: 12px;
+}
+
+/* ---------- Buttons ---------- */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  border-radius: var(--radius);
+  font: 700 14px/1 var(--body);
+  letter-spacing: 0.04em;
+  color: var(--ink);
+  text-decoration: none;
+  padding: 15px 22px;
+  border: 1.5px solid var(--line);
+  transition:
+    transform 0.2s var(--ease),
+    background 0.2s,
+    border-color 0.2s,
+    color 0.2s;
+}
+
+.btn:hover {
+  transform: translateY(-2px);
+}
+
+.btn.primary {
+  background: var(--brand);
+  border-color: var(--brand);
+  color: var(--on-brand);
+}
+
+.btn.primary:hover {
+  background: var(--brand-strong);
+  border-color: var(--brand-strong);
+}
+
+/* For use on top of photos */
+.btn.ghost {
+  color: #fff;
+  border-color: #ffffff8c;
+}
+
+.btn.ghost:hover {
+  background: #ffffff1f;
+  border-color: #fff;
+}
+
+.btn.small {
+  padding: 11px 16px;
+  font-size: 13px;
+}
+
+.cta-row {
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+/* ---------- Sections ---------- */
+.section {
+  padding: clamp(72px, 10vw, 128px) 0;
+  position: relative;
+}
+
+.section.alt {
+  background: var(--bg-2);
+}
+
+.section-label {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  margin: 0;
+  font: 700 13px/1 var(--body);
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--accent);
+}
+
+.section-label::before {
+  content: "";
+  width: 26px;
+  height: 6px;
+  transform: skew(-24deg);
+  background: var(--accent);
+}
+
+/* Highlighted phrase inside a heading */
+.hl {
+  color: var(--accent);
+}
+
+.tag {
+  display: inline-block;
+  font: 700 12px/1.3 var(--body);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--accent);
+}
+
+.row-between {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  gap: 24px;
+  flex-wrap: wrap;
+}
+
+.text-link {
+  font-weight: 700;
+  text-decoration: none;
+  color: var(--brand);
+  margin-bottom: clamp(28px, 4vw, 48px);
+}
+
+.text-link:hover {
+  text-decoration: underline;
+  text-underline-offset: 4px;
+}
+
+/* Fade-up on scroll; useReveal adds .in */
+.reveal {
+  opacity: 0;
+  transform: translateY(24px);
+  transition:
+    opacity 0.8s var(--ease),
+    transform 0.8s var(--ease);
+}
+
+.reveal.in {
+  opacity: 1;
+  transform: none;
+}
+
+@keyframes fadeIn {
+  0% {
+    opacity: 0;
+    transform: translateY(-6px);
+  }
+}
+
+/* ---------- Lenis smooth scroll ---------- */
+html.lenis,
+html.lenis body {
+  height: auto;
+}
+
+.lenis.lenis-smooth {
+  scroll-behavior: auto !important;
+}
+
+.lenis.lenis-stopped {
+  overflow: hidden;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    transition: none !important;
+  }
+
+  .reveal {
+    opacity: 1;
+    transform: none;
+  }
+}
