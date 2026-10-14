@@ -125,6 +125,12 @@
   }
 }
 
+/* The hero is always a dark photo, so its button uses the bright blue in both themes */
+.hero .btn.primary {
+  --btn: var(--btn-bright);
+  --btn-hover: var(--btn-bright-hover);
+}
+
 .hero-lead {
   color: #ffffffdb;
   font-size: 17px;

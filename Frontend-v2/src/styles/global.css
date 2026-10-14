@@ -139,14 +139,14 @@ p {
 }
 
 .btn.primary {
-  background: var(--brand);
-  border-color: var(--brand);
-  color: var(--on-brand);
+  background: var(--btn);
+  border-color: var(--btn);
+  color: var(--on-btn);
 }
 
 .btn.primary:hover {
-  background: var(--brand-strong);
-  border-color: var(--brand-strong);
+  background: var(--btn-hover);
+  border-color: var(--btn-hover);
 }
 
 /* For use on top of photos */

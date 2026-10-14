@@ -22,9 +22,17 @@
   --c-run: #4a7a00;
   --c-gold: #a86f00;
 
+  /* Primary buttons: navy from the logo (#182171) */
+  --btn: #1f2c8f;
+  --btn-hover: #182171;
+  --on-btn: #ffffff;
+
   /* Fixed brand colours (same in both themes) */
   --maroon: #8d153a;
   --sun: #ffbe29;
+  /* Bright royal blue for buttons on dark photos (hero) — navy would disappear there */
+  --btn-bright: #4a66f0;
+  --btn-bright-hover: #3550d6;
 
   --accent: var(--brand);
 
@@ -52,6 +60,8 @@
   --on-brand: #ffffff;
   --gold: #ffbe29;
   --gold-ink: #ffc400;
+  --btn: #4a66f0;
+  --btn-hover: #3550d6;
   --shadow: 0 1px 2px rgba(0, 0, 0, 0.3), 0 16px 36px -18px rgba(0, 0, 0, 0.7);
   --img-ph: linear-gradient(135deg, #2a2420, #1e1a17);
 

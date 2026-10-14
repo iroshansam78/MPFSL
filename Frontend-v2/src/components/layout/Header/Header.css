@@ -106,6 +106,12 @@ body.scrolled .site-header::before,
   transform: scaleX(1);
 }
 
+/* Over the hero photo the Contact button uses the bright blue, like the hero's own button */
+body:not(.scrolled) .site-header:not(.open) .nav-cta {
+  --btn: var(--btn-bright);
+  --btn-hover: var(--btn-bright-hover);
+}
+
 .header-actions {
   display: flex;
   align-items: center;
