@@ -30,6 +30,9 @@
   /* Fixed brand colours (same in both themes) */
   --maroon: #8d153a;
   --sun: #ffbe29;
+  /* Burnt orange (deeper shades of #c24f08 so white and gold text stay readable on it) */
+  --ember: #a33d0b;
+  --ember-band: linear-gradient(120deg, #9e3a08, #b8470a);
   /* Bright royal blue for buttons on dark photos (hero) — navy would disappear there */
   --btn-bright: #4a66f0;
   --btn-bright-hover: #3550d6;

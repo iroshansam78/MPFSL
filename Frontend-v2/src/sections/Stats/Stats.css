@@ -1,7 +1,7 @@
-/* Maroon band — same in both themes */
+/* Burnt-orange band — same in both themes */
 .stats-band {
   padding: clamp(48px, 7vw, 84px) 0;
-  background: var(--maroon);
+  background: var(--ember-band);
   color: #fff;
 }
 

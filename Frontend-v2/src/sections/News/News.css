@@ -1,3 +1,8 @@
+/* Less top space than other sections on large screens (phones keep the usual 72px) */
+#news.section {
+  padding-top: clamp(72px, 6vw, 88px);
+}
+
 #news .section-head {
   max-width: 1000px;
 }

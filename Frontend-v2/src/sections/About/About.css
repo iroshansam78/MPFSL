@@ -60,8 +60,8 @@
   margin: -64px 0 0 12%;
   padding: 22px 26px;
   border-radius: var(--radius);
-  background: var(--brand);
-  color: var(--on-brand);
+  background: var(--ember);
+  color: #fff;
   box-shadow: var(--shadow);
   font: italic 700 clamp(19px, 1.6vw, 22px)/1.15 var(--display);
   text-transform: uppercase;
