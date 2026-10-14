@@ -1,5 +1,4 @@
 import { site } from '../../../data/site.js'
-import { photoCredits } from '../../../data/stockPhotos.js'
 import './Footer.css'
 
 function Footer() {
@@ -17,17 +16,7 @@ function Footer() {
         </a>
       </div>
 
-      <div className="container credits">
-        Discipline photos via Unsplash:{' '}
-        {photoCredits.map((credit, i) => (
-          <span key={credit.by}>
-            <a href={credit.page} target="_blank" rel="noreferrer">
-              {credit.by}
-            </a>
-            {i < photoCredits.length - 1 ? ', ' : ''}
-          </span>
-        ))}
-      </div>
+      
     </footer>
   )
 }
