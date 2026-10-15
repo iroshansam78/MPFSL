@@ -15,3 +15,8 @@ htmlcov/
 build/
 dist/
 *.egg-info/
+
+# Node (server / admin / shared workspaces)
+node_modules/
+!.env.example
+coverage/

@@ -1,0 +1,17 @@
+{
+  "name": "mpfsl",
+  "private": true,
+  "description": "MPFSL website: public site, admin panel and API",
+  "workspaces": [
+    "shared",
+    "server"
+  ],
+  "scripts": {
+    "dev:server": "npm run dev --workspace server",
+    "test:server": "npm test --workspace server",
+    "lint:server": "npm run lint --workspace server"
+  },
+  "engines": {
+    "node": ">=22"
+  }
+}
