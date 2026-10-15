@@ -10,7 +10,7 @@ Each phase ends with something that can be shown or tested.
 - [ ] Move the domain's DNS to Cloudflare; add `media.` custom domain to the R2 bucket
 - [ ] Create the Railway project (Singapore region, root directory `server`, `production` + `staging` environments)
 - [x] Scaffold `server/` (Express) + `shared/` with lint config and npm workspaces
-- [x] Scaffold `admin/` (React + Vite + Tailwind, light/dark mode)
+- [x] Admin panel scaffold inside `Frontend-v2/src/admin/` (Tailwind, light/dark mode) — one frontend for both addresses
 
 ## Phase 1 — API foundation ✅
 
@@ -87,8 +87,8 @@ Each phase ends with something that can be shown or tested.
 | API host | **Railway** to start (can move to a VPS later — the API is a plain Node app) |
 | Roles | **editor**: full CRUD on news and gallery (incl. delete, publish, media). **admin**: everything an editor can do + create / manage editor accounts |
 | Backend code structure | Express 5 + feature modules, zod, database sessions — see [backend-architecture.md](backend-architecture.md) |
-| Language | **JavaScript** (ES modules, JSDoc for types) for `server/`, `admin/` and `shared/` — same as the frontends |
-| Admin panel UI | **Tailwind CSS**, **light + dark mode**, separate app on `admin.website.lk` |
+| Language | **JavaScript** (ES modules, JSDoc for types) for `server/`, `shared/` and the frontend — same as before |
+| Admin panel | Part of **Frontend-v2** (one build, one Cloudflare Pages project) served on `admin.website.lk`; **Tailwind CSS**, **light + dark mode** |
 | First images in R2 | The photos the website already uses (news + gallery) are moved into R2 by `import-existing.js` on the first production deploy |
 
 ## Open questions

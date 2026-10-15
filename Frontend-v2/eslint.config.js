@@ -17,6 +17,21 @@ export default defineConfig([
       globals: globals.browser,
       parserOptions: { ecmaFeatures: { jsx: true } },
     },
+    rules: {
+      'no-unused-vars': ['error', { argsIgnorePattern: '^_', varsIgnorePattern: '^_' }],
+    },
+  },
+  {
+    // Config files run in Node, not the browser
+    files: ['*.config.js'],
+    languageOptions: { globals: globals.node },
+  },
+  {
+    // The entry file only picks which app to render; it has no components to hot-reload.
+    files: ['src/main.jsx'],
+    rules: {
+      'react-refresh/only-export-components': 'off',
+    },
   },
   {
     // three.js objects (vectors, textures, buffers) are meant to be mutated every frame inside useFrame;

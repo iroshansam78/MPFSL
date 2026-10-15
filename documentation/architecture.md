@@ -4,13 +4,17 @@
 
 ```mermaid
 flowchart LR
-  visitor([Visitor]) --> site["website.lk<br/>public site — Frontend-v2 (React, static)"]
-  staff([Federation staff]) --> admin["admin.website.lk<br/>admin panel (React, static)"]
+  visitor([Visitor]) --> site["website.lk<br/>public site"]
+  staff([Federation staff]) --> admin["admin.website.lk<br/>admin panel"]
 
-  site -- "GET news / gallery (public)" --> api["api.website.lk<br/>Express API (Node)"]
+  subgraph pages["Cloudflare Pages — one project, one build of Frontend-v2"]
+    site
+    admin
+  end
+
+  site -- "GET news / gallery (public)" --> api["api.website.lk<br/>Express API (Node, on Railway)"]
   admin -- "login + create / edit / upload" --> api
 
-  api["api.website.lk<br/>Express API (Node, on Railway)"]
   api --> db[("MongoDB Atlas<br/>news, gallery, media, users")]
   api -- "store images (S3 API)" --> r2[("Cloudflare R2<br/>bucket: mpfsl-media")]
 
@@ -19,8 +23,11 @@ flowchart LR
   cdn --> r2
 ```
 
-- The **public site** and the **admin panel** are both static React builds. Neither talks to MongoDB
-  or R2 directly — only the API does.
+- **One frontend, two addresses.** `Frontend-v2` is built once and served on both `website.lk` and
+  `admin.website.lk`. On load it checks the hostname: `admin.*` gets the admin panel, anything else
+  the public site. Each half is a separate lazy-loaded chunk with its own CSS, so visitors never
+  download admin code and the two style systems never mix.
+- Both halves are static; neither talks to MongoDB or R2 directly — only the API does.
 - **R2 credentials never leave the server.** Browsers only ever *read* images, through
   `media.website.lk`.
 - **Images are served by Cloudflare**, not by the API, so the API stays light and pictures load fast
@@ -28,17 +35,16 @@ flowchart LR
 
 ## Repository layout
 
-The admin panel and API live in the same repo as the existing frontends:
-
 ```
 MPFSL/
 ├── Frontend/          # version 1 — kept for reference, not deployed
-├── Frontend-v2/       # public site (website.lk) — the launch version
-├── admin/             # NEW — admin panel (React + Vite)
-├── server/            # NEW — Express API
-├── shared/            # NEW — small shared pieces (e.g. validation schemas, constants)
+├── Frontend-v2/       # THE frontend: public site (website.lk) + admin panel (admin.website.lk)
+├── server/            # Express API (api.website.lk)
+├── shared/            # validation schemas + constants used by the API and the admin panel
 └── documentation/     # these planning docs
 ```
+
+`shared`, `server` and `Frontend-v2` are npm workspaces (root `package.json`); `Frontend/` is not.
 
 ### `server/` (Express API)
 
@@ -46,28 +52,28 @@ Organised as feature modules (`modules/news`, `modules/gallery`, `modules/media`
 `modules/users`…), each with its own model, validation, service, controller, mapper and routes.
 Full layout, patterns and conventions: **[backend-architecture.md](backend-architecture.md)**.
 
-### `admin/` (React admin panel)
+### `Frontend-v2/src/` (public site + admin panel)
 
 ```
-admin/src/
-├── main.jsx, App.jsx         # router + auth guard
-├── api/                      # fetch wrapper (sends cookies, handles 401) + one module per resource
-├── hooks/                    # useAuth, useNews, useGallery…
-├── pages/
-│   ├── LoginPage.jsx
-│   ├── DashboardPage.jsx
-│   ├── news/                 # NewsListPage, NewsEditPage
-│   ├── gallery/              # GalleryPage
-│   └── users/                # UsersPage (admins only)
-├── components/
-│   ├── layout/               # AdminLayout, Sidebar, TopBar
-│   ├── editor/               # BlockEditor (h4 / paragraph / list blocks), LinkListEditor
-│   ├── media/                # ImageUploader, ImagePicker, SortableImageGrid
-│   └── ui/                   # Button, Field, Modal, Toast, ConfirmDialog, StatusBadge
-└── styles/
+src/
+├── main.jsx                  # picks the public site or the admin panel by hostname
+├── App.jsx …                 # public site (plain CSS, unchanged layout: sections/, components/, data/…)
+└── admin/                    # admin panel (Tailwind) — only loaded on admin.website.lk
+    ├── AdminApp.jsx          # providers (React Query, toasts) + admin styles
+    ├── AdminRoutes.jsx       # routes + auth guards
+    ├── api/                  # fetch wrapper (sends cookies, handles 401) + one module per resource
+    ├── hooks/                # useAuth, useUsers, useTheme, useToast… (later useNews, useGallery)
+    ├── lib/                  # config, theme, query client, helpers
+    ├── pages/                # Login, ChangePassword, Dashboard, Account, users/… (later news/, gallery/)
+    ├── components/
+    │   ├── layout/           # AdminLayout, Sidebar, AuthLayout, ThemeToggle, RouteGuards
+    │   ├── forms/            # ChangePasswordForm (later BlockEditor, LinkListEditor…)
+    │   └── ui/               # Button, Field, Input, Modal, ConfirmDialog, Badge, Alert, Toast…
+    └── styles/admin.css      # Tailwind + light/dark colour tokens
 ```
 
-Same conventions as the public frontends: one component per folder, `.jsx` + `.css` side by side.
+The public site keeps its conventions (one component per folder, `.jsx` + `.css`); the admin panel
+uses Tailwind classes, so its components are single `.jsx` files.
 
 ## Main flows
 
@@ -95,4 +101,5 @@ See [media-storage-r2.md](media-storage-r2.md) for the upload pipeline in detail
 | Separate `api.` subdomain | Public site and admin share one API; clean CORS and cookie rules |
 | Upload through the API (not direct-to-R2) | API can reject bad files and produce consistent image sizes; simpler and safer for low upload volume |
 | Structured story blocks (not free HTML) | Matches the existing `news.js` format, so the public site renders it unchanged, and no risk of injected HTML |
-| Static admin panel | Can be hosted for free alongside the public site; all logic lives in the API |
+| One frontend for both addresses | One build and one Cloudflare Pages project to host; shared logo, fonts and theme; all logic lives in the API |
+| Admin on its own subdomain | Its own cookies/CORS rules and security headers, and easy to recognise as staff-only |

@@ -274,7 +274,7 @@ Nothing else reads `process.env` directly.
 
 ## `shared/` package
 
-A tiny local package (`"name": "@mpfsl/shared"`) used by both `server/` and `admin/` through an npm
+A tiny local package (`"name": "@mpfsl/shared"`) used by both `server/` and the admin panel (`Frontend-v2`) through an npm
 workspace:
 
 ```
@@ -288,8 +288,8 @@ shared/
 The admin panel's forms validate with the **same rules** as the API, so a form that passes in the
 browser won't be rejected by the server.
 
-The repo root gets a `package.json` with `"workspaces": ["server", "admin", "shared"]`.
-`Frontend/` and `Frontend-v2/` stay independent.
+The repo root `package.json` has `"workspaces": ["shared", "server", "Frontend-v2"]`.
+`Frontend/` (version 1) stays independent.
 
 ## Testing
 

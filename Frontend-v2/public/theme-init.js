@@ -1,10 +1,11 @@
 // Applies the theme before first paint (saved choice, else the system setting) to avoid a flash.
 // Loaded as a normal file (not inline) so the Content-Security-Policy can stay strict.
-// Keep the storage key in sync with src/lib/theme.js.
+// Used by both the public site and the admin panel; keep the key in sync with
+// src/utils/theme.js and src/admin/lib/theme.js.
 ;(function () {
   var theme
   try {
-    theme = localStorage.getItem('mpfsl-admin-theme')
+    theme = localStorage.getItem('mpfsl-theme')
   } catch {
     // storage blocked — fall back to the system setting
   }

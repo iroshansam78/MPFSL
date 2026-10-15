@@ -1,5 +1,5 @@
-// Light/dark theme stored on <html data-theme>. public/theme-init.js sets it before first paint.
-const STORAGE_KEY = 'mpfsl-admin-theme'
+// Light/dark theme stored on <html data-theme>. public/theme-init.js sets it before first paint (shared with the public site).
+const STORAGE_KEY = 'mpfsl-theme'
 
 export const getTheme = () => (document.documentElement.dataset.theme === 'dark' ? 'dark' : 'light')
 

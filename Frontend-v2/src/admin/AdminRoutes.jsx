@@ -9,7 +9,7 @@ import LoginPage from './pages/LoginPage.jsx'
 import NotFoundPage from './pages/NotFoundPage.jsx'
 import UsersPage from './pages/users/UsersPage.jsx'
 
-function App() {
+function AdminRoutes() {
   return (
     <BrowserRouter>
       <Routes>
@@ -48,4 +48,4 @@ function App() {
   )
 }
 
-export default App
+export default AdminRoutes

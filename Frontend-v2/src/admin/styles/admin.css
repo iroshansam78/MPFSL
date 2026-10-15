@@ -1,4 +1,5 @@
-@import "tailwindcss";
+/* source(..) = only scan src/admin for class names, not the public site */
+@import "tailwindcss" source("..");
 
 /* `dark:` utilities follow <html data-theme="dark"> (set by public/theme-init.js and the toggle). */
 @custom-variant dark (&:where([data-theme="dark"], [data-theme="dark"] *));

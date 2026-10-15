@@ -8,9 +8,11 @@ on the public website without editing code.
 ## The short version
 
 - **Stack:** MongoDB · Express · React · Node (MERN), with images stored in **Cloudflare R2**.
-- **Four addresses:**
-  - `website.lk` — the public site (**`Frontend-v2`**)
+- **Four addresses, one frontend:**
+  - `website.lk` — the public site
   - `admin.website.lk` — the admin panel (staff only, login required)
+  - …both served by the **same `Frontend-v2` build** (one Cloudflare Pages project); the app picks
+    which to show by hostname
   - `api.website.lk` — the Express API that both of them talk to
   - `media.website.lk` — public image delivery straight from R2 (cached by Cloudflare)
 - **Two roles:**

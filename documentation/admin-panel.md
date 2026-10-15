@@ -1,8 +1,9 @@
 # Admin Panel (`admin.website.lk`)
 
-React + Vite single-page app in `admin/`, deployed on its own to `admin.website.lk` (Cloudflare Pages)
-so no admin code ships with the public site. Uses the brand colours (navy, maroon, gold) in a plain,
-functional layout — usability over looks.
+Part of the same frontend as the public site: `Frontend-v2/src/admin/`. One build is served on both
+`website.lk` and `admin.website.lk`; the admin panel loads only on the `admin.` address, as a separate
+chunk with its own styles, so public visitors never download it. Uses the brand colours (navy,
+maroon, gold) in a plain, functional layout — usability over looks.
 
 | Decided | |
 |---|---|
@@ -11,7 +12,7 @@ functional layout — usability over looks.
 | Libraries | `react-router` (pages), `@tanstack/react-query` (API data, "session expired → login"), `react-hook-form` + `zod` (forms, same schemas as the API via `@mpfsl/shared`), `lucide-react` (icons), `@dnd-kit` later for drag-and-drop ordering |
 
 Built so far: login, forced password change, layout, dashboard, Users, My account — see
-[admin/README.md](../admin/README.md).
+[Frontend-v2/README.md](../Frontend-v2/README.md#admin-panel).
 
 ## Screens
 
