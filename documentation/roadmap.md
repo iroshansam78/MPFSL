@@ -10,7 +10,7 @@ Each phase ends with something that can be shown or tested.
 - [ ] Move the domain's DNS to Cloudflare; add `media.` custom domain to the R2 bucket
 - [ ] Create the Railway project (Singapore region, root directory `server`, `production` + `staging` environments)
 - [x] Scaffold `server/` (Express) + `shared/` with lint config and npm workspaces
-- [ ] Scaffold `admin/` (React + Vite) — at the start of Phase 4
+- [x] Scaffold `admin/` (React + Vite + Tailwind, light/dark mode)
 
 ## Phase 1 — API foundation ✅
 
@@ -41,11 +41,12 @@ Each phase ends with something that can be shown or tested.
 
 ## Phase 4 — Admin panel
 
-- [ ] Login page, auth guard, layout with sidebar
-- [ ] News list + editor (block editor, links, photo uploader/picker, featured fields)
+- [x] Login page, forced password change, auth guards, layout with sidebar, light/dark mode
+- [x] Users page (admins), My account / change password
+- [ ] News list + editor (block editor, links, photo uploader/picker, featured fields) — needs Phase 3
 - [ ] Preview using the public story component
-- [ ] Gallery manager (upload, caption, size, drag-and-drop order, hide/remove)
-- [ ] Media library, users page, change password
+- [ ] Gallery manager (upload, caption, size, drag-and-drop order, hide/remove) — needs Phase 3
+- [ ] Media library — needs Phase 2
 
 **Demo:** federation staff create a draft story with photos on staging.
 
@@ -63,6 +64,10 @@ Each phase ends with something that can be shown or tested.
 - [ ] Security checklist in [auth-and-security.md](auth-and-security.md#hardening-checklist)
 - [ ] Backups switched on and a restore tested
 - [ ] Production deploy, DNS for `admin.` / `api.` / `media.`
+- [ ] **First content:** run `import-existing.js` against production so every photo the website shows
+      today (all news photos + the gallery) is uploaded to the R2 bucket and the stories / gallery
+      items are created — these are the first images in the bucket. Check the live site shows them
+      from `media.website.lk` before announcing the launch.
 - [ ] Short guide for staff: "How to post a news story" (with screenshots)
 - [ ] Hand over admin accounts
 
@@ -83,6 +88,8 @@ Each phase ends with something that can be shown or tested.
 | Roles | **editor**: full CRUD on news and gallery (incl. delete, publish, media). **admin**: everything an editor can do + create / manage editor accounts |
 | Backend code structure | Express 5 + feature modules, zod, database sessions — see [backend-architecture.md](backend-architecture.md) |
 | Language | **JavaScript** (ES modules, JSDoc for types) for `server/`, `admin/` and `shared/` — same as the frontends |
+| Admin panel UI | **Tailwind CSS**, **light + dark mode**, separate app on `admin.website.lk` |
+| First images in R2 | The photos the website already uses (news + gallery) are moved into R2 by `import-existing.js` on the first production deploy |
 
 ## Open questions
 

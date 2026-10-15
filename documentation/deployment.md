@@ -5,7 +5,7 @@
 | Part | Where | Why |
 |---|---|---|
 | Public site (`website.lk`) | **Cloudflare Pages**, building `Frontend-v2/` | static build, free, same dashboard as R2 and DNS |
-| Admin panel (`admin.website.lk`) | **Cloudflare Pages** (second project), building `admin/` | static build, free |
+| Admin panel (`admin.website.lk`) | **Cloudflare Pages** (second project): build `npm ci && npm run build --workspace admin`, output `admin/dist`, env `VITE_API_URL` | static build, free; security headers + SPA routing via `admin/public/_headers` and `_redirects` |
 | API (`api.website.lk`) | **Railway** (decided), Node 22 LTS | git push to deploy, HTTPS included; Express + Mongoose + sharp need a normal Node server (Cloudflare Workers don't support them well) |
 | Database | **MongoDB Atlas** (M0 free to start, M10 once live for backups) | managed, backups, choose the Singapore or Mumbai region (closest to Sri Lanka) |
 | Images | **Cloudflare R2** + custom domain `media.website.lk` | free egress, Cloudflare cache |
@@ -81,7 +81,7 @@ The domain's DNS should be managed in Cloudflare (needed for the R2 custom domai
 | | Development | Production |
 |---|---|---|
 | Public site | `localhost:5173` | `website.lk` |
-| Admin | `localhost:5174` | `admin.website.lk` |
+| Admin | `localhost:5180` | `admin.website.lk` |
 | API | `localhost:8080` | `api.website.lk` (Railway) |
 | Database | Atlas free cluster `mpfsl-dev` (or local MongoDB) | Atlas `mpfsl` |
 | Bucket | `mpfsl-media-dev` | `mpfsl-media` |

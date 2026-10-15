@@ -1,10 +1,17 @@
 # Admin Panel (`admin.website.lk`)
 
-React + Vite single-page app, same tooling and folder conventions as the public frontends.
-Uses the brand colours (navy, maroon, gold) in a plain, functional layout — usability over looks.
+React + Vite single-page app in `admin/`, deployed on its own to `admin.website.lk` (Cloudflare Pages)
+so no admin code ships with the public site. Uses the brand colours (navy, maroon, gold) in a plain,
+functional layout — usability over looks.
 
-Suggested libraries: `react-router` (pages), `@tanstack/react-query` (API data + caching),
-`react-hook-form` + `zod` (forms, same schemas as the API), `@dnd-kit` (drag-and-drop ordering).
+| Decided | |
+|---|---|
+| Styling | **Tailwind CSS 4** with semantic colour tokens (`bg-surface`, `text-ink`, `bg-brand`…) |
+| Themes | **Light and dark mode**, toggle in the top bar, follows the system setting until chosen, no flash on load |
+| Libraries | `react-router` (pages), `@tanstack/react-query` (API data, "session expired → login"), `react-hook-form` + `zod` (forms, same schemas as the API via `@mpfsl/shared`), `lucide-react` (icons), `@dnd-kit` later for drag-and-drop ordering |
+
+Built so far: login, forced password change, layout, dashboard, Users, My account — see
+[admin/README.md](../admin/README.md).
 
 ## Screens
 

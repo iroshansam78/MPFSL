@@ -1,0 +1,103 @@
+@import "tailwindcss";
+
+/* `dark:` utilities follow <html data-theme="dark"> (set by public/theme-init.js and the toggle). */
+@custom-variant dark (&:where([data-theme="dark"], [data-theme="dark"] *));
+
+/*
+ * Semantic colours. Components use these (bg-surface, text-ink, bg-brand…) and they switch
+ * automatically with the theme — no need for dark: variants on every element.
+ * Brand matches the public site: logo navy for actions, maroon + gold accents.
+ */
+:root {
+  --c-bg: #f6f2ec;
+  --c-surface: #ffffff;
+  --c-surface-2: #f1ebe2;
+  --c-line: rgb(40 24 12 / 0.12);
+  --c-ink: #1c1714;
+  --c-muted: #5e554d;
+  --c-brand: #1f2c8f;
+  --c-brand-hover: #182171;
+  --c-on-brand: #ffffff;
+  --c-maroon: #8d153a;
+  --c-gold: #8a5d00;
+  --c-danger: #b42318;
+  --c-danger-soft: #fee4e2;
+  --c-on-danger: #ffffff;
+  --c-success: #067647;
+  --c-success-soft: #dcfae6;
+  --c-warning: #b54708;
+  --c-warning-soft: #fef0c7;
+  --c-info-soft: #e3e8ff;
+  color-scheme: light;
+}
+
+:root[data-theme="dark"] {
+  --c-bg: #141110;
+  --c-surface: #1e1a17;
+  --c-surface-2: #29231f;
+  --c-line: rgb(255 238 220 / 0.11);
+  --c-ink: #f3eee7;
+  --c-muted: #b4aa9f;
+  --c-brand: #4a66f0;
+  --c-brand-hover: #3550d6;
+  --c-on-brand: #ffffff;
+  --c-maroon: #f0789a;
+  --c-gold: #ffc400;
+  --c-danger: #f97066;
+  --c-danger-soft: rgb(249 112 102 / 0.14);
+  --c-on-danger: #1c1714;
+  --c-success: #47cd89;
+  --c-success-soft: rgb(71 205 137 / 0.14);
+  --c-warning: #fdb022;
+  --c-warning-soft: rgb(253 176 34 / 0.14);
+  --c-info-soft: rgb(74 102 240 / 0.16);
+  color-scheme: dark;
+}
+
+@theme inline {
+  --color-bg: var(--c-bg);
+  --color-surface: var(--c-surface);
+  --color-surface-2: var(--c-surface-2);
+  --color-line: var(--c-line);
+  --color-ink: var(--c-ink);
+  --color-muted: var(--c-muted);
+  --color-brand: var(--c-brand);
+  --color-brand-hover: var(--c-brand-hover);
+  --color-on-brand: var(--c-on-brand);
+  --color-maroon: var(--c-maroon);
+  --color-gold: var(--c-gold);
+  --color-danger: var(--c-danger);
+  --color-danger-soft: var(--c-danger-soft);
+  --color-on-danger: var(--c-on-danger);
+  --color-success: var(--c-success);
+  --color-success-soft: var(--c-success-soft);
+  --color-warning: var(--c-warning);
+  --color-warning-soft: var(--c-warning-soft);
+  --color-info-soft: var(--c-info-soft);
+
+  --font-sans: "DM Sans", system-ui, sans-serif;
+  --font-display: "Barlow Condensed", "Arial Narrow", sans-serif;
+}
+
+@layer base {
+  html {
+    background: var(--c-bg);
+  }
+
+  body {
+    @apply bg-bg font-sans text-ink antialiased;
+    transition:
+      background-color 0.2s,
+      color 0.2s;
+  }
+
+  :focus-visible {
+    @apply outline-2 outline-offset-2 outline-gold;
+  }
+
+  /* Native <dialog> backdrop for modals */
+  dialog::backdrop {
+    background: rgb(10 8 7 / 0.55);
+    backdrop-filter: blur(2px);
+  }
+}
