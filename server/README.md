@@ -27,23 +27,59 @@ Endpoints available now:
 
 ## Run it locally
 
-Requirements: Node 22+, and a MongoDB **replica set** (transactions need one) — an Atlas dev
-cluster is easiest.
+Requirements: Node 22+ and MongoDB — your own local install is fine (standalone works in development;
+multi-step changes just run without transactions). Production uses MongoDB Atlas.
 
 ```bash
-# from the repo root (installs server + shared via npm workspaces)
+# from the repo root, once (installs server + shared + Frontend-v2 via npm workspaces)
 npm install
+cp server/.env.example server/.env
+# then set SESSION_SECRET in server/.env (generate one with:
+#   node -e "console.log(require('crypto').randomBytes(48).toString('base64url'))" )
+# and MONGODB_URI=mongodb://127.0.0.1:27017/mpfsl-dev (your MongoDB)
 
-cd server
-cp .env.example .env        # then fill in MONGODB_URI and SESSION_SECRET
-npm run dev                 # http://localhost:8080/api/health
+npm run init -- --email you@example.com --name "Your Name"   # once: indexes + your admin account
+
+# every time — two terminals:
+npm run dev:server          # API → http://localhost:8080/api/health
+npm run dev:web             # site → http://localhost:5180, admin → http://admin.localhost:5180
 ```
 
-Create the first admin (prints a temporary password, changed at first login):
+### Optional: real transactions locally
+
+Not needed for development. If you want your local MongoDB to behave exactly like production
+(transactions on), either run `npm run dev:db` (private replica set on port 27018, use
+`mongodb://127.0.0.1:27018/mpfsl-dev?replicaSet=rs0`), or turn your MongoDB into a single-node replica
+set once. In an **Administrator** PowerShell:
+
+1. Edit `C:\Program Files\MongoDB\Server\<version>\bin\mongod.cfg` and add:
+   ```yaml
+   replication:
+     replSetName: rs0
+   ```
+2. `Restart-Service MongoDB`
+3. `mongosh --eval "rs.initiate({_id:'rs0', members:[{_id:0, host:'127.0.0.1:27017'}]})"`
+
+Then use `MONGODB_URI=mongodb://127.0.0.1:27017/mpfsl-dev?replicaSet=rs0` and run `npm run init`.
+
+### First-time setup of a database: `npm run init`
+
+Run once for every new database (your machine, staging, production). Safe to re-run anytime.
 
 ```bash
-npm run create-admin -- --email you@example.com --name "Your Name"
+npm run init -- --email you@example.com --name "Your Name"
 ```
+
+It (1) checks the database is reachable and supports transactions, (2) creates all indexes
+(unique emails, expiring sessions…), and (3) creates the first admin with a temporary password —
+only if no active admin exists yet. Instead of the flags you can set `INITIAL_ADMIN_EMAIL` and
+`INITIAL_ADMIN_NAME`.
+
+In production the API does **not** build indexes on startup, so `npm run init` is required there
+(and again after deploys that add new models/indexes).
+
+To add more admins later, use the admin panel's Users page, or:
+`npm run create-admin -- --email someone@example.com --name "Name"`.
 
 ## Tests
 

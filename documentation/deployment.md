@@ -59,9 +59,16 @@ Two things the code must handle because of Railway:
    only those in Atlas, or (to start) allow `0.0.0.0/0` in Atlas and rely on a long random database
    password + a database user limited to the `mpfsl` database. Move to static IPs before launch.
 
-Running scripts (`create-admin.js`, `import-existing.js`) against production:
-`railway run --service api npm run create-admin --workspace server -- --email … --name "…"` from a
-developer's machine (uses the service's variables without copying secrets locally).
+Running scripts against production (`init`, `create-admin`, `import-existing`) — from a developer's
+machine, using the service's variables without copying secrets locally:
+
+```bash
+railway run --service api npm run init --workspace server -- --email you@example.com --name "Your Name"
+```
+
+`init` checks the database, creates the indexes and the first admin. It is required on a new
+database and after deploys that add models/indexes, because the API doesn't build indexes on
+startup in production. Safe to re-run.
 
 ## DNS (Cloudflare)
 
@@ -107,7 +114,7 @@ The domain's DNS should be managed in Cloudflare (needed for the R2 custom domai
 | Public site | `http://localhost:5180` | `website.lk` |
 | Admin | `http://admin.localhost:5180` (no setup — browsers send `*.localhost` to your machine) | `admin.website.lk` |
 | API | `localhost:8080` (reached through the dev server's `/api` proxy) | `api.website.lk` (Railway) |
-| Database | Atlas free cluster `mpfsl-dev` (or local MongoDB) | Atlas `mpfsl` |
+| Database | `npm run dev:db` — private replica set on port 27018, data in `server/.data` (or an Atlas dev cluster) | Atlas `mpfsl` |
 | Bucket | `mpfsl-media-dev` | `mpfsl-media` |
 
 Why the proxy in development: browsers treat `admin.localhost` and `localhost` as different sites, so
@@ -122,4 +129,6 @@ panel without touching the live site. Name the admin address with the `admin.` p
 
 1. Push to `main` → Cloudflare Pages builds `Frontend-v2` (public site + admin panel) automatically.
 2. Railway deploys `server/` from `main` and only switches traffic over once `/api/health` passes.
-3. After the first deploy: `railway run … create-admin.js`, then `import-existing.js` once.
+3. After the first deploy: `railway run … npm run init …` (indexes + first admin), then
+   `import-existing.js` once (moves the website's current photos into R2 — Phase 3).
+4. After later deploys that add new models: `railway run … npm run init` again (no flags needed).

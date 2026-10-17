@@ -3,7 +3,28 @@ import { createApp } from './app.js'
 import { connectDb, disconnectDb } from './lib/db.js'
 import { logger } from './lib/logger.js'
 
-await connectDb()
+try {
+  await connectDb()
+} catch (err) {
+  logger.fatal(databaseHelp(err))
+  process.exit(1)
+}
+
+// A readable explanation instead of a raw driver stack trace when MongoDB can't be reached.
+function databaseHelp(err) {
+  const uri = env.MONGODB_URI.replace(/\/\/[^@/]*@/, '//***@') // hide credentials
+  const lines = [`Can't connect to MongoDB at ${uri}`, `  (${err.message})`]
+  if (err.reason?.type === 'ReplicaSetNoPrimary' && /replicaSet=/.test(env.MONGODB_URI)) {
+    lines.push(
+      '  MONGODB_URI contains "?replicaSet=...", so only a replica set is accepted. A normal local MongoDB',
+      '  is standalone: remove "?replicaSet=..." from MONGODB_URI, e.g.',
+      '     MONGODB_URI=mongodb://127.0.0.1:27017/mpfsl-dev',
+    )
+  } else {
+    lines.push('  Is MongoDB running, and is MONGODB_URI in server/.env correct?')
+  }
+  return lines.join('\n')
+}
 
 const server = createApp().listen(env.PORT, () => {
   logger.info({ port: env.PORT, env: env.NODE_ENV }, 'API listening')

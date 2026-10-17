@@ -16,6 +16,8 @@ Each phase ends with something that can be shown or tested.
 
 - [x] Env config + validation, MongoDB connection, error handler, `GET /health`
 - [x] User model, `create-admin.js` script
+- [x] `npm run init` — one-command database setup: checks transactions, syncs indexes, creates the first admin
+- [x] `npm run dev:db` — local MongoDB replica set for development (no install)
 - [x] Login / logout / me, sessions, rate limiting, role middleware
 - [x] Admin user management (create editors, change role / deactivate, reset password)
 - [x] Tests for auth (wrong password, lockout, role checks) — 40 tests passing
@@ -64,6 +66,7 @@ Each phase ends with something that can be shown or tested.
 - [ ] Security checklist in [auth-and-security.md](auth-and-security.md#hardening-checklist)
 - [ ] Backups switched on and a restore tested
 - [ ] Production deploy, DNS for `admin.` / `api.` / `media.`
+- [ ] Run `npm run init` against production (indexes + first admin account)
 - [ ] **First content:** run `import-existing.js` against production so every photo the website shows
       today (all news photos + the gallery) is uploaded to the R2 bucket and the stories / gallery
       items are created — these are the first images in the bucket. Check the live site shows them

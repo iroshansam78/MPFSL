@@ -20,3 +20,6 @@ dist/
 node_modules/
 !.env.example
 coverage/
+
+# Local dev database (server/scripts/dev-db.js)
+.data/

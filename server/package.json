@@ -6,12 +6,15 @@
   "type": "module",
   "main": "src/index.js",
   "scripts": {
+    "dev:db": "node scripts/dev-db.js",
+    "init": "node --env-file-if-exists=.env scripts/init.js",
     "dev": "node --watch --env-file=.env src/index.js",
     "start": "node src/index.js",
     "test": "vitest run",
     "test:watch": "vitest",
     "lint": "eslint .",
-    "create-admin": "node --env-file-if-exists=.env scripts/create-admin.js"
+    "create-admin": "node --env-file-if-exists=.env scripts/create-admin.js",
+    "reset-password": "node --env-file-if-exists=.env scripts/reset-password.js"
   },
   "engines": {
     "node": ">=22"

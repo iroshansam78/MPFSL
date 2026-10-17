@@ -3,13 +3,16 @@
 //   npm run create-admin -- --email you@example.com --name "Your Name"
 //
 // On Railway (production):
-//   railway run --service api npm run create-admin -- --email … --name "…"
+//   railway run --service api npm run create-admin -- --email ... --name "..."
 //
 // Prints a temporary password once; the admin must change it at first login.
 import { parseArgs } from 'node:util'
 import { email as emailSchema, personName } from '@mpfsl/shared'
 import { connectDb, disconnectDb } from '../src/lib/db.js'
+import { logger } from '../src/lib/logger.js'
 import { createUser } from '../src/modules/users/users.service.js'
+
+logger.level = 'warn' // keep the script output readable
 
 const { values } = parseArgs({
   options: {

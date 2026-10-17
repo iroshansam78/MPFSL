@@ -8,12 +8,15 @@
     "Frontend-v2"
   ],
   "scripts": {
+    "dev:db": "npm run dev:db --workspace server",
+    "init": "npm run init --workspace server --",
     "dev:server": "npm run dev --workspace server",
     "test:server": "npm test --workspace server",
     "lint:server": "npm run lint --workspace server",
     "dev:web": "npm run dev --workspace frontend-v2",
     "build:web": "npm run build --workspace frontend-v2",
-    "lint:web": "npm run lint --workspace frontend-v2"
+    "lint:web": "npm run lint --workspace frontend-v2",
+    "reset-password": "npm run reset-password --workspace server --"
   },
   "engines": {
     "node": ">=22"

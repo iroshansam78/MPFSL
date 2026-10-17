@@ -41,7 +41,9 @@ const Env = z.object({
 })
 
 function loadEnv() {
-  const result = Env.safeParse(process.env)
+  // Treat `KEY=` (empty) the same as not set, so blank lines in .env fall back to defaults/optional.
+  const values = Object.fromEntries(Object.entries(process.env).filter(([, value]) => value !== ''))
+  const result = Env.safeParse(values)
   if (!result.success) {
     const problems = result.error.issues.map((issue) => `  - ${issue.path.join('.')}: ${issue.message}`)
     throw new Error(`Invalid environment configuration:\n${problems.join('\n')}`)
