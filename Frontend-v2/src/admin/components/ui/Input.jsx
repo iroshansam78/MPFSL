@@ -6,6 +6,10 @@ export function Input({ className = '', ...props }) {
   return <input className={`${base} ${className}`} {...props} />
 }
 
+export function Textarea({ className = '', rows = 4, ...props }) {
+  return <textarea rows={rows} className={`${base} h-auto py-2 leading-relaxed ${className}`} {...props} />
+}
+
 export function Select({ className = '', children, ...props }) {
   return (
     <select className={`${base} pr-8 ${className}`} {...props}>

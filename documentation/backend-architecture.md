@@ -57,7 +57,7 @@ server/
 │   │   ├── users/                # admin-only user management; User model
 │   │   ├── media/                # upload / list / update / delete; Media model
 │   │   ├── news/                 # admin CRUD + publish/feature + public list; NewsStory model
-│   │   ├── gallery/              # admin CRUD + ordering + public list; GalleryItem model
+│   │   ├── site-photos/          # replaced photos/captions of the gallery spots; SitePhoto model
 │   │   ├── audit/                # AuditLog model + record() used by other modules
 │   │   └── health/               # GET /health
 │   └── routes.js                 # mounts every module's routers under /api
@@ -252,7 +252,7 @@ for each file `images.inspect()` (real type, size) → `images.makeVariants()` �
 before the error is returned. Details in [media-storage-r2.md](media-storage-r2.md).
 
 "Is this photo still used?" is answered by querying (`NewsStory.exists({ 'images.media': id })`
-or `GalleryItem.exists({ media: id })`) rather than keeping a counter, so it can never drift out
+or `SitePhoto.exists({ media: id })`) rather than keeping a counter, so it can never drift out
 of sync.
 
 ### Config (`config/env.js`)

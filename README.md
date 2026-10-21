@@ -73,6 +73,10 @@ Then open `server/.env` and change two lines:
 
 Leave everything else as it is. `server/.env` is git-ignored — never commit it.
 
+The `R2_...` settings (Cloudflare photo storage) can stay empty on your computer: photos uploaded in
+the admin panel are then saved in `server/.data/uploads`. Once all five are filled in, uploads go to
+the R2 bucket instead.
+
 ### 2.3 Set up the database and your admin account
 
 Make sure MongoDB is running, then:

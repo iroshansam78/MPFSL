@@ -1,24 +1,7 @@
 import { useId, useState } from 'react'
 import PhotoGrid from '../../components/ui/PhotoGrid/PhotoGrid.jsx'
 import TagLinks from '../../components/ui/TagLinks/TagLinks.jsx'
-
-// One block of a story's expandable body (see the format notes in data/news.js).
-function StoryBlock({ block }) {
-  if (block.type === 'h4') return <h4>{block.text}</h4>
-  if (block.type === 'list') {
-    return (
-      <ul className="facts">
-        {block.items.map((item) => (
-          <li key={item.strong}>
-            <strong>{item.strong}</strong>
-            {item.text}
-          </li>
-        ))}
-      </ul>
-    )
-  }
-  return <p>{block.text}</p>
-}
+import StoryBlock from './StoryBlock.jsx'
 
 // News story card: lead always visible, details behind "Read more", photos on the right.
 function Story({ story, accent, onOpenPhotos }) {
@@ -54,7 +37,7 @@ function Story({ story, accent, onOpenPhotos }) {
         )}
       </div>
 
-      <PhotoGrid images={story.images} onOpen={onOpenPhotos} />
+      {story.images.length > 0 && <PhotoGrid images={story.images} onOpen={onOpenPhotos} />}
     </article>
   )
 }

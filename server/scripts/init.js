@@ -13,10 +13,13 @@
 //   2. creates/updates all indexes (unique emails, expiring sessions, ...) — required in production,
 //      where the API doesn't build indexes on its own
 //   3. creates the first admin account if there is none (prints a one-time temporary password)
+//   4. copies the website's built-in news stories into the database if it has none yet
 import { parseArgs } from 'node:util'
 import { email as emailSchema, personName } from '@mpfsl/shared'
 import { connectDb, disconnectDb } from '../src/lib/db.js'
 import { logger } from '../src/lib/logger.js'
+import { builtInNews } from '../../Frontend-v2/src/data/news.js'
+import { importBuiltIn as importBuiltInNews } from '../src/modules/news/news.service.js'
 import { checkDatabase, ensureInitialAdmin, syncAllIndexes } from '../src/modules/setup/setup.service.js'
 
 logger.level = 'warn' // keep the script output readable
@@ -31,7 +34,7 @@ const { values } = parseArgs({
 const rawEmail = values.email ?? process.env.INITIAL_ADMIN_EMAIL
 const rawName = values.name ?? process.env.INITIAL_ADMIN_NAME
 
-const step = (n, text) => console.log(`\n[${n}/3] ${text}`)
+const step = (n, text) => console.log(`\n[${n}/4] ${text}`)
 const ok = (text) => console.log(`      [OK] ${text}`)
 const fail = (text) => {
   console.error(`      [FAIL] ${text}`)
@@ -72,6 +75,12 @@ try {
       ok(`${result.existingAdmins} active admin account(s) already exist - nothing to do`)
       if (rawEmail) console.log('      (To add another admin, use the Users page or `npm run create-admin`.)')
     }
+  }
+
+  if (!process.exitCode) {
+    step(4, 'News stories')
+    const added = await importBuiltInNews(builtInNews)
+    ok(added ? `Copied the website's ${added} built-in stories into the database` : 'Stories already in the database - nothing to do')
   }
 } catch (err) {
   if (err.message !== 'stop') {

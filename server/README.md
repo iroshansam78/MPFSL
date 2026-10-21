@@ -9,8 +9,9 @@ Endpoints: [documentation/api.md](../documentation/api.md)
 | Phase | Status |
 |---|---|
 | 0–1 Foundation, login, sessions, admin user management | ✅ |
-| 2 Media uploads to R2 | next |
-| 3 News & gallery | |
+| 2 Media uploads (R2, or a local folder in development) | ✅ |
+| 3 Gallery | ✅ |
+| 3 News | ✅ |
 
 Endpoints available now:
 
@@ -24,6 +25,22 @@ Endpoints available now:
 | `GET` `POST` | `/api/admin/users` | admin |
 | `PATCH` | `/api/admin/users/:id` | admin |
 | `POST` | `/api/admin/users/:id/reset-password` | admin |
+| `GET` | `/api/news` | anyone |
+| `GET` | `/api/site-photos` | anyone |
+| `GET` `POST` | `/api/admin/media` | editor, admin |
+| `PATCH` `DELETE` | `/api/admin/media/:id` | editor, admin |
+| `GET` `POST` | `/api/admin/news` | editor, admin |
+| `PUT` | `/api/admin/news/order` | editor, admin |
+| `GET` `PUT` `DELETE` | `/api/admin/news/:id` | editor, admin |
+| `PUT` | `/api/admin/news/:id/status` | editor, admin |
+| `POST` | `/api/admin/news/:id/feature` | editor, admin |
+| `GET` | `/api/admin/site-photos` | editor, admin |
+| `PUT` `DELETE` | `/api/admin/site-photos/:key` | editor, admin |
+
+**Photo storage:** while any of the five R2 settings in `.env` is empty, uploads are saved in
+`server/.data/uploads` (git-ignored) and served by the API at `/api/uploads/...`. Fill in all five
+and new uploads go to the R2 bucket instead. Production starts without R2, but uploads are turned
+off (`503 STORAGE_NOT_CONFIGURED`) until all five are set.
 
 ## Run it locally
 
@@ -72,7 +89,8 @@ npm run init -- --email you@example.com --name "Your Name"
 
 It (1) checks the database is reachable and supports transactions, (2) creates all indexes
 (unique emails, expiring sessions…), and (3) creates the first admin with a temporary password —
-only if no active admin exists yet. Instead of the flags you can set `INITIAL_ADMIN_EMAIL` and
+only if no active admin exists yet, and (4) copies the website's built-in news stories into the
+database if it has none (after that, news is edited in the admin panel). Instead of the flags you can set `INITIAL_ADMIN_EMAIL` and
 `INITIAL_ADMIN_NAME`.
 
 In production the API does **not** build indexes on startup, so `npm run init` is required there

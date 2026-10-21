@@ -2,6 +2,7 @@ import cookieParser from 'cookie-parser'
 import express from 'express'
 import { pinoHttp } from 'pino-http'
 import { logger } from './lib/logger.js'
+import { currentDriver, LOCAL_URL_PREFIX, localUploadsDir } from './lib/storage.js'
 import { errorHandler, notFoundHandler } from './middleware/errorHandler.js'
 import { createApiLimiter } from './middleware/rateLimits.js'
 import { securityMiddleware } from './middleware/security.js'
@@ -20,6 +21,11 @@ export function createApp() {
   app.use(express.json({ limit: '200kb' }))
   app.use(cookieParser())
   app.use(loadSession)
+
+  // Without R2 (local development), uploaded photos are served from disk by the API itself.
+  if (currentDriver === 'local') {
+    app.use(LOCAL_URL_PREFIX, express.static(localUploadsDir, { immutable: true, maxAge: '1y', index: false }))
+  }
 
   app.use('/api', createApiLimiter(), createRoutes())
 

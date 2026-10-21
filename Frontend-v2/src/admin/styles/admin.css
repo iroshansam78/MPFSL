@@ -29,6 +29,13 @@
   --c-warning: #b54708;
   --c-warning-soft: #fef0c7;
   --c-info-soft: #e3e8ff;
+  /* The website's discipline colours (styles/variables.css), used for news story previews */
+  --c-story-obstacle: #c24f08;
+  --c-story-gold: #a86f00;
+  --c-story-swim: #00806d;
+  --c-story-laser: #d0173b;
+  --c-story-fencing: #0a72b5;
+  --c-story-sun: #e8a400; /* the featured story's result box */
   color-scheme: light;
 }
 
@@ -52,6 +59,12 @@
   --c-warning: #fdb022;
   --c-warning-soft: rgb(253 176 34 / 0.14);
   --c-info-soft: rgb(74 102 240 / 0.16);
+  --c-story-obstacle: #ff7a1a;
+  --c-story-gold: #ffb300;
+  --c-story-swim: #00d1b2;
+  --c-story-laser: #ff4d68;
+  --c-story-fencing: #5ec8ff;
+  --c-story-sun: #ffbe29;
   color-scheme: dark;
 }
 
@@ -75,6 +88,12 @@
   --color-warning: var(--c-warning);
   --color-warning-soft: var(--c-warning-soft);
   --color-info-soft: var(--c-info-soft);
+  --color-story-obstacle: var(--c-story-obstacle);
+  --color-story-gold: var(--c-story-gold);
+  --color-story-swim: var(--c-story-swim);
+  --color-story-laser: var(--c-story-laser);
+  --color-story-fencing: var(--c-story-fencing);
+  --color-story-sun: var(--c-story-sun);
 
   --font-sans: "DM Sans", system-ui, sans-serif;
   --font-display: "Barlow Condensed", "Arial Narrow", sans-serif;

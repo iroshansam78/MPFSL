@@ -21,16 +21,17 @@ export class ApiError extends Error {
  * Calls the API with the session cookie. Returns the parsed JSON (or null for 204),
  * throws ApiError otherwise.
  * @param {string} path e.g. '/auth/me'
- * @param {{ method?: string, body?: unknown, signal?: AbortSignal }} [options]
+ * @param {{ method?: string, body?: unknown, signal?: AbortSignal }} [options]  FormData bodies are sent as uploads
  */
 export async function apiFetch(path, { method = 'GET', body, signal } = {}) {
+  const isForm = body instanceof FormData
   let response
   try {
     response = await fetch(`${API_URL}${path}`, {
       method,
       credentials: 'include', // send the session cookie to api.website.lk
-      headers: body !== undefined ? { 'Content-Type': 'application/json' } : undefined,
-      body: body !== undefined ? JSON.stringify(body) : undefined,
+      headers: body !== undefined && !isForm ? { 'Content-Type': 'application/json' } : undefined,
+      body: body === undefined || isForm ? body : JSON.stringify(body),
       signal,
     })
   } catch (err) {

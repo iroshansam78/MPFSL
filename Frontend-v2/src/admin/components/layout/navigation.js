@@ -6,8 +6,8 @@ import { FolderOpen, Images, LayoutDashboard, Newspaper, UserCog, Users } from '
  */
 export const NAV_ITEMS = [
   { to: '/', label: 'Dashboard', icon: LayoutDashboard, end: true },
-  { to: '/news', label: 'News', icon: Newspaper, soon: true },
-  { to: '/gallery', label: 'Gallery', icon: Images, soon: true },
+  { to: '/news', label: 'News', icon: Newspaper },
+  { to: '/gallery', label: 'Gallery', icon: Images },
   { to: '/media', label: 'Media library', icon: FolderOpen, soon: true },
   { to: '/users', label: 'Users', icon: Users, adminOnly: true },
   { to: '/account', label: 'My account', icon: UserCog },

@@ -64,7 +64,7 @@ src/
     ├── api/                  # fetch wrapper (sends cookies, handles 401) + one module per resource
     ├── hooks/                # useAuth, useUsers, useTheme, useToast… (later useNews, useGallery)
     ├── lib/                  # config, theme, query client, helpers
-    ├── pages/                # Login, ChangePassword, Dashboard, Account, users/… (later news/, gallery/)
+    ├── pages/                # Login, ChangePassword, Dashboard, Account, users/, gallery/, news/
     ├── components/
     │   ├── layout/           # AdminLayout, Sidebar, AuthLayout, ThemeToggle, RouteGuards
     │   ├── forms/            # ChangePasswordForm (later BlockEditor, LinkListEditor…)

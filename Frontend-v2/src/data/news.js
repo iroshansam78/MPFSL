@@ -193,3 +193,39 @@ export const stories = [
     ],
   },
 ]
+
+const trimItems = (block) =>
+  block.type === 'list' ? { ...block, items: block.items.map((item) => ({ strong: item.strong, text: item.text.trim() })) } : block
+
+/**
+ * The stories above in the format the API uses (documentation/api.md, GET /news). `npm run init`
+ * copies them into the database once; after that they're edited in the admin panel. The website
+ * shows these only if the API can't be reached.
+ */
+export const builtInNews = {
+  featured: {
+    id: 'featured',
+    tag: featured.tag,
+    title: featured.title,
+    lead: featured.body[0],
+    body: featured.body.slice(1).map((text) => ({ type: 'p', text })),
+    links: featured.links,
+    images: [featured.image],
+    feature: {
+      heading: featured.heading,
+      highlight: featured.highlight,
+      meta: featured.meta,
+      stat: featured.stat,
+      milestones: featured.milestones,
+    },
+  },
+  stories: stories.map(({ id, tag, title, lead, body, links, images }) => ({
+    id,
+    tag,
+    title,
+    lead,
+    body: body.map(trimItems),
+    links,
+    images,
+  })),
+}

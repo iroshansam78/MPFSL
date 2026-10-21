@@ -5,8 +5,8 @@ import PageHeader from '../components/ui/PageHeader.jsx'
 import { useMe } from '../hooks/useAuth.js'
 
 const SECTIONS = [
-  { to: '/news', icon: Newspaper, title: 'News', text: 'Write, publish and feature stories with photos.', soon: true },
-  { to: '/gallery', icon: Images, title: 'Gallery', text: 'Upload photos, add captions and arrange the gallery.', soon: true },
+  { to: '/news', icon: Newspaper, title: 'News', text: 'Write, edit, publish and feature stories with photos.' },
+  { to: '/gallery', icon: Images, title: 'Gallery', text: 'Replace the gallery photos and their captions.' },
   { to: '/media', icon: FolderOpen, title: 'Media library', text: 'Every uploaded photo, ready to reuse.', soon: true },
   { to: '/users', icon: Users, title: 'Users', text: 'Create editor accounts and reset passwords.', adminOnly: true },
 ]

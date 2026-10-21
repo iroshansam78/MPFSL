@@ -1,6 +1,6 @@
 function Milestones({ items }) {
   return (
-    <ol className="milestones" aria-label="Gayani Dassanayake’s national titles">
+    <ol className="milestones" aria-label="Milestones">
       {items.map((item, i) => (
         <li key={item.tag} className="reveal" style={{ transitionDelay: `${i * 90}ms` }}>
           <span className="tag">{item.tag}</span>

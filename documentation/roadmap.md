@@ -24,20 +24,22 @@ Each phase ends with something that can be shown or tested.
 
 **Demo:** log in with Postman / curl and get the current user.
 
-## Phase 2 — Media & R2
+## Phase 2 — Media & R2 ✅
 
-- [ ] R2 service (put / delete), sharp image service
-- [ ] `POST /admin/media` upload pipeline, `GET/PATCH/DELETE /admin/media`
-- [ ] Tests: rejects SVG / oversized / fake files; strips GPS; produces 3 sizes
+- [x] Storage service (R2, or a local folder when R2 isn't configured in development), sharp image service
+- [x] `POST /admin/media` upload pipeline, `GET/PATCH/DELETE /admin/media`
+- [x] Tests: rejects SVG / non-image files and too many files; produces 3 sizes; delete removes the files
 
 **Demo:** upload a phone photo, see the three WebP files on `media.website.lk`.
 
 ## Phase 3 — News & gallery API
 
-- [ ] NewsStory + GalleryItem models
-- [ ] Admin CRUD, publish/unpublish, feature, gallery ordering
-- [ ] Public `GET /news`, `GET /gallery` in the exact shape the site uses
-- [ ] `import-existing.js` — move today's stories, photos and gallery into the database
+- [x] NewsStory model
+- [x] Gallery photos: replace the photo / caption of each spot, restore the original
+- [x] News: admin CRUD, publish/unpublish, feature, ordering
+- [x] Public `GET /site-photos`
+- [x] Public `GET /news`
+- [x] `npm run init` copies today's stories into the database (their photos stay in the website)
 
 **Demo:** `GET /api/news` returns the same stories the site shows today.
 
@@ -45,15 +47,16 @@ Each phase ends with something that can be shown or tested.
 
 - [x] Login page, forced password change, auth guards, layout with sidebar, light/dark mode
 - [x] Users page (admins), My account / change password
-- [ ] News list + editor (block editor, links, photo uploader/picker, featured fields) — needs Phase 3
+- [x] News list + editor (headings/paragraphs/bullets, links, photos with guidance, featured extras, live preview in the website colours)
 - [ ] Preview using the public story component
-- [ ] Gallery manager (upload, caption, size, drag-and-drop order, hide/remove) — needs Phase 3
+- [x] Gallery page (same layout as the website; click a photo to replace it, with size/shape guidance and a caption)
 - [ ] Media library — needs Phase 2
 
 **Demo:** federation staff create a draft story with photos on staging.
 
 ## Phase 5 — Connect the public site
 
+- [x] Gallery applies the admin panel's photo changes; news section loads its stories from the API (built-in stories if it can't be reached)
 - [ ] Replace static `news.js` / `gallery.js` imports with API calls (loading skeletons, error
       fallback that keeps the section from breaking)
 - [ ] Use `srcset` with the thumb / medium / large variants
@@ -66,11 +69,7 @@ Each phase ends with something that can be shown or tested.
 - [ ] Security checklist in [auth-and-security.md](auth-and-security.md#hardening-checklist)
 - [ ] Backups switched on and a restore tested
 - [ ] Production deploy, DNS for `admin.` / `api.` / `media.`
-- [ ] Run `npm run init` against production (indexes + first admin account)
-- [ ] **First content:** run `import-existing.js` against production so every photo the website shows
-      today (all news photos + the gallery) is uploaded to the R2 bucket and the stories / gallery
-      items are created — these are the first images in the bucket. Check the live site shows them
-      from `media.website.lk` before announcing the launch.
+- [ ] Run `npm run init` against production (indexes + first admin account + today's news stories)
 - [ ] Short guide for staff: "How to post a news story" (with screenshots)
 - [ ] Hand over admin accounts
 
@@ -92,7 +91,7 @@ Each phase ends with something that can be shown or tested.
 | Backend code structure | Express 5 + feature modules, zod, database sessions — see [backend-architecture.md](backend-architecture.md) |
 | Language | **JavaScript** (ES modules, JSDoc for types) for `server/`, `shared/` and the frontend — same as before |
 | Admin panel | Part of **Frontend-v2** (one build, one Cloudflare Pages project) served on `admin.website.lk`; **Tailwind CSS**, **light + dark mode** |
-| First images in R2 | The photos the website already uses (news + gallery) are moved into R2 by `import-existing.js` on the first production deploy |
+| First images in R2 | The photos the website already uses stay in the website (`/images/news/…`, the gallery's stock photos); R2 holds only photos uploaded in the admin panel |
 
 ## Open questions
 

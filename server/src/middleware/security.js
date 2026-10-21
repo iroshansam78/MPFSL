@@ -4,7 +4,7 @@ import { env } from '../config/env.js'
 import { forbidden } from '../lib/errors.js'
 
 // Routes the public website may call (read-only, no cookies).
-const PUBLIC_READ_PATHS = /^\/api\/(news|gallery|health)(\/|$)/
+const PUBLIC_READ_PATHS = /^\/api\/(news|site-photos|health)(\/|$)/
 
 // CORS rules per origin:
 // - admin panel: every route, with cookies

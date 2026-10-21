@@ -48,5 +48,14 @@ function toAppError(err) {
   if (err?.type === 'entity.too.large') return new AppError(413, 'PAYLOAD_TOO_LARGE', 'Request is too large')
   if (err?.type === 'entity.parse.failed') return new AppError(400, 'BAD_JSON', 'Request body is not valid JSON')
 
+  // Upload limits (from multer)
+  if (err?.name === 'MulterError') {
+    if (err.code === 'LIMIT_FILE_SIZE') return new AppError(413, 'FILE_TOO_LARGE', 'That photo is too large (15 MB at most)')
+    if (err.code === 'LIMIT_FILE_COUNT' || err.code === 'LIMIT_UNEXPECTED_FILE') {
+      return new AppError(400, 'TOO_MANY_FILES', 'Upload at most 10 photos at a time')
+    }
+    return new AppError(400, 'BAD_UPLOAD', 'The upload could not be read. Please try again.')
+  }
+
   return new AppError(500, 'INTERNAL', 'Something went wrong. Please try again.')
 }

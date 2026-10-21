@@ -32,12 +32,17 @@ const Env = z.object({
   // Login brute-force protection (per IP, per 15 minutes)
   LOGIN_RATE_LIMIT: z.coerce.number().int().positive().default(10),
 
-  // Cloudflare R2 — needed from Phase 2 (media uploads); optional until then
+  // Cloudflare R2 (photo storage). When all five are set, uploads go to R2. When any is missing,
+  // development stores photos on disk instead (LOCAL_UPLOADS_DIR); production turns uploads off.
   R2_ACCOUNT_ID: z.string().optional(),
   R2_ACCESS_KEY_ID: z.string().optional(),
   R2_SECRET_ACCESS_KEY: z.string().optional(),
   R2_BUCKET: z.string().optional(),
+  // Public address the bucket is served from, e.g. https://media.website.lk (or the bucket's r2.dev URL)
   MEDIA_BASE_URL: z.url().optional(),
+
+  // Development fallback when R2 isn't configured (relative to the server/ folder)
+  LOCAL_UPLOADS_DIR: z.string().default('.data/uploads'),
 })
 
 function loadEnv() {
@@ -48,7 +53,14 @@ function loadEnv() {
     const problems = result.error.issues.map((issue) => `  - ${issue.path.join('.')}: ${issue.message}`)
     throw new Error(`Invalid environment configuration:\n${problems.join('\n')}`)
   }
-  return result.data
+
+  const data = result.data
+  const r2Settings = ['R2_ACCOUNT_ID', 'R2_ACCESS_KEY_ID', 'R2_SECRET_ACCESS_KEY', 'R2_BUCKET', 'MEDIA_BASE_URL']
+  const missingR2 = r2Settings.filter((key) => !data[key])
+  // Production never stores photos on the server's disk (it isn't kept between deploys).
+  if (!missingR2.length) data.STORAGE_DRIVER = 'r2'
+  else data.STORAGE_DRIVER = data.NODE_ENV === 'production' ? 'none' : 'local'
+  return data
 }
 
 export const env = loadEnv()

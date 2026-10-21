@@ -5,7 +5,10 @@ import AccountPage from './pages/AccountPage.jsx'
 import ChangePasswordPage from './pages/ChangePasswordPage.jsx'
 import ComingSoonPage from './pages/ComingSoonPage.jsx'
 import DashboardPage from './pages/DashboardPage.jsx'
+import GalleryPage from './pages/gallery/GalleryPage.jsx'
 import LoginPage from './pages/LoginPage.jsx'
+import NewsEditorPage from './pages/news/NewsEditorPage.jsx'
+import NewsPage from './pages/news/NewsPage.jsx'
 import NotFoundPage from './pages/NotFoundPage.jsx'
 import UsersPage from './pages/users/UsersPage.jsx'
 
@@ -24,14 +27,10 @@ function AdminRoutes() {
         <Route element={<RequireAuth />}>
           <Route element={<AdminLayout />}>
             <Route index element={<DashboardPage />} />
-            <Route
-              path="news/*"
-              element={<ComingSoonPage title="News" description="Writing and publishing stories arrives with the news API (roadmap Phases 3–4)." />}
-            />
-            <Route
-              path="gallery/*"
-              element={<ComingSoonPage title="Gallery" description="Uploading and arranging gallery photos arrives with the gallery API (Phases 3–4)." />}
-            />
+            <Route path="news" element={<NewsPage />} />
+            <Route path="news/new" element={<NewsEditorPage />} />
+            <Route path="news/:id" element={<NewsEditorPage />} />
+            <Route path="gallery" element={<GalleryPage />} />
             <Route
               path="media/*"
               element={<ComingSoonPage title="Media library" description="The photo library arrives with uploads to Cloudflare R2 (Phase 2)." />}

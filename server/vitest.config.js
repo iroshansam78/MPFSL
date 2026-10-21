@@ -14,6 +14,8 @@ export default defineConfig({
       ADMIN_ORIGIN: 'http://admin.test',
       PUBLIC_ORIGINS: 'http://site.test',
       LOGIN_RATE_LIMIT: '1000',
+      // no R2 in tests: uploads go to this folder (removed after the media tests)
+      LOCAL_UPLOADS_DIR: '.data/test-uploads',
       // placeholder; tests/setup.js replaces it with the in-memory database
       MONGODB_URI: 'mongodb://placeholder',
     },
