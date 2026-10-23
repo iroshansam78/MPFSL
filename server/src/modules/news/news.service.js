@@ -103,6 +103,35 @@ async function removeUnused(before, after, actor) {
 }
 
 /**
+ * Uploads the photos that stories still take from the website (`src: '/images/news/…'`) to photo
+ * storage and points the stories at the uploaded copies. Safe to re-run: only `src` photos are done,
+ * and a file used by several stories is uploaded once.
+ * @param {(src: string) => Promise<Buffer>} readFile  reads a built-in photo by its `src`
+ * @param {(line: string) => void} [log]
+ * @returns {Promise<{ uploaded: number, stories: number }>}
+ */
+export async function uploadBuiltInPhotos(readFile, log = () => {}) {
+  const uploaded = new Map() // src → media id
+  let changedStories = 0
+
+  for (const story of await NewsStory.find({ 'images.src': { $exists: true, $ne: null } }).sort({ order: 1 })) {
+    for (const image of story.images.filter((i) => i.src)) {
+      if (!uploaded.has(image.src)) {
+        const media = await mediaService.createFromUpload({ buffer: await readFile(image.src), originalname: image.src.split('/').pop() }, image.alt, null)
+        uploaded.set(image.src, media._id)
+        log(`uploaded ${image.src}`)
+      }
+      image.media = uploaded.get(image.src)
+      image.src = undefined
+    }
+    await story.save()
+    changedStories++
+    log(`updated “${story.title}”`)
+  }
+  return { uploaded: uploaded.size, stories: changedStories }
+}
+
+/**
  * Copies the website's built-in stories into an empty database (once; `npm run init`).
  * @param {{ featured: object, stories: object[] }} news  builtInNews from Frontend-v2/src/data/news.js
  * @returns {Promise<number>} how many stories were added (0 if there already were some)

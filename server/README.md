@@ -90,7 +90,9 @@ npm run init -- --email you@example.com --name "Your Name"
 It (1) checks the database is reachable and supports transactions, (2) creates all indexes
 (unique emails, expiring sessions…), and (3) creates the first admin with a temporary password —
 only if no active admin exists yet, and (4) copies the website's built-in news stories into the
-database if it has none (after that, news is edited in the admin panel). Instead of the flags you can set `INITIAL_ADMIN_EMAIL` and
+database if it has none (after that, news is edited in the admin panel). Those stories first use
+the photos that ship with the website; once R2 is set up, `npm run upload-news-photos` moves them
+into the bucket (safe to re-run). Instead of the flags you can set `INITIAL_ADMIN_EMAIL` and
 `INITIAL_ADMIN_NAME`.
 
 In production the API does **not** build indexes on startup, so `npm run init` is required there

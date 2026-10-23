@@ -5,7 +5,7 @@ import { afterAll, beforeAll, beforeEach, describe, expect, it } from 'vitest'
 import { builtInNews } from '../../Frontend-v2/src/data/news.js'
 import { localUploadsDir } from '../src/lib/storage.js'
 import { Media } from '../src/modules/media/media.model.js'
-import { importBuiltIn } from '../src/modules/news/news.service.js'
+import { importBuiltIn, uploadBuiltInPhotos } from '../src/modules/news/news.service.js'
 import { ADMIN_ORIGIN, app, loginAs } from './helpers.js'
 
 let editor
@@ -58,6 +58,20 @@ describe('built-in stories', () => {
     expect(site.body.featured.feature.milestones).toHaveLength(3)
     expect(site.body.stories.map((story) => story.title)).toEqual(builtInNews.stories.map((story) => story.title))
     expect(site.body.stories[0].images[0].src).toMatch(/^\/images\/news\/.+\.jpg$/)
+  })
+
+  it('can have their photos moved into photo storage (once)', async () => {
+    await importBuiltIn(builtInNews)
+    const read = async () => photo
+    expect(await uploadBuiltInPhotos(read)).toEqual({ uploaded: 16, stories: 6 })
+    expect(await Media.countDocuments()).toBe(16)
+
+    const site = await request(app).get('/api/news')
+    expect(site.body.featured.images[0].src).toContain('/medium.webp')
+    expect(site.body.featured.images[0].alt).toBe(builtInNews.featured.images[0].alt)
+    expect(site.body.stories.flatMap((s) => s.images).every((i) => i.large)).toBe(true)
+
+    expect(await uploadBuiltInPhotos(read)).toEqual({ uploaded: 0, stories: 0 })
   })
 })
 

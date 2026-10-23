@@ -69,7 +69,8 @@ Each phase ends with something that can be shown or tested.
 - [ ] Security checklist in [auth-and-security.md](auth-and-security.md#hardening-checklist)
 - [ ] Backups switched on and a restore tested
 - [ ] Production deploy, DNS for `admin.` / `api.` / `media.`
-- [ ] Run `npm run init` against production (indexes + first admin account + today's news stories)
+- [ ] Run `npm run init` against production (indexes + first admin account + today's news stories),
+      then `npm run upload-news-photos` to move the stories' photos into R2
 - [ ] Short guide for staff: "How to post a news story" (with screenshots)
 - [ ] Hand over admin accounts
 
@@ -91,7 +92,7 @@ Each phase ends with something that can be shown or tested.
 | Backend code structure | Express 5 + feature modules, zod, database sessions — see [backend-architecture.md](backend-architecture.md) |
 | Language | **JavaScript** (ES modules, JSDoc for types) for `server/`, `shared/` and the frontend — same as before |
 | Admin panel | Part of **Frontend-v2** (one build, one Cloudflare Pages project) served on `admin.website.lk`; **Tailwind CSS**, **light + dark mode** |
-| First images in R2 | The photos the website already uses stay in the website (`/images/news/…`, the gallery's stock photos); R2 holds only photos uploaded in the admin panel |
+| First images in R2 | The news photos, moved by `npm run upload-news-photos`. The gallery's stock photos stay on Unsplash until replaced in the admin panel |
 
 ## Open questions
 
