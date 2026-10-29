@@ -4,13 +4,17 @@ The federation's public website, its staff admin panel, and the API behind them.
 
 | Part | Folder | Address (production) | Address (your computer) |
 |---|---|---|---|
-| Public website | `Frontend-v2/` | `website.lk` | http://localhost:5180 |
-| Admin panel (staff login) | `Frontend-v2/src/admin/` | `admin.website.lk` | http://admin.localhost:5180 |
-| API (Express + MongoDB) | `server/` | `api.website.lk` | http://localhost:8080/api |
+| Public website | `Frontend-v2/` | `mpfsl.lk` | http://localhost:5180 |
+| Admin panel (staff login) | `Frontend-v2/src/admin/` | `admin.mpfsl.lk` | http://admin.localhost:5180 |
+| API (Express + MongoDB) | `server/` | `api.mpfsl.lk` | http://localhost:8080/api |
 | Shared validation rules | `shared/` | — | — |
 
 The public site and the admin panel are **one app**: it shows the admin panel when the address starts
 with `admin.`. Plans and design decisions are in [`documentation/`](documentation/README.md).
+
+**Target: BestWeb.LK 2027** — Gold in Best Sports & Fitness Website. Targets, checklist and status:
+[`documentation/bestweb-2027.md`](documentation/bestweb-2027.md). Plan: [`bestweb-plan.md`](documentation/bestweb-plan.md).
+Record every change that moves a target in [`bestweb-log.md`](documentation/bestweb-log.md).
 
 ---
 

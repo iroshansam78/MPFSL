@@ -19,8 +19,194 @@
     />
     <!-- Sets light/dark before first paint, for both the public site and the admin panel -->
     <script src="/theme-init.js"></script>
+    <!--
+      Preloader styles. Inline so the preloader paints before any JavaScript or CSS file arrives
+      (the CSP allows inline styles, not inline scripts). Same dark look in both themes, because the
+      first thing it reveals is the dark hero. Removed by src/utils/preloader.js.
+    -->
+    <style>
+      .preloader {
+        position: fixed;
+        inset: 0;
+        z-index: 1000;
+        display: grid;
+        place-items: center;
+        color: #f3eee7;
+        background:
+          radial-gradient(60% 50% at 50% 42%, #8d153a59, transparent 70%),
+          radial-gradient(40% 35% at 80% 90%, #ffbe2914, transparent 70%),
+          #120f0d;
+        clip-path: inset(0 0 0 0);
+        transition: clip-path 0.75s cubic-bezier(0.7, 0, 0.2, 1);
+      }
+      /* Gold edge that follows the curtain up on exit */
+      .preloader::after {
+        content: '';
+        position: absolute;
+        inset: auto 0 0;
+        height: 3px;
+        background: linear-gradient(90deg, #ffbe29, #e8a400);
+        opacity: 0;
+        transition: opacity 0.2s;
+      }
+      .preloader.is-done {
+        clip-path: inset(0 0 100% 0);
+        pointer-events: none;
+      }
+      .preloader.is-done::after {
+        opacity: 1;
+      }
+      .preloader.is-done .pl-inner {
+        opacity: 0;
+        transform: translateY(-24px);
+      }
+      /* The admin panel doesn't use it (theme-init.js marks the admin host) */
+      :root[data-app='admin'] .preloader {
+        display: none;
+      }
+
+      .pl-inner {
+        display: grid;
+        justify-items: center;
+        gap: 22px;
+        width: min(320px, calc(100vw - 48px));
+        transition:
+          opacity 0.35s,
+          transform 0.5s cubic-bezier(0.7, 0, 0.2, 1);
+      }
+      .pl-logo {
+        width: 116px;
+        height: auto;
+        filter: drop-shadow(0 10px 30px #8d153a80);
+        animation: pl-breathe 2.4s ease-in-out infinite;
+      }
+      .pl-title {
+        margin: 0;
+        font: italic 800 26px/1 'Barlow Condensed', 'Arial Narrow', Impact, sans-serif;
+        line-height: 1.05;
+        letter-spacing: 0.02em;
+        text-transform: uppercase;
+        text-align: center;
+      }
+      .pl-title span {
+        display: block;
+      }
+      .pl-title em {
+        color: #ffbe29;
+      }
+
+      /* Five segments, one per discipline; a coloured fill sweeps across them */
+      .pl-bar {
+        position: relative;
+        width: 100%;
+      }
+      .pl-track,
+      .pl-fill {
+        display: flex;
+        gap: 6px;
+        height: 5px;
+      }
+      .pl-track span,
+      .pl-fill span {
+        flex: 1;
+        border-radius: 3px;
+      }
+      .pl-track span {
+        background: #ffffff1a;
+      }
+      .pl-fill {
+        position: absolute;
+        inset: 0;
+        animation: pl-sweep 2.4s linear infinite;
+      }
+      .pl-fill span:nth-child(1) { background: #5ec8ff; box-shadow: 0 0 12px #5ec8ff99; }
+      .pl-fill span:nth-child(2) { background: #00d1b2; box-shadow: 0 0 12px #00d1b299; }
+      .pl-fill span:nth-child(3) { background: #ff7a1a; box-shadow: 0 0 12px #ff7a1a99; }
+      .pl-fill span:nth-child(4) { background: #ff4d68; box-shadow: 0 0 12px #ff4d6899; }
+      .pl-fill span:nth-child(5) { background: #b6ff3b; box-shadow: 0 0 12px #b6ff3b99; }
+
+      /* Discipline name under the bar, in step with the sweep (0.48 s each) */
+      .pl-words {
+        position: relative;
+        height: 16px;
+        width: 100%;
+        overflow: hidden;
+        font: 600 12px/16px 'DM Sans', system-ui, sans-serif;
+        letter-spacing: 0.28em;
+        text-transform: uppercase;
+        text-align: center;
+        color: #b4aa9f;
+      }
+      .pl-words span {
+        position: absolute;
+        inset: 0;
+        opacity: 0;
+        animation: pl-word 2.4s linear infinite;
+      }
+      .pl-words span:nth-child(2) { animation-delay: 0.48s; }
+      .pl-words span:nth-child(3) { animation-delay: 0.96s; }
+      .pl-words span:nth-child(4) { animation-delay: 1.44s; }
+      .pl-words span:nth-child(5) { animation-delay: 1.92s; }
+
+      .pl-sr {
+        position: absolute;
+        width: 1px;
+        height: 1px;
+        overflow: hidden;
+        clip: rect(0 0 0 0);
+        white-space: nowrap;
+      }
+
+      @keyframes pl-sweep {
+        0% { clip-path: inset(0 100% 0 0); opacity: 1; }
+        96% { clip-path: inset(0 0 0 0); opacity: 1; }
+        100% { clip-path: inset(0 0 0 0); opacity: 0; }
+      }
+      @keyframes pl-word {
+        0% { opacity: 0; transform: translateY(110%); }
+        4%, 17% { opacity: 1; transform: none; }
+        20%, 100% { opacity: 0; transform: translateY(-110%); }
+      }
+      @keyframes pl-breathe {
+        50% { transform: scale(1.04); }
+      }
+
+      @media (prefers-reduced-motion: reduce) {
+        .preloader,
+        .pl-inner {
+          transition: opacity 0.3s;
+        }
+        .preloader.is-done {
+          clip-path: none;
+          opacity: 0;
+        }
+        .pl-logo,
+        .pl-fill,
+        .pl-words span {
+          animation: none;
+        }
+        .pl-words span:first-child {
+          opacity: 1;
+        }
+      }
+    </style>
+    <noscript><style>.preloader { display: none; }</style></noscript>
   </head>
   <body>
+    <div class="preloader" id="preloader" role="status">
+      <div class="pl-inner">
+        <img class="pl-logo" src="/src/assets/images/logo-dark.png" alt="" width="231" height="180" />
+        <p class="pl-title" aria-hidden="true"><span>Five disciplines.</span> <span><em>One</em> champion.</span></p>
+        <div class="pl-bar" aria-hidden="true">
+          <div class="pl-track"><span></span><span></span><span></span><span></span><span></span></div>
+          <div class="pl-fill"><span></span><span></span><span></span><span></span><span></span></div>
+        </div>
+        <div class="pl-words" aria-hidden="true">
+          <span>Fencing</span><span>Swimming</span><span>Obstacle</span><span>Shooting</span><span>Running</span>
+        </div>
+        <span class="pl-sr">Loading the Modern Pentathlon Federation of Sri Lanka website…</span>
+      </div>
+    </div>
     <div id="root"></div>
     <script type="module" src="/src/main.jsx"></script>
   </body>

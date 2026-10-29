@@ -29,7 +29,7 @@ export async function apiFetch(path, { method = 'GET', body, signal } = {}) {
   try {
     response = await fetch(`${API_URL}${path}`, {
       method,
-      credentials: 'include', // send the session cookie to api.website.lk
+      credentials: 'include', // send the session cookie to api.mpfsl.lk
       headers: body !== undefined && !isForm ? { 'Content-Type': 'application/json' } : undefined,
       body: body === undefined || isForm ? body : JSON.stringify(body),
       signal,

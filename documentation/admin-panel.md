@@ -1,7 +1,7 @@
-# Admin Panel (`admin.website.lk`)
+# Admin Panel (`admin.mpfsl.lk`)
 
 Part of the same frontend as the public site: `Frontend-v2/src/admin/`. One build is served on both
-`website.lk` and `admin.website.lk`; the admin panel loads only on the `admin.` address, as a separate
+`mpfsl.lk` and `admin.mpfsl.lk`; the admin panel loads only on the `admin.` address, as a separate
 chunk with its own styles, so public visitors never download it. Uses the brand colours (navy,
 maroon, gold) in a plain, functional layout — usability over looks.
 

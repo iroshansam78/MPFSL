@@ -1,0 +1,244 @@
+# BestWeb.LK 2027 — Targets & Tracker
+
+The plan for entering **mpfsl.lk** in BestWeb.LK 2027. It turns the
+[Competition Readiness Review](MPFSL_BestWeb_2027_Competition_Readiness_Review.pdf) (October 2026)
+into tasks, and records where the site stands today. What we do next and when:
+[bestweb-plan.md](bestweb-plan.md). What we've done: [bestweb-log.md](bestweb-log.md). When a row's
+status changes here, add an entry to the log.
+
+| | |
+|---|---|
+| Category | **Best Sports & Fitness Website** (primary). Also: Best Mobile User Experience, Most Popular Website, overall awards |
+| Goal | Gold in Best Sports & Fitness Website |
+| Internal target | **135+ / 150**, with no avoidable penalties |
+| Positioning | *"The Digital Home of Modern Pentathlon in Sri Lanka."* |
+| Hero message | *"Modern Pentathlon Sri Lanka — Building Champions. Inspiring Excellence."* |
+| Domain | `mpfsl.lk` (live). `admin.`, `api.` and `media.` are subdomains of it |
+
+> The targets are our own, not official BestWeb cut-offs. Re-check the official 2027 dates, rules and
+> scoring when the competition is announced.
+
+## Score targets
+
+| Area | Max | Target | Priority | Owner | Target date | Details |
+|---|---|---|---|---|---|---|
+| Technical | 30 | 28+ | Critical | | | [Technical](#technical--30) |
+| Performance | 20 | 18+ | Critical | | | [Performance](#performance--20) |
+| Design | 20 | 19+ | High | | | [Design](#design--ux--20) |
+| Content | 30 | 28+ | Critical | | | [Content](#content--30) |
+| Security | 20 | 19+ | Critical | | | [Security](#security--20) |
+| Bonus | 30 | 25+ | High | | | [Innovation](#innovation--bonus--30) |
+| **Total** | **150** | **135+** | | | | |
+
+**Status key:** ✅ done · 🟡 partly done · ❌ not started · ❓ not checked yet · 🏛 needs the federation (content, decisions, photos)
+
+The review asks for an **owner and target date for every item** before submission. Fill in the
+owner per area above; add a name to individual rows where someone else is responsible.
+
+## Site structure (target)
+
+The site must grow from one scrolling home page into a set of real pages, each with its own address,
+title and description (see [architecture.md](architecture.md#public-site-pages)).
+
+| Area | Sections | Today |
+|---|---|---|
+| Home | Hero (review's suggested message: *"Building Champions. Inspiring Excellence."*; today: *"Five disciplines. One champion."*) → federation stats → latest achievement → upcoming competitions → featured athletes → latest news → international pathway → gallery → newsletter / contact | 🟡 Hero, About, Programmes, News, Gallery, Stats, Contact |
+| About MPFSL | History, vision, mission, executive & technical committees, coaches, officials, affiliations, governance | 🟡 short About section |
+| Modern Pentathlon | The sport, five disciplines, rules, equipment, beginner guide | ❌ |
+| Athletes | National / junior / women's / men's teams, profiles, rankings, achievements | ❌ |
+| Competitions | Calendar, national championships, Laser Run, Biathle/Triathle, international events, registration, results | ❌ |
+| International | UIPM, Asian competitions, World Championships / Cups, Asian Games, achievements | 🟡 inside the featured news story |
+| News & Media | News, press releases, photo and video galleries, media coverage, downloads | 🟡 news + photo gallery |
+| Development | Youth, schools, talent identification, coaching, officials, athlete pathway | 🟡 Programmes section |
+| Results & Statistics | Results explorer, national rankings, records, athlete statistics | ❌ |
+| Resources | Rules, regulations, circulars, forms, policies, downloads | ❌ |
+| Contact | Contact form, address, phone, email, map, social media | 🟡 email + Facebook only |
+
+## Technical — 30
+
+| Item | Status | Notes |
+|---|---|---|
+| All pages and links work | 🟡 | X, YouTube and Instagram links in `Frontend-v2/src/data/site.js` are placeholders (search pages / `instagram.com/`) |
+| No placeholder or unfinished content | 🟡 | same social links; Contact lists `mpfsl.net` instead of `mpfsl.lk` |
+| Site search | ❌ | |
+| XML sitemap, `robots.txt`, clean URLs | ❌ | needs real pages ([architecture.md](architecture.md#public-site-pages)) |
+| Canonical URLs + structured data | ❌ | see [SEO & accessibility](#seo--accessibility) |
+| Breadcrumbs on deep pages | ❌ | |
+| Proper 404 page | ❌ | Pages currently serves `index.html` for every path |
+| Contact form with validation + spam protection | ❌ | Cloudflare Turnstile + API rate limit |
+| Privacy and cookie policy | ❌ 🏛 | |
+| Responsive on current desktop / tablet / mobile browsers | 🟡 | layout is responsive; needs a recorded device test |
+| Heading order, labels, focus states, keyboard use | 🟡 | skip link exists; needs an audit |
+| No console errors on key pages | ❓ | check before submission |
+
+## Performance — 20
+
+Internal targets: Lighthouse **90+ on mobile and desktop**, LCP < 2.5 s, CLS < 0.1, TBT < 200 ms.
+
+| Item | Status | Notes |
+|---|---|---|
+| Hero is light on phones | 🟡 | a still photo already shows first and the WebGL slideshow fades in over it. But the WebGL code (`HeroCanvas` + `loadSlides`: ~920 KB minified, ~250 KB gzipped) plus the slide textures still download on every device. Skip WebGL on small screens, slow connections (`navigator.connection.saveData` / `effectiveType`) and reduced motion; serve the still photo in a phone-sized version |
+| Preloader doesn't delay the page | 🟡 | added Oct 2026 (`index.html` + `src/utils/preloader.js`): pure HTML/CSS, lifts once the hero photo and fonts are ready, at least 0.9 s on a first visit only, never more than 2.5 s. Check in Lighthouse that LCP stays < 2.5 s; shorten or drop the minimum if it doesn't |
+| Images in WebP/AVIF, right size | 🟡 | the API makes WebP in 3 sizes; the public site still uses 80–400 KB JPEGs and doesn't use `srcset` |
+| Lazy-load images below the fold | ✅ | `SafeImage` uses `loading="lazy"` |
+| Minified CSS/JS, no unused code | 🟡 | Vite minifies; the admin panel is a separate chunk. Remove what's unused |
+| Fonts: few families/weights | 🟡 | 3 families, many weights from Google Fonts. Cut weights; host them ourselves |
+| CDN + caching | 🟡 | Cloudflare Pages + R2. Add long cache headers for hashed assets |
+| No large autoplay videos / huge hero images | 🟡 | no videos; hero photos come from Unsplash at 2400 px on every screen size |
+| Tested on real phones on Sri Lankan mobile networks | ❌ | |
+
+### Measurements
+
+Run Lighthouse (mobile + desktop, incognito) on the home page and one deep page, plus
+securityheaders.com and the SSL Labs test, and log the results here.
+
+| Date | Page | Mobile | Desktop | LCP | CLS | TBT | Headers grade | SSL Labs |
+|---|---|---|---|---|---|---|---|---|
+| | `/` | not measured | | | | | | |
+
+## Design & UX — 20
+
+| Item | Status | Notes |
+|---|---|---|
+| Strong, consistent MPFSL identity | ✅ | logo, colour tokens, light/dark mode |
+| Branded first impression | ✅ | preloader: logo, "Five disciplines. One champion.", a five-colour bar naming each discipline in turn, curtain-lift into the hero; still version for reduced motion |
+| Clear navigation and page hierarchy | 🟡 | will change once real pages exist |
+| Typography and readable body text | ✅ | |
+| Real Sri Lankan sports photography | 🟡 🏛 | news uses federation photos; hero and gallery still use Unsplash stock photos |
+| Consistent cards, buttons, icons, spacing | ✅ | |
+| Clear calls to action | 🟡 | add "Get involved", "Register", "See results" |
+| Mobile-first, touch-friendly | 🟡 | |
+| Professional photo and video galleries | 🟡 | photo gallery + lightbox; no video yet |
+| Colour contrast and visible focus | 🟡 | audit both themes |
+| Athletes and competitions reachable in a few clicks | ❌ | those pages don't exist yet |
+
+## Content — 30
+
+Mostly 🏛: the federation writes or provides it, and the developers build the pages and admin screens.
+
+| Item | Status |
+|---|---|
+| Full history, vision and mission | 🟡 |
+| Current executive and other committees | ❌ 🏛 |
+| Current athletes, coaches and officials | ❌ 🏛 |
+| Competition calendar + past results | ❌ 🏛 |
+| National rankings and records (if officially kept) | ❌ 🏛 |
+| Regular news and press releases | ✅ admin panel |
+| International participation and achievements | 🟡 |
+| Asian Games pathway and other milestones | 🟡 featured story |
+| World Cup / World Championship stories | ❌ 🏛 |
+| Photo and video galleries | 🟡 |
+| Rules, regulations, policies, downloads | ❌ 🏛 |
+| Beginner guide: how to become a modern pentathlete | ❌ 🏛 |
+| Proof-read grammar and spelling | ❌ 🏛 |
+| Own SEO title + description on every important page | ❌ |
+| Alt text on images | ✅ required in the admin panel |
+| Visible publication / update dates | 🟡 news only |
+
+## Security — 20
+
+The API's protection is already strong; the open items are mostly launch work. Full list:
+[auth-and-security.md](auth-and-security.md#hardening-checklist).
+
+| Item | Status | Notes |
+|---|---|---|
+| HTTPS everywhere, modern TLS | 🟡 | Cloudflare; set minimum TLS 1.2, "Always Use HTTPS" |
+| HSTS | ❌ | turn on in Cloudflare once all subdomains are HTTPS |
+| WAF / DDoS protection | 🟡 | Cloudflare proxy; enable managed WAF rules and bot fight mode |
+| Security headers + CSP | 🟡 | API ✅ (`helmet`); admin panel planned; **public site still needs them** ([deployment.md](deployment.md#security-headers)) |
+| OWASP Top 10 review | ❌ | write up results before submission |
+| Admin access hardened | ✅ | argon2id, account lockout, forced password change, sessions in the database, audit log |
+| MFA for admins | ❌ | TOTP — moved up from "nice to have" |
+| Rate limiting on forms and login | 🟡 | login + API ✅; contact / newsletter forms when built |
+| Secure cookies and sessions | ✅ | `HttpOnly`, `Secure`, `SameSite=Lax` |
+| File uploads checked and restricted | ✅ | size limit, real type check with sharp, no SVG, EXIF removed |
+| Dependency updates + vulnerability alerts | ❌ | `npm audit` in CI, Dependabot |
+| Automatic backups, restore tested | ❌ | |
+| Security monitoring + incident contacts | ❌ 🏛 | name who to contact |
+
+## Innovation & Bonus — 30
+
+Only build what's genuinely useful to visitors. Ordered by value to effort.
+
+| Feature | Status | Notes |
+|---|---|---|
+| Athlete search + profiles | ❌ | core of the "results platform" idea |
+| Results explorer (by year, competition, gender, age group, athlete) | ❌ | |
+| National rankings (with method + last-updated date) | ❌ | |
+| Interactive guide to the five disciplines | ❌ | could reuse the WebGL hero work |
+| Digital Hall of Fame / timeline | 🟡 | featured-story milestones are a start |
+| Newsletter sign-up | ❌ | |
+| Competition reminders / notifications | ❌ | |
+| Sinhala version (human-checked) | 🟡 | Sinhala font + federation name already in |
+| Tamil version (human-checked) | ❌ | |
+| AI assistant answering from approved MPFSL content only | ❌ | |
+| Smart search with filters | ❌ | |
+| PWA (installable, offline) | ❌ | only if it really helps |
+| Video stories and athlete interviews | ❌ 🏛 | |
+| 360° / immersive views, voice search | — | only if budget and quality allow |
+
+## SEO & accessibility
+
+| Item | Status |
+|---|---|
+| Unique title + meta description per page | ❌ (one for the whole site) |
+| Open Graph / social preview tags | ❌ |
+| `SportsOrganization` schema | ❌ |
+| `Event` schema (competitions), `Article` (news), `Person` (athletes), `BreadcrumbList` | ❌ |
+| Sitemap submitted; Google Search Console set up | ❌ |
+| Pages readable without JavaScript (pre-rendered) | ❌ — today crawlers get an empty `<div id="root">` |
+| Keyboard navigation (WCAG) | 🟡 |
+| Alt text on informative images | ✅ |
+| Captions / transcripts for videos | — (no videos yet) |
+| Form labels + accessible error messages | 🟡 admin panel ✅; public forms when built |
+| Skip-to-content link | ✅ |
+
+## Governance, trust & compliance (🏛)
+
+| Item | Status |
+|---|---|
+| Constitution / governance information | ❌ |
+| Selection criteria and regulations | ❌ |
+| Athlete safeguarding and welfare | ❌ |
+| Anti-doping information and official links | ❌ |
+| Complaints / contact process | ❌ |
+| Privacy policy | ❌ |
+| Cookie policy + consent (if any non-essential cookies are used) | ❌ |
+| Copyright / photo permissions recorded | 🟡 Unsplash credits in footer; federation photos need a record |
+| Clear ownership and official contact details | 🟡 |
+| No copied articles or images without permission | 🟡 |
+
+## Phases
+
+The build phases are in [roadmap.md](roadmap.md#bestweblk-2027). In short:
+
+1. **Foundation** — quick fixes, public-site security headers, SEO files, real pages + pre-rendering, performance.
+2. **Content platform** — athletes, competitions + calendar, results, rankings, resources, governance pages.
+3. **Innovation** — results explorer, interactive pentathlon guide, Hall of Fame, newsletter, Sinhala/Tamil, AI assistant.
+4. **Competition** — Lighthouse + accessibility + security reviews → TopWeb.LK feedback → fix findings
+   → BestWeb.LK submission → fair public-voting campaign.
+
+## Before submitting
+
+**Eligibility**
+- [x] `mpfsl.lk` is a valid `.lk` domain serving the site directly (no redirect elsewhere)
+- [ ] Organisation and contact details on the application are correct 🏛
+- [ ] Category: Best Sports & Fitness Website
+- [ ] Registered and fee paid once the 2027 process opens 🏛
+
+**Technical:** all links · all forms · search · 404 · sitemap + robots.txt · structured data (Rich Results Test) · responsive layout · accessibility smoke test
+
+**Performance:** mobile ≥ 90 · desktop ≥ 90 · Core Web Vitals checked · images optimised · caching/CDN checked · no console or network errors
+
+**Design:** homepage · navigation · mobile UX · brand consistency · photo and media quality
+
+**Content:** key federation pages · athlete profiles · results · calendar · current news · international achievements · rules/policies/resources · proof-read
+
+**Security:** HTTPS/TLS · security headers (securityheaders.com) · WAF/DDoS · OWASP review · admin accounts hardened · backups tested · dependency review
+
+**Bonus:** multilingual · smart search or AI assistant · interactive results/rankings · interactive pentathlon guide · notifications/newsletter · Hall of Fame · at least one feature that's truly distinctive
+
+## Public voting
+
+If MPFSL reaches the public vote, campaign through athletes, coaches, parents, schools, clubs,
+supporters and the official social channels. **No bots, fake accounts or duplicate votes.**

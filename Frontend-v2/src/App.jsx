@@ -1,5 +1,5 @@
 import { useCallback, useState } from 'react'
-// Public-site styles (loaded only on website.lk — the admin panel has its own, see src/main.jsx)
+// Public-site styles (loaded only on mpfsl.lk — the admin panel has its own, see src/main.jsx)
 import './styles/variables.css'
 import './styles/global.css'
 import Header from './components/layout/Header/Header.jsx'

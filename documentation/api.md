@@ -1,6 +1,6 @@
 # API (Express)
 
-Base URL: `https://api.website.lk/api`
+Base URL: `https://api.mpfsl.lk/api`
 
 - JSON in, JSON out. Image uploads use `multipart/form-data`.
 - Errors: `{ "error": { "code": "VALIDATION_ERROR", "message": "…", "fields": { "title": "Required" } } }`

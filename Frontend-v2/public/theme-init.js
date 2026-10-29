@@ -13,4 +13,6 @@
     theme = window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light'
   }
   document.documentElement.dataset.theme = theme
+  // Lets index.html hide the public site's preloader on the admin panel (same check as src/main.jsx)
+  if (window.location.hostname.indexOf('admin.') === 0) document.documentElement.dataset.app = 'admin'
 })()

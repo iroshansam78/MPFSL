@@ -12,8 +12,8 @@
   |---|---|---|
   | `HttpOnly` | yes | JavaScript can't read it (protects against stolen tokens via XSS) |
   | `Secure` | yes | HTTPS only |
-  | `SameSite` | `Lax` | `admin.website.lk` and `api.website.lk` are the same *site*, so the cookie is still sent |
-  | `Domain` | `api.website.lk` (default, don't widen) | only the API ever sees it |
+  | `SameSite` | `Lax` | `admin.mpfsl.lk` and `api.mpfsl.lk` are the same *site*, so the cookie is still sent |
+  | `Domain` | `api.mpfsl.lk` (default, don't widen) | only the API ever sees it |
   | Lifetime | 8 hours, sliding; "remember me" up to 14 days | |
 
 - The admin panel calls the API with `fetch(url, { credentials: 'include' })`.
@@ -47,29 +47,49 @@ Enforced **on the API** (`requireRole('admin')`); the admin panel only hides but
 
 - `SameSite=Lax` cookies already block cross-site form posts.
 - In addition, for every non-GET request the API checks the `Origin` header is
-  `https://admin.website.lk` (or the dev origin) and rejects anything else.
+  `https://admin.mpfsl.lk` (or the dev origin) and rejects anything else.
 
 ## CORS
 
 | Origin | Allowed |
 |---|---|
-| `https://website.lk` (and `www.`) | public `GET` routes only, no credentials |
-| `https://admin.website.lk` | all routes, `credentials: true` |
+| `https://mpfsl.lk` (and `www.`) | public `GET` routes only, no credentials |
+| `https://admin.mpfsl.lk` | all routes, `credentials: true` |
 | `http://localhost:5173` etc. | development only |
 
 ## Hardening checklist
 
-- [ ] `helmet()` with a strict Content-Security-Policy on the admin panel's host
-- [ ] Validate every request body with zod; reject unknown fields
-- [ ] Mongo queries only via Mongoose models with validated input (no raw `req.body` in queries — prevents NoSQL injection)
-- [ ] File uploads: size limits, real-type check with sharp, no SVG, EXIF stripped (see [media-storage-r2.md](media-storage-r2.md))
-- [ ] Error responses never include stack traces in production
-- [ ] Secrets only in environment variables; `.env` files git-ignored; separate dev and prod R2 buckets / databases
+Security is worth **20 points** in BestWeb.LK 2027 (target 19+, see
+[bestweb-2027.md](bestweb-2027.md#security--20)). Judges can check the public site from outside
+(HTTPS, TLS, headers), so those items matter as much as the API.
+
+### API (done in code)
+
+- [x] `helmet()` on the API with a strict Content-Security-Policy (`default-src 'none'`)
+- [x] Validate every request body with zod; reject unknown fields (strict schemas in `shared/`)
+- [x] Mongo queries only via Mongoose models with validated input (no raw `req.body` in queries — prevents NoSQL injection)
+- [x] File uploads: size limits, real-type check with sharp, no SVG, EXIF stripped (see [media-storage-r2.md](media-storage-r2.md))
+- [x] Error responses never include stack traces (generic message for unexpected errors)
+- [x] Express `trust proxy` set (Railway runs behind a proxy) so secure cookies and rate limits work
+- [x] Rate limiting on login and the whole API; per-account lockout
+- [x] Log logins, failed logins, publishes and deletions (who + when) in an `auditlog` collection
+- [x] Secrets only in environment variables; `.env` files git-ignored
+
+### Hosting and launch
+
+- [ ] Separate dev and prod R2 buckets / databases
 - [ ] MongoDB Atlas: database user with access to this DB only; IP access list = Railway static outbound IPs (see [deployment.md](deployment.md#railway-setup-api))
-- [ ] Express `trust proxy` set (Railway runs behind a proxy) so secure cookies and rate limits work
 - [ ] R2 token scoped to the one bucket
-- [ ] HTTPS everywhere (Cloudflare), HSTS on
-- [ ] Log logins, failed logins, publishes and deletions (who + when) in an `auditlog` collection
-- [ ] Daily MongoDB backups (Atlas backup or `mongodump` to a separate R2 bucket)
-- [ ] `npm audit` in CI; keep dependencies updated
-- [ ] Optional later: two-factor login (TOTP) for admins
+- [ ] Cloudflare: Always Use HTTPS, minimum TLS 1.2 (TLS 1.3 on), HSTS on (include subdomains once `admin.`, `api.`, `media.` are all HTTPS)
+- [ ] Cloudflare WAF managed rules, bot fight mode, DDoS protection on
+- [ ] Security headers on the **public site** as well as the admin panel (see [deployment.md](deployment.md#security-headers)); grade A on securityheaders.com
+- [ ] Daily MongoDB backups (Atlas backup or `mongodump` to a separate R2 bucket), **and a restore tested** — record the date
+- [ ] `npm audit` in CI + Dependabot alerts; keep dependencies updated
+
+### Before BestWeb submission
+
+- [ ] Two-factor login (TOTP) for every admin and editor account
+- [ ] Turnstile (Cloudflare CAPTCHA) + rate limiting on public forms (contact, newsletter)
+- [ ] OWASP Top 10 review written up, findings fixed
+- [ ] Incident contacts named (who is told, who can take the site down, who talks to the federation)
+- [ ] Review admin accounts: remove unused ones, check roles

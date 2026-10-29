@@ -1,7 +1,7 @@
 import { isProduction } from '../../config/env.js'
 
 // In production the "__Host-" prefix makes browsers enforce Secure, Path=/ and no Domain,
-// so the cookie can only ever belong to api.website.lk over HTTPS.
+// so the cookie can only ever belong to api.mpfsl.lk over HTTPS.
 export const SESSION_COOKIE = isProduction ? '__Host-mpfsl_session' : 'mpfsl_session'
 
 const baseOptions = () => ({

@@ -5,8 +5,8 @@ One build serves both addresses:
 
 | Address | Shows | Code |
 |---|---|---|
-| `website.lk` | public site | `src/App.jsx`, `src/sections/`, `src/components/`… (plain CSS) |
-| `admin.website.lk` | admin panel (staff login) | `src/admin/` (Tailwind) |
+| `mpfsl.lk` | public site | `src/App.jsx`, `src/sections/`, `src/components/`… (plain CSS) |
+| `admin.mpfsl.lk` | admin panel (staff login) | `src/admin/` (Tailwind) |
 
 `src/main.jsx` checks the hostname and loads one or the other as a separate chunk with its own CSS,
 so public visitors never download admin code. Version 1 (the dark 3D scroll "race") is kept in
@@ -62,7 +62,7 @@ Deployment (one Cloudflare Pages project, both domains, admin-only headers):
 src/
 ├── main.jsx               # picks public site or admin panel by hostname
 ├── App.jsx                # public site: header, page, footer, lightbox (+ its CSS)
-├── admin/                 # admin panel (Tailwind) — only loaded on admin.website.lk
+├── admin/                 # admin panel (Tailwind) — only loaded on admin.mpfsl.lk
 ├── assets/images/         # logo + federation photos
 ├── data/                  # ALL site content: text, links, news, photo lists
 │   ├── photos.js          #   federation photos (local)

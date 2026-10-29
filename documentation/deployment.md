@@ -4,10 +4,10 @@
 
 | Part | Where | Why |
 |---|---|---|
-| Public site (`website.lk`) **and** admin panel (`admin.website.lk`) | **One Cloudflare Pages project** building `Frontend-v2/`, with both custom domains attached | one static build serves both; the app picks public site vs admin panel by hostname (see [architecture.md](architecture.md)) |
-| API (`api.website.lk`) | **Railway** (decided), Node 22 LTS | git push to deploy, HTTPS included; Express + Mongoose + sharp need a normal Node server (Cloudflare Workers don't support them well) |
+| Public site (`mpfsl.lk`) **and** admin panel (`admin.mpfsl.lk`) | **One Cloudflare Pages project** building `Frontend-v2/`, with both custom domains attached | one static build serves both; the app picks public site vs admin panel by hostname (see [architecture.md](architecture.md)) |
+| API (`api.mpfsl.lk`) | **Railway** (decided), Node 22 LTS | git push to deploy, HTTPS included; Express + Mongoose + sharp need a normal Node server (Cloudflare Workers don't support them well) |
 | Database | **MongoDB Atlas** (M0 free to start, M10 once live for backups) | managed, backups, choose the Singapore or Mumbai region (closest to Sri Lanka) |
-| Images | **Cloudflare R2** + custom domain `media.website.lk` | free egress, Cloudflare cache |
+| Images | **Cloudflare R2** + custom domain `media.mpfsl.lk` | free egress, Cloudflare cache |
 
 `Frontend/` (version 1) is not deployed. The API is a plain Node app, so it can move from Railway to
 a VPS later without code changes.
@@ -19,22 +19,60 @@ a VPS later without code changes.
 | Root directory | *(repo root — needed for the npm workspaces)* |
 | Build command | `npm ci && npm run build --workspace frontend-v2` |
 | Output directory | `Frontend-v2/dist` |
-| Environment variable | `VITE_API_URL=https://api.website.lk/api` |
-| Custom domains | `website.lk`, `www.website.lk` **and** `admin.website.lk` — all on this one project |
-| SPA routing | nothing to set up: with no `404.html`, Pages serves `index.html` for every path |
+| Environment variable | `VITE_API_URL=https://api.mpfsl.lk/api` |
+| Custom domains | `mpfsl.lk`, `www.mpfsl.lk` **and** `admin.mpfsl.lk` — all on this one project |
+| Routing | today: no `404.html`, so Pages serves `index.html` for every path. Once pages are pre-rendered ([architecture.md](architecture.md#public-site-pages)) the build outputs one HTML file per page plus a real `404.html`, so unknown URLs return status 404 |
 
-**Admin-only security headers.** Pages' `_headers` file matches paths, not hostnames, so the strict
-headers for the admin panel are added with a Cloudflare **Transform Rule** (Rules → Transform Rules →
-Modify Response Header) for requests where *Hostname equals `admin.website.lk`*:
+## Security headers
+
+Judged in BestWeb.LK (Security, 20 points). Target: **grade A on securityheaders.com** for both
+`mpfsl.lk` and `admin.mpfsl.lk`.
+
+**Cloudflare (SSL/TLS settings, whole zone):** Full (strict) mode, Always Use HTTPS, minimum TLS 1.2,
+TLS 1.3 on, HSTS on (`max-age=31536000; includeSubDomains` once every subdomain is HTTPS; add
+`preload` only after that has run without problems), WAF managed rules and bot fight mode on.
+
+**Public site (`mpfsl.lk`)**: a `Frontend-v2/public/_headers` file, applied by Pages to every path:
+
+```
+/*
+  X-Content-Type-Options: nosniff
+  Referrer-Policy: strict-origin-when-cross-origin
+  Permissions-Policy: camera=(), microphone=(), geolocation=()
+  X-Frame-Options: SAMEORIGIN
+  Content-Security-Policy: default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data: blob: https://media.mpfsl.lk https://images.unsplash.com; connect-src 'self' https://api.mpfsl.lk; frame-ancestors 'self'; base-uri 'self'; form-action 'self'
+
+/assets/*
+  Cache-Control: public, max-age=31536000, immutable
+```
+
+Pre-rendered pages include JSON-LD in `<script type="application/ld+json">`; that's data, not
+script, so it doesn't need `unsafe-inline`. Remove `images.unsplash.com` once the stock photos are
+replaced, and add any video host (e.g. `https://www.youtube-nocookie.com` in `frame-src`) when videos
+are added.
+
+**Admin panel (`admin.mpfsl.lk`).** Pages' `_headers` file matches paths, not hostnames, so the
+stricter admin headers are added with a Cloudflare **Transform Rule** (Rules → Transform Rules →
+Modify Response Header) for requests where *Hostname equals `admin.mpfsl.lk`*:
 
 | Header | Value |
 |---|---|
 | `X-Robots-Tag` | `noindex, nofollow` |
 | `X-Frame-Options` | `DENY` |
-| `Content-Security-Policy` | `default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src 'self' data: blob: https://media.website.lk https://images.unsplash.com; connect-src 'self' https://api.website.lk; frame-ancestors 'none'; base-uri 'self'; form-action 'self'` |
+| `Content-Security-Policy` | `default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src 'self' data: blob: https://media.mpfsl.lk https://images.unsplash.com; connect-src 'self' https://api.mpfsl.lk; frame-ancestors 'none'; base-uri 'self'; form-action 'self'` |
 | `Referrer-Policy` | `same-origin` |
 
 (The theme script is a file, `public/theme-init.js`, not inline, so `script-src 'self'` is enough.)
+
+## Search engines
+
+- `robots.txt` and `sitemap.xml` are generated by the build into `Frontend-v2/dist`. `robots.txt`
+  points to `https://mpfsl.lk/sitemap.xml`; the admin panel sends `X-Robots-Tag: noindex` (above).
+- Add `mpfsl.lk` to **Google Search Console** and **Bing Webmaster Tools** (verify with a DNS TXT
+  record in Cloudflare), submit the sitemap, and check the coverage and Core Web Vitals reports monthly.
+- One canonical address: redirect `www.mpfsl.lk` → `mpfsl.lk` with a Cloudflare redirect rule (or the
+  other way round — pick one and use it in canonical URLs). If `mpfsl.net` is kept, 301-redirect it
+  to `mpfsl.lk`.
 
 ## Railway setup (API)
 
@@ -46,7 +84,7 @@ Modify Response Header) for requests where *Hostname equals `admin.website.lk`*:
 | Build / start | `npm ci --workspace server` / `npm start --workspace server` |
 | Port | read `process.env.PORT` — Railway sets it |
 | Health check path | `/api/health` |
-| Custom domain | `api.website.lk` → add in Railway, then create the CNAME it shows in Cloudflare DNS |
+| Custom domain | `api.mpfsl.lk` → add in Railway, then create the CNAME it shows in Cloudflare DNS |
 | Variables | all of `server/.env` below, set in the Railway dashboard (never committed) |
 | Environments | `production` + `staging` (Railway environments), each with its own variables |
 
@@ -76,7 +114,7 @@ The domain's DNS should be managed in Cloudflare (needed for the R2 custom domai
 
 | Record | Points to |
 |---|---|
-| `website.lk`, `www`, `admin` | the same Cloudflare Pages project (added as custom domains in Pages) |
+| `mpfsl.lk`, `www`, `admin` | the same Cloudflare Pages project (added as custom domains in Pages) |
 | `api` | CNAME to the Railway domain shown in the service's settings (DNS only / grey cloud, so Railway can issue the certificate) |
 | `media` | R2 bucket custom domain (set up from the R2 dashboard) |
 
@@ -96,34 +134,34 @@ The domain's DNS should be managed in Cloudflare (needed for the R2 custom domai
 | `R2_ACCOUNT_ID` | | Cloudflare account id |
 | `R2_ACCESS_KEY_ID` / `R2_SECRET_ACCESS_KEY` | | bucket-scoped R2 token |
 | `R2_BUCKET` | `mpfsl-media` | |
-| `MEDIA_BASE_URL` | `https://media.website.lk` | used to build image URLs |
-| `ADMIN_ORIGIN` | `https://admin.website.lk` | CORS + Origin check |
-| `PUBLIC_ORIGINS` | `https://website.lk,https://www.website.lk` | CORS for public routes |
+| `MEDIA_BASE_URL` | `https://media.mpfsl.lk` | used to build image URLs |
+| `ADMIN_ORIGIN` | `https://admin.mpfsl.lk` | CORS + Origin check |
+| `PUBLIC_ORIGINS` | `https://mpfsl.lk,https://www.mpfsl.lk` | CORS for public routes |
 
 ### `Frontend-v2` (Cloudflare Pages)
 
 | Variable | Production | Development |
 |---|---|---|
-| `VITE_API_URL` | `https://api.website.lk/api` | leave unset → `/api`, forwarded by the Vite dev server |
+| `VITE_API_URL` | `https://api.mpfsl.lk/api` | leave unset → `/api`, forwarded by the Vite dev server |
 | `API_PROXY_TARGET` | — | only if the API isn't on `http://localhost:8080` |
 
 ## Environments
 
 | | Development | Production |
 |---|---|---|
-| Public site | `http://localhost:5180` | `website.lk` |
-| Admin | `http://admin.localhost:5180` (no setup — browsers send `*.localhost` to your machine) | `admin.website.lk` |
-| API | `localhost:8080` (reached through the dev server's `/api` proxy) | `api.website.lk` (Railway) |
+| Public site | `http://localhost:5180` | `mpfsl.lk` |
+| Admin | `http://admin.localhost:5180` (no setup — browsers send `*.localhost` to your machine) | `admin.mpfsl.lk` |
+| API | `localhost:8080` (reached through the dev server's `/api` proxy) | `api.mpfsl.lk` (Railway) |
 | Database | `npm run dev:db` — private replica set on port 27018, data in `server/.data` (or an Atlas dev cluster) | Atlas `mpfsl` |
 | Bucket | `mpfsl-media-dev` | `mpfsl-media` |
 
 Why the proxy in development: browsers treat `admin.localhost` and `localhost` as different sites, so
 they won't send the login cookie straight to `localhost:8080`. Going through the dev server keeps it
-same-origin. In production `admin.website.lk` and `api.website.lk` are the same site, so no proxy.
+same-origin. In production `admin.mpfsl.lk` and `api.mpfsl.lk` are the same site, so no proxy.
 
 A **staging** setup is optional but recommended before launch, so the federation can try the admin
 panel without touching the live site. Name the admin address with the `admin.` prefix (e.g.
-`admin.staging.website.lk`), because that prefix is how the app knows to show the admin panel.
+`admin.staging.mpfsl.lk`), because that prefix is how the app knows to show the admin panel.
 
 ## Deploy steps (summary)
 

@@ -3,7 +3,7 @@ import { useEffect } from 'react'
 import AdminRoutes from './AdminRoutes.jsx'
 import ToastProvider from './components/ui/ToastProvider.jsx'
 import { queryClient } from './lib/queryClient.js'
-// Tailwind for the admin panel only — this file is only loaded on admin.website.lk (see src/main.jsx),
+// Tailwind for the admin panel only — this file is only loaded on admin.mpfsl.lk (see src/main.jsx),
 // so it never mixes with the public site's styles.
 import './styles/admin.css'
 
@@ -19,7 +19,7 @@ function useAdminDocument() {
   }, [])
 }
 
-// Root of the admin panel (admin.website.lk).
+// Root of the admin panel (admin.mpfsl.lk).
 function AdminApp() {
   useAdminDocument()
 

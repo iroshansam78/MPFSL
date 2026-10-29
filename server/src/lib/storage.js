@@ -9,7 +9,7 @@ import { AppError } from './errors.js'
  * Where uploaded photos are stored.
  *
  *   r2     Cloudflare R2 (production, and development once the R2_* settings are filled in).
- *          Public URL: MEDIA_BASE_URL/<key>  (e.g. https://media.website.lk/media/2026/10/abc/large.webp)
+ *          Public URL: MEDIA_BASE_URL/<key>  (e.g. https://media.mpfsl.lk/media/2026/10/abc/large.webp)
  *   local  Development only: files on disk in LOCAL_UPLOADS_DIR, served by the API at /api/uploads/<key>
  *          (app.js mounts that route only for this driver).
  *   none   Production without R2: uploads are refused with STORAGE_NOT_CONFIGURED.

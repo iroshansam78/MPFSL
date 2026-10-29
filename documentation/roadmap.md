@@ -30,7 +30,7 @@ Each phase ends with something that can be shown or tested.
 - [x] `POST /admin/media` upload pipeline, `GET/PATCH/DELETE /admin/media`
 - [x] Tests: rejects SVG / non-image files and too many files; produces 3 sizes; delete removes the files
 
-**Demo:** upload a phone photo, see the three WebP files on `media.website.lk`.
+**Demo:** upload a phone photo, see the three WebP files on `media.mpfsl.lk`.
 
 ## Phase 3 — News & gallery API
 
@@ -74,13 +74,66 @@ Each phase ends with something that can be shown or tested.
 - [ ] Short guide for staff: "How to post a news story" (with screenshots)
 - [ ] Hand over admin accounts
 
+## BestWeb.LK 2027
+
+Goal: Gold in **Best Sports & Fitness Website**, internal target **135+/150**. Targets, the full
+checklist and current status are in [bestweb-2027.md](bestweb-2027.md); the dated sprint plan is in
+[bestweb-plan.md](bestweb-plan.md), and finished work is recorded in [bestweb-log.md](bestweb-log.md).
+
+### Phase 7 — Foundation (technical, SEO, security, performance)
+
+- [ ] Real social links (or remove X / YouTube / Instagram until accounts exist); Contact shows `mpfsl.lk`
+- [ ] `robots.txt`, `sitemap.xml`, canonical URLs, Open Graph tags, `SportsOrganization` structured data
+- [ ] Public-site security headers via `_headers` (see [deployment.md](deployment.md#security-headers)); HSTS on
+- [ ] Real pages with their own URLs, titles and descriptions (`react-router`), breadcrumbs, a proper 404
+- [ ] Pre-render every public page at build time so crawlers and slow phones get real HTML
+- [x] Branded preloader (pure HTML/CSS in `index.html`, capped at 2.5 s)
+- [ ] Hero: phone-sized still photo; skip the WebGL slideshow on small screens, slow connections and reduced motion
+- [ ] `srcset` with the WebP thumb / medium / large variants (Phase 5); fewer font weights, self-hosted
+- [ ] Two-factor login (TOTP) for admin accounts
+- [ ] `npm audit` + Dependabot in CI; backups on and a restore tested
+- [ ] Privacy policy, cookie policy, contact form with Turnstile + rate limit
+
+**Demo:** Lighthouse ≥ 90 on mobile and desktop for the home page; securityheaders.com grade A.
+
+### Phase 8 — Content platform
+
+- [ ] Athletes: model, admin screens, public list + profile pages (`Person` schema)
+- [ ] Competitions: calendar, event pages with venue / registration / documents / results / photos (`Event` schema)
+- [ ] Results: entered per competition in the admin panel; public results pages
+- [ ] Rankings: national rankings with the method and "last updated" date
+- [ ] News: own page per story (`mpfsl.lk/news/<slug>`, `Article` schema, share previews)
+- [ ] Resources: rules, regulations, circulars, forms, policies (PDF uploads)
+- [ ] About pages: history, committees, coaches, officials, governance, safeguarding, anti-doping
+- [ ] Modern Pentathlon pages: the sport, five disciplines, rules, equipment, beginner guide
+- [ ] Replace stock photos with federation photos
+
+**Demo:** an athlete, their results and the competition they came from are all linked and reachable in three clicks.
+
+### Phase 9 — Innovation
+
+- [ ] Results explorer (filter by year, competition, gender, age group, athlete)
+- [ ] Interactive five-disciplines guide
+- [ ] Hall of Fame / digital timeline
+- [ ] Site search with filters
+- [ ] Newsletter sign-up and competition reminders
+- [ ] Sinhala and Tamil versions (checked by a person, not just machine-translated)
+- [ ] AI assistant that answers only from approved MPFSL content
+- [ ] Video stories / athlete interviews (with captions)
+
+### Phase 10 — Competition
+
+- [ ] Final Lighthouse, accessibility and security (OWASP) reviews; fix findings
+- [ ] TopWeb.LK review for early feedback, if available
+- [ ] Go through the pre-submission checklist in [bestweb-2027.md](bestweb-2027.md#before-submitting)
+- [ ] Submit to BestWeb.LK 2027 (category, organisation details, fee)
+- [ ] Fair public-voting campaign through athletes, clubs, schools and official channels
+
 ## Later (nice to have)
 
-- Shareable page per story (`website.lk/news/<slug>`) with Open Graph previews for Facebook/WhatsApp
 - Scheduled publishing (publish at a set date/time)
-- Events / results section managed from the admin panel
-- Sinhala (and Tamil) versions of stories
-- Two-factor login for admins
+- PWA (installable, offline) — only if it clearly helps visitors
+- 360° / immersive views, voice search — only if budget and quality allow
 
 ## Decisions made
 
@@ -91,15 +144,18 @@ Each phase ends with something that can be shown or tested.
 | Roles | **editor**: full CRUD on news and gallery (incl. delete, publish, media). **admin**: everything an editor can do + create / manage editor accounts |
 | Backend code structure | Express 5 + feature modules, zod, database sessions — see [backend-architecture.md](backend-architecture.md) |
 | Language | **JavaScript** (ES modules, JSDoc for types) for `server/`, `shared/` and the frontend — same as before |
-| Admin panel | Part of **Frontend-v2** (one build, one Cloudflare Pages project) served on `admin.website.lk`; **Tailwind CSS**, **light + dark mode** |
+| Admin panel | Part of **Frontend-v2** (one build, one Cloudflare Pages project) served on `admin.mpfsl.lk`; **Tailwind CSS**, **light + dark mode** |
+| Domain | **mpfsl.lk** (live). Subdomains: `admin.`, `api.`, `media.` |
+| Competition | Enter **BestWeb.LK 2027**, category **Best Sports & Fitness Website** — see [bestweb-2027.md](bestweb-2027.md) |
 | First images in R2 | The news photos, moved by `npm run upload-news-photos`. The gallery's stock photos stay on Unsplash until replaced in the admin panel |
 
 ## Open questions
 
 For the federation:
 
-1. **Domain** — the exact domain (`website.lk` is a placeholder). Is `mpfsl.net` staying?
-2. **Languages** — will stories ever need Sinhala/Tamil versions? (Easier to plan for now.)
-3. **Gallery** — keep the Unsplash discipline photos, or only the federation's own photos?
-4. **Budget** for hosting (Railway + Atlas backups ≈ USD 10–30/month; free tiers possible at the start).
+1. **Languages** — who will check the Sinhala and Tamil translations? (Needed for the BestWeb bonus points.)
+2. **Photos** — the federation’s own photos to replace the Unsplash stock photos in the hero and gallery.
+3. **Content owners** — who provides athletes, results, rankings, committees and policies (see [bestweb-2027.md](bestweb-2027.md)).
+4. **Old domain** — should `mpfsl.net` redirect to `mpfsl.lk`?
+5. **Budget** for hosting (Railway + Atlas backups ≈ USD 10–30/month; free tiers possible at the start).
 

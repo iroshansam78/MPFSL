@@ -38,7 +38,7 @@ const Env = z.object({
   R2_ACCESS_KEY_ID: z.string().optional(),
   R2_SECRET_ACCESS_KEY: z.string().optional(),
   R2_BUCKET: z.string().optional(),
-  // Public address the bucket is served from, e.g. https://media.website.lk (or the bucket's r2.dev URL)
+  // Public address the bucket is served from, e.g. https://media.mpfsl.lk (or the bucket's r2.dev URL)
   MEDIA_BASE_URL: z.url().optional(),
 
   // Development fallback when R2 isn't configured (relative to the server/ folder)

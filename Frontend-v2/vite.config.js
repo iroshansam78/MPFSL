@@ -11,7 +11,7 @@ import { defineConfig, loadEnv } from 'vite'
 // Requests to /api are forwarded to the API (API_PROXY_TARGET, default http://localhost:8080).
 // Browsers treat admin.localhost and localhost as different sites and wouldn't send the login
 // cookie to the API directly; going through the dev server keeps it same-origin.
-// In production the app calls VITE_API_URL (https://api.website.lk/api) directly — no proxy.
+// In production the app calls VITE_API_URL (https://api.mpfsl.lk/api) directly — no proxy.
 export default defineConfig(({ mode }) => {
   const env = loadEnv(mode, process.cwd(), '')
   const proxy = { '/api': { target: env.API_PROXY_TARGET || 'http://localhost:8080', changeOrigin: true } }

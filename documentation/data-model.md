@@ -33,7 +33,7 @@ One record per uploaded image. Stories and gallery items point to these by id.
 Whether a photo is still in use (and so can't be deleted) is checked by querying stories and
 gallery items, not stored as a counter — it can never get out of sync.
 
-The API adds `url` fields (`media.website.lk/<key>`) when returning media — URLs are **not stored**,
+The API adds `url` fields (`media.mpfsl.lk/<key>`) when returning media — URLs are **not stored**,
 so the media domain can change without a database migration.
 
 ## `newsstories`
@@ -109,3 +109,72 @@ For the featured story, `lead` + `body` paragraphs map to the current `featured.
 | `gallery.images` | published gallery items, by `order` |
 
 The API returns exactly these shapes (see [api.md](api.md)), so the components stay the same.
+
+## Planned for BestWeb.LK 2027
+
+The athlete, competition and results platform is the main way the site can stand out in the
+[BestWeb.LK 2027 plan](bestweb-2027.md). These collections follow the same rules as above: `slug` for
+URLs, `status` draft/published, photos as `media` references with alt text, `createdBy`/`updatedBy`.
+
+### `athletes`
+
+| Field | Type | Notes |
+|---|---|---|
+| `slug` | string, unique | `/athletes/<slug>` |
+| `name`, `nameSi`, `nameTa` | string | Sinhala / Tamil optional |
+| `gender` | `'women'` \| `'men'` | |
+| `birthYear` | number, optional | used for age category; show only with consent |
+| `squads` | `['national' \| 'junior' \| …]` | |
+| `club` | string, optional | |
+| `photo` | `{ media, alt }` | |
+| `bio` | body blocks | same format as news |
+| `achievements` | `[{ year, title, competition?: ObjectId }]` | |
+| `status` | `'draft'` \| `'published'` | |
+
+### `competitions`
+
+| Field | Type | Notes |
+|---|---|---|
+| `slug` | string, unique | `/competitions/<slug>` |
+| `name`, `type` | string; `'national' \| 'laser-run' \| 'biathle' \| 'triathle' \| 'international'` | |
+| `startDate`, `endDate` | date | calendar order |
+| `venue` | `{ name, city, country }` | |
+| `level` | `'national' \| 'asian' \| 'world-cup' \| 'world-championship' \| 'asian-games' \| …` | |
+| `registration` | `{ opens?, closes?, url? }` | |
+| `documents` | `[ObjectId → documents]` | entry forms, schedules |
+| `gallery` | `[{ media, alt }]` | |
+| `status` | `'draft'` \| `'published'` | |
+
+### `results`
+
+One record per athlete per event at a competition.
+
+| Field | Type | Notes |
+|---|---|---|
+| `competition` | ObjectId → competitions | |
+| `athlete` | ObjectId → athletes, or `externalName` | foreign athletes don't need a profile |
+| `event` | string | e.g. `Women's individual`, `Laser Run U17` |
+| `ageCategory` | string | |
+| `rank` | number | |
+| `points` | number, optional | total MP points |
+| `disciplines` | `{ fencing?, swimming?, obstacle?, laserRun?, riding? }` | points or time per discipline |
+
+Indexes: `{ competition: 1, event: 1, rank: 1 }`, `{ athlete: 1 }`.
+
+**Rankings** are worked out from published results using a method the federation approves (stored in
+the code with a version number and shown on the page with the "last updated" date), not typed in by hand.
+
+### `documents`
+
+Rules, regulations, circulars, forms and policies (PDFs in R2).
+
+| Field | Type | Notes |
+|---|---|---|
+| `title`, `category` | string; `'rules' \| 'regulations' \| 'circulars' \| 'forms' \| 'policies'` | |
+| `file` | `{ key, bytes, contentType }` | PDF only, size-limited |
+| `publishedAt` | date | shown on the page |
+
+### `subscribers` (newsletter / reminders)
+
+`email` (unique), `confirmedAt` (double opt-in), `topics`, `unsubscribeToken`. Holds personal data, so
+it must be covered by the privacy policy.

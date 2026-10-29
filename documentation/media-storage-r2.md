@@ -5,10 +5,10 @@
 | Setting | Value |
 |---|---|
 | Bucket name | `mpfsl-media` (plus `mpfsl-media-dev` for development) |
-| Public access | **Custom domain** `media.website.lk` (not the `r2.dev` URL, which is rate-limited and meant for testing) |
+| Public access | **Custom domain** `media.mpfsl.lk` (not the `r2.dev` URL, which is rate-limited and meant for testing) |
 | API token | R2 token with **Object Read & Write**, scoped to this bucket only; stored only in the API's environment |
 | CORS | Not needed — browsers never upload to R2 directly, they only load images through the custom domain |
-| Cache | Cloudflare cache rule on `media.website.lk`: cache everything, edge TTL 1 year (object keys never change, see below) |
+| Cache | Cloudflare cache rule on `media.mpfsl.lk`: cache everything, edge TTL 1 year (object keys never change, see below) |
 
 The API talks to R2 through its S3-compatible endpoint with `@aws-sdk/client-s3`:
 
