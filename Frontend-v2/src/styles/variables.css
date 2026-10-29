@@ -8,6 +8,8 @@
   --muted: #5e554d;
   --brand: #8d153a;
   --brand-strong: #6f0f2d;
+  /* Brand colour for text on the page background (meets 4.5:1 contrast in both themes) */
+  --brand-ink: #8d153a;
   --on-brand: #ffffff;
   --gold: #e8a400;
   --gold-ink: #8a5d00;
@@ -60,6 +62,7 @@
   --muted: #b4aa9f;
   --brand: #c22a55;
   --brand-strong: #a51e45;
+  --brand-ink: #ff6f93;
   --on-brand: #ffffff;
   --gold: #ffbe29;
   --gold-ink: #ffc400;

@@ -23,16 +23,6 @@ function seenThisSession() {
   }
 }
 
-// Resolves when the image has loaded or failed (never rejects).
-export function loadImage(src) {
-  return new Promise((resolve) => {
-    if (!src) return resolve()
-    const img = new Image()
-    img.onload = img.onerror = () => resolve()
-    img.src = src
-  })
-}
-
 let started = false
 
 export function hidePreloader(waitFor = []) {

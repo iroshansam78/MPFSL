@@ -10,6 +10,9 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "@fontsource/barlow-condensed": "^5.3.0",
+    "@fontsource/dm-sans": "^5.3.0",
+    "@fontsource/noto-sans-sinhala": "^5.3.0",
     "@hookform/resolvers": "^5.9.1",
     "@mpfsl/shared": "^0.1.0",
     "@react-three/fiber": "^9.8.1",

@@ -31,7 +31,10 @@ function Gallery({ onOpenPhotos }) {
               onClick={() => openPhoto(i)}
             >
               <SafeImage src={image.src} alt={image.alt} />
-              <span className="g-cap">{image.alt}</span>
+              {/* The photo's alt text already names the button; the caption is the same text shown on hover */}
+              <span className="g-cap" aria-hidden="true">
+                {image.alt}
+              </span>
             </button>
           ))}
         </div>

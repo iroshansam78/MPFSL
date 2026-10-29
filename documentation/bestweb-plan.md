@@ -47,14 +47,16 @@ split into two-week sprints, plus a parallel track for what the federation must 
 
 Score areas: Technical, Security, SEO.
 
-- [ ] Measure the baseline: Lighthouse (mobile + desktop), securityheaders.com, SSL Labs → [measurements](bestweb-2027.md#measurements)
-- [ ] Social links: real accounts, or remove the ones that don't exist yet (`src/data/site.js`)
-- [ ] Contact section shows `mpfsl.lk`
-- [ ] `Frontend-v2/public/_headers` with the public-site security headers and asset caching ([deployment.md](deployment.md#security-headers))
-- [ ] Cloudflare: Always Use HTTPS, minimum TLS 1.2, HSTS, WAF managed rules, bot fight mode
-- [ ] `robots.txt`; Open Graph / social preview tags and `SportsOrganization` JSON-LD in `index.html`
+- [x] Measure the baseline: Lighthouse (mobile + desktop) → [measurements](bestweb-2027.md#measurements)
+- [ ] securityheaders.com and SSL Labs on `www.mpfsl.lk` — after the headers are deployed
+- [x] Social links: real accounts, or remove the ones that don't exist yet (`src/data/site.js`)
+- [x] Contact section no longer shows `mpfsl.net`
+- [x] `Frontend-v2/vercel.json` with the public-site security headers and asset caching ([deployment.md](deployment.md#security-headers)) — the site is on Vercel, not Cloudflare Pages
+- [ ] Vercel: confirm the project's root directory is `Frontend-v2` (so `vercel.json` is used); review Vercel Firewall. HTTPS + HSTS already on
+- [x] `robots.txt` + `sitemap.xml`; canonical URL, Open Graph / social preview tags (share card) and `SportsOrganization` JSON-LD in `index.html`
 - [ ] Google Search Console + Bing Webmaster Tools set up
-- [ ] `npm audit` in CI, Dependabot on
+- [x] `npm audit` in CI, Dependabot on (`.github/`); 2 high-severity advisories fixed
+- [x] Extra: console errors removed, self-hosted fonts, responsive + preloaded hero photo, dark-mode contrast fix, gallery alt text
 
 **Exit checks:** baseline logged · securityheaders.com grade A · a shared link shows a proper preview on WhatsApp / Facebook.
 

@@ -1,0 +1,6 @@
+# https://www.mpfsl.lk — everything public may be indexed.
+# (The admin panel, admin.mpfsl.lk, sends "noindex" itself.)
+User-agent: *
+Allow: /
+
+Sitemap: https://www.mpfsl.lk/sitemap.xml

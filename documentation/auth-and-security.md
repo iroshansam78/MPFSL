@@ -80,11 +80,11 @@ Security is worth **20 points** in BestWeb.LK 2027 (target 19+, see
 - [ ] Separate dev and prod R2 buckets / databases
 - [ ] MongoDB Atlas: database user with access to this DB only; IP access list = Railway static outbound IPs (see [deployment.md](deployment.md#railway-setup-api))
 - [ ] R2 token scoped to the one bucket
-- [ ] Cloudflare: Always Use HTTPS, minimum TLS 1.2 (TLS 1.3 on), HSTS on (include subdomains once `admin.`, `api.`, `media.` are all HTTPS)
-- [ ] Cloudflare WAF managed rules, bot fight mode, DDoS protection on
-- [ ] Security headers on the **public site** as well as the admin panel (see [deployment.md](deployment.md#security-headers)); grade A on securityheaders.com
+- [ ] HTTPS only + HSTS (on via Vercel); add `includeSubDomains` once `admin.`, `api.`, `media.` are all HTTPS; SSL Labs grade A
+- [ ] WAF / DDoS: review Vercel Firewall for the website; Cloudflare WAF rules for `media.` (R2)
+- [ ] Security headers on the **public site** (done in `Frontend-v2/vercel.json`, 29 Oct 2026) and the admin panel (when added) (see [deployment.md](deployment.md#security-headers)); grade A on securityheaders.com
 - [ ] Daily MongoDB backups (Atlas backup or `mongodump` to a separate R2 bucket), **and a restore tested** — record the date
-- [ ] `npm audit` in CI + Dependabot alerts; keep dependencies updated
+- [x] `npm audit` in CI + Dependabot alerts; keep dependencies updated (`.github/workflows/ci.yml`, `.github/dependabot.yml`)
 
 ### Before BestWeb submission
 

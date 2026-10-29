@@ -7,7 +7,7 @@ flowchart LR
   visitor([Visitor]) --> site["mpfsl.lk<br/>public site"]
   staff([Federation staff]) --> admin["admin.mpfsl.lk<br/>admin panel"]
 
-  subgraph pages["Cloudflare Pages — one project, one build of Frontend-v2"]
+  subgraph pages["Vercel — one project, one build of Frontend-v2"]
     site
     admin
   end
@@ -104,7 +104,7 @@ How it's built:
   `Event`, `Article`, `Person`, `BreadcrumbList` where they fit).
 - **Pre-rendering:** each URL is rendered to HTML at build time (static site generation), so crawlers,
   social-media previews and slow phones get real content before any JavaScript runs. Pages built from
-  API data (athletes, results, news) are re-built by a Cloudflare Pages deploy hook when an editor
+  API data (athletes, results, news) are re-built by a Vercel deploy hook when an editor
   publishes, and still fetch fresh data in the browser.
 - **SEO files:** `robots.txt` and `sitemap.xml` generated at build time; `admin.mpfsl.lk` stays
   `noindex`.
@@ -140,5 +140,5 @@ See [media-storage-r2.md](media-storage-r2.md) for the upload pipeline in detail
 | Separate `api.` subdomain | Public site and admin share one API; clean CORS and cookie rules |
 | Upload through the API (not direct-to-R2) | API can reject bad files and produce consistent image sizes; simpler and safer for low upload volume |
 | Structured story blocks (not free HTML) | Matches the existing `news.js` format, so the public site renders it unchanged, and no risk of injected HTML |
-| One frontend for both addresses | One build and one Cloudflare Pages project to host; shared logo, fonts and theme; all logic lives in the API |
+| One frontend for both addresses | One build and one Vercel project to host; shared logo, fonts and theme; all logic lives in the API |
 | Admin on its own subdomain | Its own cookies/CORS rules and security headers, and easy to recognise as staff-only |

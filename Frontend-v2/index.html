@@ -6,17 +6,63 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta
       name="description"
-      content="Modern Pentathlon Federation of Sri Lanka — official sports federation website for training, events, and athlete development."
+      content="Official website of the Modern Pentathlon Federation of Sri Lanka: news, athletes, coaching and competitions in fencing, swimming, obstacle, shooting and running."
     />
+    <link rel="canonical" href="https://www.mpfsl.lk/" />
+
+    <!-- Link previews on WhatsApp, Facebook, X, LinkedIn… (share card: public/og-image.jpg) -->
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content="Modern Pentathlon Federation of Sri Lanka" />
+    <meta property="og:locale" content="en_LK" />
+    <meta property="og:url" content="https://www.mpfsl.lk/" />
+    <meta property="og:title" content="Modern Pentathlon Federation of Sri Lanka" />
+    <meta
+      property="og:description"
+      content="Five disciplines. One champion. The official home of modern pentathlon in Sri Lanka — news, athletes, coaching and competitions."
+    />
+    <meta property="og:image" content="https://www.mpfsl.lk/og-image.jpg" />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:image:alt" content="Isiwaruna De Silva of Sri Lanka lunging in a fencing bout at the Aichi-Nagoya 2026 Asian Games, beside the MPFSL logo" />
+    <meta name="twitter:card" content="summary_large_image" />
+
+    <!-- Structured data for search engines. JSON is data, not script, so the CSP still blocks inline scripts. -->
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@graph": [
+          {
+            "@type": "SportsOrganization",
+            "@id": "https://www.mpfsl.lk/#organization",
+            "name": "Modern Pentathlon Federation of Sri Lanka",
+            "alternateName": ["MPFSL", "ශ්‍රී ලංකා නූතන පංච ප්‍රයාම ජාතික සංගමය"],
+            "url": "https://www.mpfsl.lk/",
+            "logo": "https://www.mpfsl.lk/logo.png",
+            "image": "https://www.mpfsl.lk/og-image.jpg",
+            "sport": "Modern pentathlon",
+            "email": "mailto:mpfsl13@gmail.com",
+            "areaServed": { "@type": "Country", "name": "Sri Lanka" },
+            "memberOf": {
+              "@type": "SportsOrganization",
+              "name": "Union Internationale de Pentathlon Moderne (UIPM)",
+              "url": "https://www.uipmworld.org/"
+            },
+            "sameAs": ["https://www.facebook.com/slmpf"]
+          },
+          {
+            "@type": "WebSite",
+            "@id": "https://www.mpfsl.lk/#website",
+            "url": "https://www.mpfsl.lk/",
+            "name": "Modern Pentathlon Federation of Sri Lanka",
+            "inLanguage": "en",
+            "publisher": { "@id": "https://www.mpfsl.lk/#organization" }
+          }
+        ]
+      }
+    </script>
     <meta name="theme-color" content="#f6f2ec" media="(prefers-color-scheme: light)" />
     <meta name="theme-color" content="#141110" media="(prefers-color-scheme: dark)" />
     <title>Modern Pentathlon Federation of Sri Lanka</title>
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link
-      href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:ital,wght@0,600;0,700;0,800;1,700;1,800;1,900&family=DM+Sans:wght@400;500;600;700&family=Noto+Sans+Sinhala:wght@400;600&display=swap"
-      rel="stylesheet"
-    />
     <!-- Sets light/dark before first paint, for both the public site and the admin panel -->
     <script src="/theme-init.js"></script>
     <!--

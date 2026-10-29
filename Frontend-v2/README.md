@@ -53,7 +53,7 @@ npm run lint:web
 Styling: use the **semantic Tailwind colours** from `src/admin/styles/admin.css` — `bg-surface`,
 `text-ink`, `text-muted`, `border-line`, `bg-brand`, `text-danger`… They switch automatically between
 light and dark mode. Forms validate with the same zod schemas as the API (`@mpfsl/shared`).
-Deployment (one Cloudflare Pages project, both domains, admin-only headers):
+Deployment (one Vercel project, both domains, security headers in `vercel.json`):
 [documentation/deployment.md](../documentation/deployment.md).
 
 ## Folder structure

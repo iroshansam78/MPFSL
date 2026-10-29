@@ -1,8 +1,8 @@
 import { lazy, Suspense, useEffect, useRef, useState } from 'react'
-import { hero } from '../../data/hero.js'
+import { hero, heroStill } from '../../data/hero.js'
 import { site } from '../../data/site.js'
 import { useHeroSlides } from '../../hooks/useHeroSlides.js'
-import { hidePreloader, loadImage } from '../../utils/preloader.js'
+import { hidePreloader } from '../../utils/preloader.js'
 import HeroCaption from './HeroCaption.jsx'
 import './Hero.css'
 
@@ -17,12 +17,12 @@ function Hero() {
   const [visible, setVisible] = useState(true)
   const [reduced] = useState(prefersReducedMotion)
   const section = useRef()
-  const still = hero.slides[0]?.remote || hero.fallback.src
+  const still = useRef()
 
-  // Lift the preloader once the first photo and the fonts are ready (see utils/preloader.js)
+  // Lift the preloader once the still photo and the fonts are ready (see utils/preloader.js)
   useEffect(() => {
-    hidePreloader([loadImage(still), document.fonts?.ready])
-  }, [still])
+    hidePreloader([still.current.decode(), document.fonts?.ready])
+  }, [])
 
   // Pause the slideshow while the hero is scrolled out of view
   useEffect(() => {
@@ -46,7 +46,15 @@ function Hero() {
   return (
     <section id="top" className={`hero${ready ? ' is-ready' : ''}`} ref={section} aria-label="Introduction">
       <div className="hero-media" aria-hidden="true">
-        <div className="hero-still" style={{ backgroundImage: `url(${still})` }} />
+        <img
+          ref={still}
+          className="hero-still"
+          src={heroStill.src}
+          srcSet={heroStill.srcSet}
+          sizes={heroStill.sizes}
+          alt=""
+          fetchPriority="high"
+        />
         {ready && (
           <Suspense fallback={null}>
             <HeroCanvas slides={slides} index={index} paused={!visible} reduced={reduced} />

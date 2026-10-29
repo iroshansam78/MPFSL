@@ -13,7 +13,7 @@ status changes here, add an entry to the log.
 | Internal target | **135+ / 150**, with no avoidable penalties |
 | Positioning | *"The Digital Home of Modern Pentathlon in Sri Lanka."* |
 | Hero message | *"Modern Pentathlon Sri Lanka — Building Champions. Inspiring Excellence."* |
-| Domain | `mpfsl.lk` (live). `admin.`, `api.` and `media.` are subdomains of it |
+| Domain | `mpfsl.lk` (live, on Vercel). It redirects to **`www.mpfsl.lk`**, the canonical address. `admin.`, `api.` and `media.` will be subdomains |
 
 > The targets are our own, not official BestWeb cut-offs. Re-check the official 2027 dates, rules and
 > scoring when the competition is announced.
@@ -52,24 +52,24 @@ title and description (see [architecture.md](architecture.md#public-site-pages))
 | Development | Youth, schools, talent identification, coaching, officials, athlete pathway | 🟡 Programmes section |
 | Results & Statistics | Results explorer, national rankings, records, athlete statistics | ❌ |
 | Resources | Rules, regulations, circulars, forms, policies, downloads | ❌ |
-| Contact | Contact form, address, phone, email, map, social media | 🟡 email + Facebook only |
+| Contact | Contact form, address, phone, email, map, social media | 🟡 email + Facebook only (placeholder social links removed) |
 
 ## Technical — 30
 
 | Item | Status | Notes |
 |---|---|---|
-| All pages and links work | 🟡 | X, YouTube and Instagram links in `Frontend-v2/src/data/site.js` are placeholders (search pages / `instagram.com/`) |
-| No placeholder or unfinished content | 🟡 | same social links; Contact lists `mpfsl.net` instead of `mpfsl.lk` |
+| All pages and links work | ✅ | placeholder X / YouTube / Instagram links removed (29 Oct 2026); add them back in `src/data/site.js` when official accounts exist. Re-test when pages are added |
+| No placeholder or unfinished content | 🟡 | social links and the old `mpfsl.net` link fixed; hero and gallery still use stock photos (see Design) |
 | Site search | ❌ | |
-| XML sitemap, `robots.txt`, clean URLs | ❌ | needs real pages ([architecture.md](architecture.md#public-site-pages)) |
-| Canonical URLs + structured data | ❌ | see [SEO & accessibility](#seo--accessibility) |
+| XML sitemap, `robots.txt`, clean URLs | 🟡 | `robots.txt` + `sitemap.xml` added (home page); clean URLs need real pages (Sprint 2) |
+| Canonical URLs + structured data | 🟡 | canonical URL + `SportsOrganization`/`WebSite` JSON-LD on the home page; per-page in Sprint 2 |
 | Breadcrumbs on deep pages | ❌ | |
-| Proper 404 page | ❌ | Pages currently serves `index.html` for every path |
+| Proper 404 page | ❌ | unknown paths get Vercel's plain-text 404 (Sprint 2) |
 | Contact form with validation + spam protection | ❌ | Cloudflare Turnstile + API rate limit |
 | Privacy and cookie policy | ❌ 🏛 | |
 | Responsive on current desktop / tablet / mobile browsers | 🟡 | layout is responsive; needs a recorded device test |
-| Heading order, labels, focus states, keyboard use | 🟡 | skip link exists; needs an audit |
-| No console errors on key pages | ❓ | check before submission |
+| Heading order, labels, focus states, keyboard use | 🟡 | Lighthouse accessibility 100 (local build); manual keyboard / screen-reader audit still to do |
+| No console errors on key pages | ✅ | fixed 29 Oct 2026: no calls to the not-yet-deployed API, no requests for missing hero photos. Lighthouse best practices 100 (local build); re-check live after deploy |
 
 ## Performance — 20
 
@@ -77,14 +77,14 @@ Internal targets: Lighthouse **90+ on mobile and desktop**, LCP < 2.5 s, CLS < 0
 
 | Item | Status | Notes |
 |---|---|---|
-| Hero is light on phones | 🟡 | a still photo already shows first and the WebGL slideshow fades in over it. But the WebGL code (`HeroCanvas` + `loadSlides`: ~920 KB minified, ~250 KB gzipped) plus the slide textures still download on every device. Skip WebGL on small screens, slow connections (`navigator.connection.saveData` / `effectiveType`) and reduced motion; serve the still photo in a phone-sized version |
-| Preloader doesn't delay the page | 🟡 | added Oct 2026 (`index.html` + `src/utils/preloader.js`): pure HTML/CSS, lifts once the hero photo and fonts are ready, at least 0.9 s on a first visit only, never more than 2.5 s. Check in Lighthouse that LCP stays < 2.5 s; shorten or drop the minimum if it doesn't |
-| Images in WebP/AVIF, right size | 🟡 | the API makes WebP in 3 sizes; the public site still uses 80–400 KB JPEGs and doesn't use `srcset` |
+| Hero is light on phones | 🟡 | a still photo already shows first and the WebGL slideshow fades in over it. But the WebGL code (`HeroCanvas` + `loadSlides`: ~920 KB minified, ~250 KB gzipped) plus the slide textures still download on every device. Skip WebGL on small screens, slow connections (`navigator.connection.saveData` / `effectiveType`) and reduced motion. ✅ The still photo now comes in 5 widths (`srcset`) and is preloaded from the HTML |
+| Preloader doesn't delay the page | ✅ | pure HTML/CSS (`index.html` + `src/utils/preloader.js`), lifted once the hero photo and fonts are ready (≥ 0.9 s first visit only, ≤ 2.5 s). Measured with it: mobile LCP 2.1 s (local build) |
+| Images in WebP/AVIF, right size | 🟡 | hero still: sized by `srcset` (Unsplash serves WebP/AVIF). News and gallery still use 80–400 KB JPEGs without `srcset` (Sprint 3) |
 | Lazy-load images below the fold | ✅ | `SafeImage` uses `loading="lazy"` |
 | Minified CSS/JS, no unused code | 🟡 | Vite minifies; the admin panel is a separate chunk. Remove what's unused |
-| Fonts: few families/weights | 🟡 | 3 families, many weights from Google Fonts. Cut weights; host them ourselves |
-| CDN + caching | 🟡 | Cloudflare Pages + R2. Add long cache headers for hashed assets |
-| No large autoplay videos / huge hero images | 🟡 | no videos; hero photos come from Unsplash at 2400 px on every screen size |
+| Fonts: few families/weights | ✅ | self-hosted with `@fontsource` (`src/styles/fonts.css`), only the 12 weights in use; no render-blocking Google Fonts request |
+| CDN + caching | ✅ | Vercel edge network (Singapore); `/assets/*` cached for a year (`immutable`) via `vercel.json`. R2 media behind Cloudflare later |
+| No large autoplay videos / huge hero images | 🟡 | no videos; the still photo is now sized per screen, but the WebGL slides still load at 2400 px (Sprint 3) |
 | Tested on real phones on Sri Lankan mobile networks | ❌ | |
 
 ### Measurements
@@ -94,7 +94,13 @@ securityheaders.com and the SSL Labs test, and log the results here.
 
 | Date | Page | Mobile | Desktop | LCP | CLS | TBT | Headers grade | SSL Labs |
 |---|---|---|---|---|---|---|---|---|
-| | `/` | not measured | | | | | | |
+| 2026-10-29 | `/` live — **baseline** | 75 | 76 | 3.0 s / 2.4 s | 0.048 / 0.05 | 250 / 90 ms | not measured | not run |
+| 2026-10-29 | `/` local build, Sprint 1 changes | 90 | 94 | 2.1 s / 1.3 s | 0.068 / 0.051 | 200 / 0 ms | — | — |
+
+Lighthouse 12, Edge headless, simulated throttling. LCP / CLS / TBT columns are mobile / desktop.
+Other categories: baseline accessibility 96, best practices 96, SEO 100 → local build 100 / 100 / 100.
+The local build is served with the production headers but from this computer, so re-measure on
+`www.mpfsl.lk` after deploying.
 
 ## Design & UX — 20
 
@@ -142,17 +148,17 @@ The API's protection is already strong; the open items are mostly launch work. F
 
 | Item | Status | Notes |
 |---|---|---|
-| HTTPS everywhere, modern TLS | 🟡 | Cloudflare; set minimum TLS 1.2, "Always Use HTTPS" |
-| HSTS | ❌ | turn on in Cloudflare once all subdomains are HTTPS |
-| WAF / DDoS protection | 🟡 | Cloudflare proxy; enable managed WAF rules and bot fight mode |
-| Security headers + CSP | 🟡 | API ✅ (`helmet`); admin panel planned; **public site still needs them** ([deployment.md](deployment.md#security-headers)) |
+| HTTPS everywhere, modern TLS | 🟡 | Vercel: HTTPS only, `mpfsl.lk` → `https://www.mpfsl.lk`. Run SSL Labs to confirm the grade |
+| HSTS | ✅ | Vercel sends `max-age=63072000` (2 years). `includeSubDomains` once `admin.` / `api.` / `media.` are live |
+| WAF / DDoS protection | 🟡 | Vercel's platform DDoS protection is on; review the Vercel Firewall settings; Cloudflare for `media.` |
+| Security headers + CSP | 🟡 | API ✅ (`helmet`). Public site: CSP, `X-Frame-Options`, `nosniff`, `Referrer-Policy`, `Permissions-Policy` in `Frontend-v2/vercel.json` (29 Oct 2026), tested locally with no CSP violations — **live after the next push; then check securityheaders.com**. Admin rules when `admin.` is added ([deployment.md](deployment.md#security-headers)) |
 | OWASP Top 10 review | ❌ | write up results before submission |
 | Admin access hardened | ✅ | argon2id, account lockout, forced password change, sessions in the database, audit log |
 | MFA for admins | ❌ | TOTP — moved up from "nice to have" |
 | Rate limiting on forms and login | 🟡 | login + API ✅; contact / newsletter forms when built |
 | Secure cookies and sessions | ✅ | `HttpOnly`, `Secure`, `SameSite=Lax` |
 | File uploads checked and restricted | ✅ | size limit, real type check with sharp, no SVG, EXIF removed |
-| Dependency updates + vulnerability alerts | ❌ | `npm audit` in CI, Dependabot |
+| Dependency updates + vulnerability alerts | ✅ | GitHub Actions CI runs `npm audit --audit-level=high` on every push; Dependabot weekly. Fixed 2 high-severity DoS advisories (`multer` 2.5.0, `body-parser` 2.4.0) on 29 Oct 2026 |
 | Automatic backups, restore tested | ❌ | |
 | Security monitoring + incident contacts | ❌ 🏛 | name who to contact |
 
@@ -182,10 +188,10 @@ Only build what's genuinely useful to visitors. Ordered by value to effort.
 | Item | Status |
 |---|---|
 | Unique title + meta description per page | ❌ (one for the whole site) |
-| Open Graph / social preview tags | ❌ |
-| `SportsOrganization` schema | ❌ |
+| Open Graph / social preview tags | ✅ home page (share card `public/og-image.jpg`) |
+| `SportsOrganization` schema | ✅ (`index.html`, with `WebSite`) — check with Google's Rich Results Test after deploy |
 | `Event` schema (competitions), `Article` (news), `Person` (athletes), `BreadcrumbList` | ❌ |
-| Sitemap submitted; Google Search Console set up | ❌ |
+| Sitemap submitted; Google Search Console set up | 🟡 sitemap exists; Search Console / Bing not set up yet (needs domain owner) |
 | Pages readable without JavaScript (pre-rendered) | ❌ — today crawlers get an empty `<div id="root">` |
 | Keyboard navigation (WCAG) | 🟡 |
 | Alt text on informative images | ✅ |

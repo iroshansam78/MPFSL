@@ -1,4 +1,4 @@
-// API base URL. Production: set VITE_API_URL=https://api.mpfsl.lk/api on Cloudflare Pages.
+// API base URL. Production: set VITE_API_URL=https://api.mpfsl.lk/api in Vercel.
 // Development: leave it unset — "/api" goes through the Vite dev server's proxy (see vite.config.js).
 export const API_URL = import.meta.env.VITE_API_URL || '/api'
 

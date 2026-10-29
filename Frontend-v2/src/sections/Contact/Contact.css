@@ -42,7 +42,7 @@
 }
 
 .contact-list a:hover {
-  color: var(--brand);
+  color: var(--brand-ink);
 }
 
 @media (max-width: 960px) {

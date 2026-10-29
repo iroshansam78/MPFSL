@@ -4,75 +4,85 @@
 
 | Part | Where | Why |
 |---|---|---|
-| Public site (`mpfsl.lk`) **and** admin panel (`admin.mpfsl.lk`) | **One Cloudflare Pages project** building `Frontend-v2/`, with both custom domains attached | one static build serves both; the app picks public site vs admin panel by hostname (see [architecture.md](architecture.md)) |
-| API (`api.mpfsl.lk`) | **Railway** (decided), Node 22 LTS | git push to deploy, HTTPS included; Express + Mongoose + sharp need a normal Node server (Cloudflare Workers don't support them well) |
+| Public site (`www.mpfsl.lk`) **and** admin panel (`admin.mpfsl.lk`, not set up yet) | **Vercel**, one project building `Frontend-v2/`, deployed automatically on every push to `main` | one static build serves both; the app picks public site vs admin panel by hostname (see [architecture.md](architecture.md)) |
+| API (`api.mpfsl.lk`, not set up yet) | **Railway** (decided), Node 22 LTS | git push to deploy, HTTPS included; Express + Mongoose + sharp need a normal Node server |
 | Database | **MongoDB Atlas** (M0 free to start, M10 once live for backups) | managed, backups, choose the Singapore or Mumbai region (closest to Sri Lanka) |
 | Images | **Cloudflare R2** + custom domain `media.mpfsl.lk` | free egress, Cloudflare cache |
 
 `Frontend/` (version 1) is not deployed. The API is a plain Node app, so it can move from Railway to
 a VPS later without code changes.
 
-## Cloudflare Pages setup (public site + admin panel)
+> **Checked live on 29 Oct 2026:** `mpfsl.lk` answers with a 308 redirect to **`https://www.mpfsl.lk/`**
+> (served by Vercel, Singapore edge), so **`www.mpfsl.lk` is the canonical address** used in canonical
+> URLs, the sitemap and structured data. Vercel already sends `Strict-Transport-Security:
+> max-age=63072000`. `admin.` and `api.mpfsl.lk` don't resolve yet, so until the API is deployed
+> the public site uses its built-in news and photos (see `src/utils/api.js`).
+
+## Vercel setup (public site + admin panel)
 
 | Setting | Value |
 |---|---|
-| Root directory | *(repo root — needed for the npm workspaces)* |
-| Build command | `npm ci && npm run build --workspace frontend-v2` |
-| Output directory | `Frontend-v2/dist` |
-| Environment variable | `VITE_API_URL=https://api.mpfsl.lk/api` |
-| Custom domains | `mpfsl.lk`, `www.mpfsl.lk` **and** `admin.mpfsl.lk` — all on this one project |
-| Routing | today: no `404.html`, so Pages serves `index.html` for every path. Once pages are pre-rendered ([architecture.md](architecture.md#public-site-pages)) the build outputs one HTML file per page plus a real `404.html`, so unknown URLs return status 404 |
+| Root directory | `Frontend-v2` — **check this in the Vercel dashboard**: `Frontend-v2/vercel.json` (security headers) is only read if it is |
+| Build | Vite preset (`npm run build`), output `dist` |
+| Environment variable | `VITE_API_URL=https://api.mpfsl.lk/api` — **only once the API is live**; without it the site doesn't call any API |
+| Domains | `www.mpfsl.lk` (primary), `mpfsl.lk` → redirects to www; later `admin.mpfsl.lk` on the same project |
+| Deploys | every push to `main` goes live; pull requests get preview URLs |
+| Routing | today: unknown paths return Vercel's plain 404. Once pages are pre-rendered ([architecture.md](architecture.md#public-site-pages)) the build outputs one HTML file per page plus a `404.html`, which Vercel serves with status 404 |
 
 ## Security headers
 
 Judged in BestWeb.LK (Security, 20 points). Target: **grade A on securityheaders.com** for both
-`mpfsl.lk` and `admin.mpfsl.lk`.
+`www.mpfsl.lk` and `admin.mpfsl.lk`.
 
-**Cloudflare (SSL/TLS settings, whole zone):** Full (strict) mode, Always Use HTTPS, minimum TLS 1.2,
-TLS 1.3 on, HSTS on (`max-age=31536000; includeSubDomains` once every subdomain is HTTPS; add
-`preload` only after that has run without problems), WAF managed rules and bot fight mode on.
+**Public site:** [`Frontend-v2/vercel.json`](../Frontend-v2/vercel.json) sends, on every path:
 
-**Public site (`mpfsl.lk`)**: a `Frontend-v2/public/_headers` file, applied by Pages to every path:
+| Header | Value / why |
+|---|---|
+| `Content-Security-Policy` | `default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'; font-src 'self'; img-src 'self' data: blob: https://images.unsplash.com https://media.mpfsl.lk; connect-src 'self' https://api.mpfsl.lk; object-src 'none'; base-uri 'self'; form-action 'self'; frame-ancestors 'self'; upgrade-insecure-requests` |
+| `X-Content-Type-Options` | `nosniff` |
+| `X-Frame-Options` | `SAMEORIGIN` |
+| `Referrer-Policy` | `strict-origin-when-cross-origin` |
+| `Permissions-Policy` | camera, microphone, geolocation, payment, USB all off |
+| `Cache-Control` on `/assets/*` | `public, max-age=31536000, immutable` (file names contain a content hash) |
 
-```
-/*
-  X-Content-Type-Options: nosniff
-  Referrer-Policy: strict-origin-when-cross-origin
-  Permissions-Policy: camera=(), microphone=(), geolocation=()
-  X-Frame-Options: SAMEORIGIN
-  Content-Security-Policy: default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data: blob: https://media.mpfsl.lk https://images.unsplash.com; connect-src 'self' https://api.mpfsl.lk; frame-ancestors 'self'; base-uri 'self'; form-action 'self'
+Notes:
 
-/assets/*
-  Cache-Control: public, max-age=31536000, immutable
-```
+- Fonts are self-hosted (`@fontsource`, see `src/styles/fonts.css`), so no Google domains are needed.
+- `'unsafe-inline'` is for **styles only** (React `style` attributes and the preloader's inline CSS);
+  scripts stay `'self'`. JSON-LD (`<script type="application/ld+json">`) is data, not script, so it
+  isn't blocked.
+- **Don't add `Cross-Origin-Opener-Policy`.** We tried it: it makes Lighthouse's mobile run fail
+  (`NO_NAVSTART`), which would also hurt a judge's own Lighthouse test.
+- Remove `images.unsplash.com` once the stock photos are replaced; add a video host (e.g.
+  `frame-src https://www.youtube-nocookie.com`) when videos are added.
+- Test a CSP change before pushing: build, serve `dist` with the same headers, open the site and look
+  for "violates the following Content Security Policy" in the console. Every push to `main` goes live.
+- HSTS: Vercel's default (2 years) is in place. Add `includeSubDomains` only after `admin.`, `api.` and
+  `media.` are all live on HTTPS and nothing else on the domain uses plain HTTP.
 
-Pre-rendered pages include JSON-LD in `<script type="application/ld+json">`; that's data, not
-script, so it doesn't need `unsafe-inline`. Remove `images.unsplash.com` once the stock photos are
-replaced, and add any video host (e.g. `https://www.youtube-nocookie.com` in `frame-src`) when videos
-are added.
-
-**Admin panel (`admin.mpfsl.lk`).** Pages' `_headers` file matches paths, not hostnames, so the
-stricter admin headers are added with a Cloudflare **Transform Rule** (Rules → Transform Rules →
-Modify Response Header) for requests where *Hostname equals `admin.mpfsl.lk`*:
+**Admin panel (`admin.mpfsl.lk`, when added):** Vercel headers can match on the host, so add a
+second rule to `vercel.json` with `"has": [{ "type": "host", "value": "admin.mpfsl.lk" }]`:
 
 | Header | Value |
 |---|---|
 | `X-Robots-Tag` | `noindex, nofollow` |
 | `X-Frame-Options` | `DENY` |
-| `Content-Security-Policy` | `default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src 'self' data: blob: https://media.mpfsl.lk https://images.unsplash.com; connect-src 'self' https://api.mpfsl.lk; frame-ancestors 'none'; base-uri 'self'; form-action 'self'` |
+| `Content-Security-Policy` | as the public site, but `frame-ancestors 'none'` |
 | `Referrer-Policy` | `same-origin` |
 
-(The theme script is a file, `public/theme-init.js`, not inline, so `script-src 'self'` is enough.)
+**DNS / WAF:** if the domain's DNS moves to Cloudflare (needed for `media.mpfsl.lk` on R2), keep the
+Vercel records "DNS only" (grey cloud), as Vercel recommends, and turn on Cloudflare's WAF/bot rules
+only for proxied subdomains. Vercel's own firewall and DDoS protection cover the website.
 
 ## Search engines
 
-- `robots.txt` and `sitemap.xml` are generated by the build into `Frontend-v2/dist`. `robots.txt`
-  points to `https://mpfsl.lk/sitemap.xml`; the admin panel sends `X-Robots-Tag: noindex` (above).
-- Add `mpfsl.lk` to **Google Search Console** and **Bing Webmaster Tools** (verify with a DNS TXT
-  record in Cloudflare), submit the sitemap, and check the coverage and Core Web Vitals reports monthly.
-- One canonical address: redirect `www.mpfsl.lk` → `mpfsl.lk` with a Cloudflare redirect rule (or the
-  other way round — pick one and use it in canonical URLs). If `mpfsl.net` is kept, 301-redirect it
-  to `mpfsl.lk`.
+- `robots.txt` and `sitemap.xml` are in `Frontend-v2/public/` (home page only for now). From Sprint 2
+  the sitemap is generated by the build, one entry per page.
+- Every page has a canonical URL on `https://www.mpfsl.lk/`, Open Graph tags with the share card
+  `public/og-image.jpg` (1200 × 630), and `SportsOrganization` + `WebSite` JSON-LD (`index.html`).
+- Add `www.mpfsl.lk` to **Google Search Console** and **Bing Webmaster Tools** (verify with a DNS TXT
+  record), submit the sitemap, and check the coverage and Core Web Vitals reports monthly.
+- If `mpfsl.net` is kept, 301-redirect it to `https://www.mpfsl.lk/`.
 
 ## Railway setup (API)
 
@@ -114,7 +124,7 @@ The domain's DNS should be managed in Cloudflare (needed for the R2 custom domai
 
 | Record | Points to |
 |---|---|
-| `mpfsl.lk`, `www`, `admin` | the same Cloudflare Pages project (added as custom domains in Pages) |
+| `mpfsl.lk`, `www`, `admin` | the Vercel project (added as domains in Vercel; `mpfsl.lk` redirects to `www`) |
 | `api` | CNAME to the Railway domain shown in the service's settings (DNS only / grey cloud, so Railway can issue the certificate) |
 | `media` | R2 bucket custom domain (set up from the R2 dashboard) |
 
@@ -138,7 +148,7 @@ The domain's DNS should be managed in Cloudflare (needed for the R2 custom domai
 | `ADMIN_ORIGIN` | `https://admin.mpfsl.lk` | CORS + Origin check |
 | `PUBLIC_ORIGINS` | `https://mpfsl.lk,https://www.mpfsl.lk` | CORS for public routes |
 
-### `Frontend-v2` (Cloudflare Pages)
+### `Frontend-v2` (Vercel)
 
 | Variable | Production | Development |
 |---|---|---|
@@ -165,7 +175,7 @@ panel without touching the live site. Name the admin address with the `admin.` p
 
 ## Deploy steps (summary)
 
-1. Push to `main` → Cloudflare Pages builds `Frontend-v2` (public site + admin panel) automatically.
+1. Push to `main` → Vercel builds `Frontend-v2` (public site + admin panel) and puts it live automatically. GitHub Actions (`.github/workflows/ci.yml`) runs lint, tests, build and `npm audit` on the same push.
 2. Railway deploys `server/` from `main` and only switches traffic over once `/api/health` passes.
 3. After the first deploy: `railway run … npm run init …` (indexes + first admin), then
    `import-existing.js` once (moves the website's current photos into R2 — Phase 3).

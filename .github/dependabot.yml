@@ -1,0 +1,20 @@
+# Weekly pull requests for outdated or vulnerable dependencies (BestWeb.LK 2027 security checklist).
+# Minor and patch updates are grouped into one PR per week so they're easy to review; security
+# fixes still arrive straight away as their own PRs.
+version: 2
+updates:
+  - package-ecosystem: npm
+    directory: / # the root lock file covers server/, shared/ and Frontend-v2/ (npm workspaces)
+    schedule:
+      interval: weekly
+      day: monday
+      timezone: Asia/Colombo
+    open-pull-requests-limit: 10
+    groups:
+      minor-and-patch:
+        update-types: [minor, patch]
+
+  - package-ecosystem: github-actions
+    directory: /
+    schedule:
+      interval: monthly

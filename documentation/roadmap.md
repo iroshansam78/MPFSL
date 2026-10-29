@@ -84,7 +84,7 @@ checklist and current status are in [bestweb-2027.md](bestweb-2027.md); the date
 
 - [ ] Real social links (or remove X / YouTube / Instagram until accounts exist); Contact shows `mpfsl.lk`
 - [ ] `robots.txt`, `sitemap.xml`, canonical URLs, Open Graph tags, `SportsOrganization` structured data
-- [ ] Public-site security headers via `_headers` (see [deployment.md](deployment.md#security-headers)); HSTS on
+- [x] Public-site security headers in `Frontend-v2/vercel.json` (see [deployment.md](deployment.md#security-headers)); HSTS already on (Vercel)
 - [ ] Real pages with their own URLs, titles and descriptions (`react-router`), breadcrumbs, a proper 404
 - [ ] Pre-render every public page at build time so crawlers and slow phones get real HTML
 - [x] Branded preloader (pure HTML/CSS in `index.html`, capped at 2.5 s)
@@ -144,7 +144,7 @@ checklist and current status are in [bestweb-2027.md](bestweb-2027.md); the date
 | Roles | **editor**: full CRUD on news and gallery (incl. delete, publish, media). **admin**: everything an editor can do + create / manage editor accounts |
 | Backend code structure | Express 5 + feature modules, zod, database sessions — see [backend-architecture.md](backend-architecture.md) |
 | Language | **JavaScript** (ES modules, JSDoc for types) for `server/`, `shared/` and the frontend — same as before |
-| Admin panel | Part of **Frontend-v2** (one build, one Cloudflare Pages project) served on `admin.mpfsl.lk`; **Tailwind CSS**, **light + dark mode** |
+| Admin panel | Part of **Frontend-v2** (one build, one Vercel project) served on `admin.mpfsl.lk`; **Tailwind CSS**, **light + dark mode** |
 | Domain | **mpfsl.lk** (live). Subdomains: `admin.`, `api.`, `media.` |
 | Competition | Enter **BestWeb.LK 2027**, category **Best Sports & Fitness Website** — see [bestweb-2027.md](bestweb-2027.md) |
 | First images in R2 | The news photos, moved by `npm run upload-news-photos`. The gallery's stock photos stay on Unsplash until replaced in the admin panel |

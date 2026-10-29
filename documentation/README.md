@@ -14,7 +14,7 @@ without editing code, and the API behind both.
 - **Four addresses, one frontend:**
   - `mpfsl.lk` — the public site
   - `admin.mpfsl.lk` — the admin panel (staff only, login required)
-  - …both served by the **same `Frontend-v2` build** (one Cloudflare Pages project); the app picks
+  - …both served by the **same `Frontend-v2` build** (one Vercel project); the app picks
     which to show by hostname
   - `api.mpfsl.lk` — the Express API that both of them talk to
   - `media.mpfsl.lk` — public image delivery straight from R2 (cached by Cloudflare)

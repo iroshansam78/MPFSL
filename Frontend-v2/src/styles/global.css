@@ -224,7 +224,7 @@ p {
 .text-link {
   font-weight: 700;
   text-decoration: none;
-  color: var(--brand);
+  color: var(--brand-ink);
   margin-bottom: clamp(28px, 4vw, 48px);
 }
 

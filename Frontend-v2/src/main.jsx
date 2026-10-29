@@ -1,6 +1,8 @@
 import { lazy, StrictMode, Suspense } from 'react'
 import { createRoot } from 'react-dom/client'
 import { removePreloader } from './utils/preloader.js'
+// Self-hosted fonts for both halves (see styles/fonts.css)
+import './styles/fonts.css'
 
 /*
  * One app, two addresses:

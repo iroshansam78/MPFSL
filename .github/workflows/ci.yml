@@ -1,0 +1,42 @@
+# Checks every push and pull request to main: lint, API tests, a production build of the website,
+# and a dependency security audit. Part of the BestWeb.LK 2027 security work
+# (documentation/bestweb-2027.md → Security → "Dependency updates + vulnerability alerts").
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+permissions:
+  contents: read
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+
+      - name: Install
+        run: npm ci
+
+      - name: Security audit (fails on high or critical)
+        run: npm audit --audit-level=high
+
+      - name: Lint
+        run: |
+          npm run lint:server
+          npm run lint:web
+
+      - name: API tests
+        run: npm run test:server
+
+      - name: Build the website
+        run: npm run build:web
