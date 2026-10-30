@@ -2,7 +2,8 @@ import SafeImage from '../../components/ui/SafeImage/SafeImage.jsx'
 import TagLinks from '../../components/ui/TagLinks/TagLinks.jsx'
 import StoryBlock from './StoryBlock.jsx'
 
-function FeaturedStory({ story, onOpenPhotos }) {
+// `priority`: the photo is in the first screen (the News page), so load it straight away instead of lazily.
+function FeaturedStory({ story, onOpenPhotos, priority = false }) {
   const image = story.images[0]
   const { stat, meta } = story.feature
 
@@ -10,7 +11,11 @@ function FeaturedStory({ story, onOpenPhotos }) {
     <article className="featured reveal">
       {image && (
         <button type="button" className="featured-img" onClick={() => onOpenPhotos([image], 0)}>
-          <SafeImage src={image.src} alt={image.alt} />
+          <SafeImage
+            src={image.src}
+            alt={image.alt}
+            {...(priority && { loading: 'eager', fetchPriority: 'high' })}
+          />
           {stat && (
             <div className="featured-stat">
               <strong>{stat.value}</strong>

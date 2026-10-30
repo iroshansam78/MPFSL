@@ -7,14 +7,6 @@ export const site = {
   facebook: 'https://www.facebook.com/slmpf',
 }
 
-export const navLinks = [
-  { label: 'About', href: '#about' },
-  { label: 'Programmes', href: '#programmes' },
-  { label: 'News', href: '#news' },
-  { label: 'Gallery', href: '#gallery' },
-  { label: 'Contact', href: '#contact' },
-]
-
 // The federation's official accounts only — no search pages or placeholders (BestWeb checks for
 // placeholder content). Add X / YouTube / Instagram here once the official accounts exist; their
 // icons are ready. `icon` must match a key in components/icons/SocialIcon.jsx

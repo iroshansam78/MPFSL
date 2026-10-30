@@ -2,26 +2,25 @@ import { lazy, Suspense, useEffect, useRef, useState } from 'react'
 import { hero, heroStill } from '../../data/hero.js'
 import { site } from '../../data/site.js'
 import { useHeroSlides } from '../../hooks/useHeroSlides.js'
+import { useReducedMotion } from '../../hooks/useReducedMotion.js'
 import { hidePreloader } from '../../utils/preloader.js'
 import HeroCaption from './HeroCaption.jsx'
 import './Hero.css'
 
 const HeroCanvas = lazy(() => import('../../scene/HeroCanvas.jsx'))
 
-const prefersReducedMotion = () => window.matchMedia('(prefers-reduced-motion: reduce)').matches
-
 // Full-screen hero: a still photo shows instantly, then the WebGL slideshow fades in over it.
 function Hero() {
   const slides = useHeroSlides(hero.slides, hero.fallback)
   const [index, setIndex] = useState(0)
   const [visible, setVisible] = useState(true)
-  const [reduced] = useState(prefersReducedMotion)
+  const reduced = useReducedMotion()
   const section = useRef()
   const still = useRef()
 
-  // Lift the preloader once the still photo and the fonts are ready (see utils/preloader.js)
+  // Lift the preloader once the still photo (and the fonts) are ready (see utils/preloader.js)
   useEffect(() => {
-    hidePreloader([still.current.decode(), document.fonts?.ready])
+    hidePreloader([still.current.decode()])
   }, [])
 
   // Pause the slideshow while the hero is scrolled out of view

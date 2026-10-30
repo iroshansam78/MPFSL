@@ -9,7 +9,8 @@ import './News.css'
 // Story cards take these colours in turn, by position (the website's discipline colours).
 const STORY_ACCENTS = ['var(--c-obstacle)', 'var(--c-gold)', 'var(--c-swim)', 'var(--c-laser)', 'var(--c-fencing)']
 
-function News({ onOpenPhotos }) {
+// `priority`: News is the first section on the page (the News page), not further down (home).
+function News({ onOpenPhotos, priority = false }) {
   const { featured, stories } = useNews()
   const openPhotos = (images, index) => onOpenPhotos(largest(images), index)
 
@@ -19,7 +20,7 @@ function News({ onOpenPhotos }) {
         {featured ? (
           <>
             <SectionHead label="News" title={featured.feature.heading} highlight={featured.feature.highlight} />
-            <FeaturedStory story={featured} onOpenPhotos={openPhotos} />
+            <FeaturedStory story={featured} onOpenPhotos={openPhotos} priority={priority} />
             {featured.feature.milestones.length > 0 && <Milestones items={featured.feature.milestones} />}
           </>
         ) : (

@@ -95,8 +95,8 @@
   --color-story-fencing: var(--c-story-fencing);
   --color-story-sun: var(--c-story-sun);
 
-  --font-sans: "DM Sans", system-ui, sans-serif;
-  --font-display: "Barlow Condensed", "Arial Narrow", sans-serif;
+  --font-sans: "DM Sans", "DM Sans Fallback", system-ui, sans-serif;
+  --font-display: "Barlow Condensed", "Barlow Condensed Fallback", "Arial Narrow", sans-serif;
 }
 
 @layer base {

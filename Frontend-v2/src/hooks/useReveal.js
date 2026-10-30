@@ -5,10 +5,21 @@ const pending = (root) => [
   ...(root.querySelectorAll?.('.reveal:not(.in)') ?? []),
 ]
 
-// Adds .in to every .reveal element the first time it scrolls into view — including elements added
-// later (e.g. gallery photos that arrive from the API after the page has loaded).
+/*
+ * Adds .in to every .reveal element the first time it scrolls into view — including elements added
+ * later (e.g. on another page, or gallery photos that arrive from the API).
+ *
+ * The pre-rendered page arrives with everything visible. So first, whatever is already on screen is
+ * marked as revealed (no animation, nothing disappears); only then does html.reveal-ready hide the
+ * rest until it's scrolled to. Those elements are off screen, so the switch is never seen.
+ */
 export function useReveal() {
   useEffect(() => {
+    pending(document)
+      .filter((el) => el.getBoundingClientRect().top < window.innerHeight)
+      .forEach((el) => el.classList.add('in'))
+    document.documentElement.classList.add('reveal-ready')
+
     if (!('IntersectionObserver' in window)) {
       const showAll = () => pending(document).forEach((el) => el.classList.add('in'))
       showAll()

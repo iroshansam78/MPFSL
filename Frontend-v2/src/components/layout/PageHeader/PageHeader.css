@@ -1,0 +1,76 @@
+/* Same in both themes: it sits under the header's white-on-dark state, like the hero. */
+.page-header {
+  position: relative;
+  padding: calc(var(--header-h) + clamp(40px, 7vw, 88px)) 0 clamp(40px, 6vw, 72px);
+  color: #f3eee7;
+  background:
+    radial-gradient(55% 80% at 15% 0%, #8d153a66, transparent 70%),
+    radial-gradient(40% 70% at 95% 100%, #ffbe2914, transparent 70%),
+    #120f0d;
+  overflow: hidden;
+}
+
+.page-header h1 {
+  font-style: italic;
+  font-weight: 900;
+  font-size: clamp(44px, 7vw, 92px);
+  line-height: 0.92;
+  letter-spacing: -0.005em;
+  margin: 0.15em 0 0.25em;
+}
+
+.page-intro {
+  max-width: 60ch;
+  margin: 0;
+  font-size: clamp(16px, 1.6vw, 19px);
+  color: #d9d0c5;
+}
+
+/* ---------- Breadcrumbs ---------- */
+.breadcrumbs ol {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  font-size: 13px;
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: #ffbe29;
+}
+
+.breadcrumbs li + li::before {
+  content: "/";
+  margin-right: 8px;
+  color: #b4aa9f;
+}
+
+.breadcrumbs a {
+  color: #d9d0c5;
+  text-decoration: none;
+}
+
+.breadcrumbs a:hover {
+  color: #fff;
+  text-decoration: underline;
+}
+
+/* Five discipline colours along the bottom edge (as in the preloader) */
+.page-header-stripe {
+  position: absolute;
+  inset: auto 0 0;
+  display: flex;
+  height: 4px;
+}
+
+.page-header-stripe span {
+  flex: 1;
+}
+
+.page-header-stripe span:nth-child(1) { background: #5ec8ff; }
+.page-header-stripe span:nth-child(2) { background: #00d1b2; }
+.page-header-stripe span:nth-child(3) { background: #ff7a1a; }
+.page-header-stripe span:nth-child(4) { background: #ff4d68; }
+.page-header-stripe span:nth-child(5) { background: #b6ff3b; }

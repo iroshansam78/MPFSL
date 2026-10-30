@@ -107,6 +107,14 @@
         transform: translateY(-24px);
       }
       /* The admin panel doesn't use it (theme-init.js marks the admin host) */
+      /*
+       * The pre-rendered page (for search engines, link previews, no-JS visitors) isn't laid out
+       * while the preloader covers it, so the browser fetches only what the preloader needs first.
+       * src/main.jsx adds .app-ready when the app has loaded; <noscript> below shows it without JS.
+       */
+      :root:not(.app-ready) #root {
+        display: none;
+      }
       :root[data-app='admin'] .preloader {
         display: none;
       }
@@ -128,7 +136,7 @@
       }
       .pl-title {
         margin: 0;
-        font: italic 800 26px/1 'Barlow Condensed', 'Arial Narrow', Impact, sans-serif;
+        font: italic 800 26px/1 'Barlow Condensed', 'Barlow Condensed Fallback', 'Arial Narrow', Impact, sans-serif;
         line-height: 1.05;
         letter-spacing: 0.02em;
         text-transform: uppercase;
@@ -177,7 +185,7 @@
         height: 16px;
         width: 100%;
         overflow: hidden;
-        font: 600 12px/16px 'DM Sans', system-ui, sans-serif;
+        font: 600 12px/16px 'DM Sans', 'DM Sans Fallback', system-ui, sans-serif;
         letter-spacing: 0.28em;
         text-transform: uppercase;
         text-align: center;
@@ -236,7 +244,7 @@
         }
       }
     </style>
-    <noscript><style>.preloader { display: none; }</style></noscript>
+    <noscript><style>.preloader { display: none; } #root { display: block !important; }</style></noscript>
   </head>
   <body>
     <div class="preloader" id="preloader" role="status">

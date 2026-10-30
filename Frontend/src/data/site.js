@@ -3,7 +3,7 @@ export const site = {
   short: 'MPFSL',
   sinhala: 'ශ්‍රී ලංකා නූතන පංච ප්‍රයාම ජාතික සංගමය',
   email: 'mpfsl13@gmail.com',
-  website: 'https://www.mpfsl.net',
+  website: 'https://www.mpfsl.lk',
   facebook: 'https://www.facebook.com/slmpf',
 }
 

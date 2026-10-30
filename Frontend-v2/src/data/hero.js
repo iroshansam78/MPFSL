@@ -31,6 +31,7 @@ export const hero = {
   ],
   // Shown if none of the slides load.
   fallback: {
+    key: 'fallback',
     src: unsplashUrl(stockPhotos.fencing.id, 2400),
     depth: null,
     title: 'Fencing',

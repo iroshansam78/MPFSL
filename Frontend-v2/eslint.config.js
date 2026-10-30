@@ -22,13 +22,13 @@ export default defineConfig([
     },
   },
   {
-    // Config files run in Node, not the browser
-    files: ['*.config.js'],
+    // Config files and build scripts run in Node, not the browser
+    files: ['*.config.js', 'scripts/**/*.js'],
     languageOptions: { globals: globals.node },
   },
   {
-    // The entry file only picks which app to render; it has no components to hot-reload.
-    files: ['src/main.jsx'],
+    // Entry files only pick or render the app; they have no components to hot-reload.
+    files: ['src/main.jsx', 'src/entry-server.jsx'],
     rules: {
       'react-refresh/only-export-components': 'off',
     },

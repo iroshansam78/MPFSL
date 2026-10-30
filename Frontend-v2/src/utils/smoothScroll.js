@@ -29,6 +29,13 @@ function handleAnchorClick(event) {
   history.replaceState(null, '', hash)
 }
 
+// Jumps to the top of the page at once (used when moving to another page).
+export function scrollToTop() {
+  if (lenis) lenis.scrollTo(0, { immediate: true })
+  else window.scrollTo(0, 0)
+  updateScrolledClass()
+}
+
 // Starts Lenis (unless reduced motion is on) and the scroll listeners. Returns a cleanup function.
 export function startSmoothScroll() {
   let frame = 0

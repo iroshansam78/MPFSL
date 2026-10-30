@@ -64,11 +64,11 @@ Score areas: Technical, Security, SEO.
 
 Score areas: Technical, SEO, Design. See [architecture.md](architecture.md#public-site-pages).
 
-- [ ] `react-router` on the public site: `/`, `/about`, `/news`, `/gallery`, `/contact`, plus a 404 page
-- [ ] Own title, description, canonical URL and Open Graph tags on every page
-- [ ] Pre-render every page to HTML at build time; `sitemap.xml` generated at build time
-- [ ] Breadcrumbs (+ `BreadcrumbList`) on inner pages
-- [ ] Menu links go to pages instead of jumping down the home page
+- [x] `react-router` on the public site: `/`, `/about`, `/programmes`, `/news`, `/gallery`, `/contact`, plus a 404 page
+- [x] Own title, description, canonical URL and Open Graph tags on every page
+- [x] Pre-render every page to HTML at build time (hydrated in the browser); `sitemap.xml` generated at build time
+- [x] Breadcrumbs (+ `BreadcrumbList`) on inner pages
+- [x] Menu links go to pages instead of jumping down the home page
 
 **Exit checks:** viewing the page source of each URL shows its real content and title · an unknown URL returns status 404 · sitemap submitted.
 
@@ -76,11 +76,11 @@ Score areas: Technical, SEO, Design. See [architecture.md](architecture.md#publi
 
 Score areas: Performance, Content.
 
-- [ ] Skip the WebGL hero slideshow on small screens, slow connections and reduced motion; phone-sized still photo
-- [ ] `srcset` with the WebP thumb / medium / large variants (news, gallery)
-- [ ] Self-host the fonts, only the weights we use
+- [x] Skip the WebGL hero slideshow on small screens, slow connections and reduced motion; phone-sized still photo (done early, in Sprints 1–2)
+- [x] `srcset` with WebP variants for the federation photos (`npm run images`); API photos get theirs when the API is live
+- [x] Self-host the fonts, only the weights we use (Sprint 1) + size-matched fallback fonts so the swap causes no layout shift
 - [ ] One page per news story (`/news/<slug>`) with `Article` schema and a visible date
-- [ ] Re-check that the preloader doesn't push LCP over 2.5 s
+- [x] Re-check that the preloader doesn't push LCP over 2.5 s (pre-rendered content is laid out only once the app is ready)
 
 **Exit checks:** Lighthouse mobile ≥ 90 and desktop ≥ 90 on `/` and one story page · CLS < 0.1.
 

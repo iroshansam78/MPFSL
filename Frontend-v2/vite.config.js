@@ -40,6 +40,9 @@ export default defineConfig(({ mode }) => {
 
   return {
     plugins: [react(), tailwindcss(), preloadHeroPhoto()],
+    // The build year, baked into both the pre-rendered HTML and the browser code so they agree
+    // (see components/layout/Footer)
+    define: { 'import.meta.env.VITE_BUILD_YEAR': JSON.stringify(String(new Date().getFullYear())) },
     server: { port: 5180, strictPort: true, proxy },
     preview: { port: 5180, strictPort: true, proxy },
   }

@@ -5,7 +5,7 @@ One build serves both addresses:
 
 | Address | Shows | Code |
 |---|---|---|
-| `mpfsl.lk` | public site | `src/App.jsx`, `src/sections/`, `src/components/`… (plain CSS) |
+| `www.mpfsl.lk` | public site: `/`, `/about`, `/programmes`, `/news`, `/gallery`, `/contact` | `src/App.jsx`, `src/data/pages.js`, `src/sections/`… (plain CSS) |
 | `admin.mpfsl.lk` | admin panel (staff login) | `src/admin/` (Tailwind) |
 
 `src/main.jsx` checks the hostname and loads one or the other as a separate chunk with its own CSS,
@@ -35,9 +35,21 @@ server forwards `/api` to `http://localhost:8080`, so nothing needs configuring.
 (not Vite's usual 5173) to avoid clashing with other projects.
 
 ```bash
-npm run build:web           # production build into Frontend-v2/dist (both halves)
+npm run build:web           # production build into Frontend-v2/dist (both halves), with every public
+                            # page pre-rendered to HTML + sitemap.xml (see below)
 npm run lint:web
+npm run images --workspace frontend-v2   # after adding/replacing a photo in public/images/news
 ```
+
+**How the production build works:** `vite build` → a second build of `src/entry-server.jsx` for
+Node → `scripts/prerender.js` writes one HTML file per page in `src/data/pages.js`. The browser then
+*hydrates* that HTML, so components must render the same thing at build time and in the browser —
+don't read `window`, `document`, the date or random values while rendering (use effects, or
+`useSyncExternalStore` with a server value like `hooks/useTheme.js`). Details:
+[architecture.md → Public site pages](../documentation/architecture.md#public-site-pages).
+
+To check a production build locally: `npm run build:web`, then `npx vite preview` in `Frontend-v2`
+(note: `preview` doesn't apply `vercel.json`'s clean URLs — open `/about.html`).
 
 ## Admin panel
 
@@ -60,11 +72,15 @@ Deployment (one Vercel project, both domains, security headers in `vercel.json`)
 
 ```
 src/
-├── main.jsx               # picks public site or admin panel by hostname
-├── App.jsx                # public site: header, page, footer, lightbox (+ its CSS)
+├── main.jsx               # picks public site or admin panel by hostname; hydrates pre-rendered pages
+├── PublicSite.jsx         # public site in the browser (BrowserRouter)
+├── entry-server.jsx       # public site at build time (StaticRouter) — used by scripts/prerender.js
+├── App.jsx                # public site: header, routes, footer, lightbox (+ its CSS)
 ├── admin/                 # admin panel (Tailwind) — only loaded on admin.mpfsl.lk
 ├── assets/images/         # logo + federation photos
 ├── data/                  # ALL site content: text, links, news, photo lists
+│   ├── pages.js           #   every page: URL, menu label, title, description, banner
+│   ├── responsiveImages.json # WebP sizes made by `npm run images`
 │   ├── photos.js          #   federation photos (local)
 │   ├── stockPhotos.js     #   Unsplash discipline photos + credits
 │   └── hero.js            #   slideshow slides, facts, slide duration
@@ -77,17 +93,24 @@ src/
 │   ├── shaders.js         #   GLSL
 │   └── loadSlides.js      #   loads photos/depth maps, falls back to Unsplash
 ├── components/
-│   ├── layout/            # Header, ThemeToggle, Footer
+│   ├── layout/            # Header, ThemeToggle, Footer, PageHeader (banner + breadcrumbs)
 │   ├── ui/                # SectionHead, SafeImage, PhotoGrid, Lightbox, TagLinks, SocialLinks
 │   └── icons/
 ├── sections/              # Hero, About, Programmes, News, Gallery, Stats, Contact
-└── pages/HomePage.jsx     # puts the sections in order
+└── pages/                 # HomePage (all sections), Page (banner + sections), NotFoundPage
+scripts/
+├── prerender.js           # writes the pre-rendered pages, 404.html and sitemap.xml
+└── optimize-images.js     # `npm run images`: WebP copies of the federation photos
 ```
 
 ## Common edits
 
+- **Add a page:** add it to `src/data/pages.js` (title, description, banner) and a `<Route>` in
+  `src/App.jsx`. The menu, footer, breadcrumbs, `<head>`, pre-rendered file and sitemap follow.
+
 - **Hero slides:** `src/data/hero.js`. For the best effect, add your own photos and depth maps
   — see `public/images/README.md`.
-- **News stories:** `stories` in `src/data/news.js` (photos registered in `src/data/photos.js`).
+- **News stories:** `stories` in `src/data/news.js` (photos registered in `src/data/photos.js`;
+  new photo files → run `npm run images`).
 - **Gallery:** `src/data/gallery.js`.
 - **Colours (both themes):** `src/styles/variables.css`.

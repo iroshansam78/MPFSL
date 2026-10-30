@@ -4,7 +4,7 @@ import { hero } from '../../data/hero.js'
 function HeroCaption({ slides, current, index, onSelect, playing }) {
   return (
     <div className="hero-caption">
-      <p className="cap-text" key={current.src}>
+      <p className="cap-text" key={current.key}>
         <strong>{current.title}</strong>
         <span>{current.caption}</span>
       </p>
@@ -12,7 +12,7 @@ function HeroCaption({ slides, current, index, onSelect, playing }) {
         <div className="cap-bars" role="group" aria-label="Choose photo">
           {slides.map((slide, i) => (
             <button
-              key={slide.src}
+              key={slide.key}
               type="button"
               className={i === index ? 'on' : ''}
               aria-label={`Show photo ${i + 1}: ${slide.title}`}

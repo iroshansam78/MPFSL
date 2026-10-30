@@ -4,7 +4,7 @@ import './Contact.css'
 
 const contactItems = [
   { label: 'Email', text: site.email, href: `mailto:${site.email}` },
-  { label: 'Website', text: 'mpfsl.net', href: site.website, external: true },
+  { label: 'Website', text: 'mpfsl.lk', href: site.website, external: true },
   { label: 'Facebook', text: 'facebook.com/slmpf', href: site.facebook, external: true },
 ]
 

@@ -44,6 +44,7 @@ function Lightbox({ images, index, onClose }) {
           fallback={image.fallback}
           fallbackAlt={image.fallbackAlt}
           loading="eager"
+          sizes="100vw"
         />
         <figcaption>
           {image.alt}

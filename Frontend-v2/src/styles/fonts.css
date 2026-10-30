@@ -16,3 +16,99 @@
 @import '@fontsource/dm-sans/700.css';
 @import '@fontsource/noto-sans-sinhala/400.css';
 @import '@fontsource/noto-sans-sinhala/600.css';
+
+/*
+ * Fallback faces: Arial resized to each web font's proportions, used until the web font has loaded.
+ * With matching widths and line heights the swap changes the look but doesn't move anything, so it
+ * causes no layout shift (Lighthouse "CLS"). Numbers from @capsizecss/metrics (latin):
+ *   size-adjust = (font avg. char width / em) ÷ (Arial avg. char width / em)
+ *   ascent/descent-override = font ascent/descent ÷ (em × size-adjust)
+ * Recompute if a font changes. Each family lists its fallback right after itself in the font stacks.
+ */
+@font-face {
+  font-family: "Barlow Condensed Fallback";
+  font-style: normal;
+  font-weight: 100 500;
+  src: local("Arial"), local("ArialMT");
+  size-adjust: 76.49%;
+  ascent-override: 130.73%;
+  descent-override: 26.15%;
+  line-gap-override: 0%;
+}
+
+@font-face {
+  font-family: "Barlow Condensed Fallback";
+  font-style: normal;
+  font-weight: 600 900;
+  src: local("Arial Bold"), local("Arial-BoldMT");
+  size-adjust: 76.49%;
+  ascent-override: 130.73%;
+  descent-override: 26.15%;
+  line-gap-override: 0%;
+}
+
+@font-face {
+  font-family: "Barlow Condensed Fallback";
+  font-style: italic;
+  font-weight: 100 500;
+  src: local("Arial Italic"), local("Arial-ItalicMT");
+  size-adjust: 76.49%;
+  ascent-override: 130.73%;
+  descent-override: 26.15%;
+  line-gap-override: 0%;
+}
+
+@font-face {
+  font-family: "Barlow Condensed Fallback";
+  font-style: italic;
+  font-weight: 600 900;
+  src: local("Arial Bold Italic"), local("Arial-BoldItalicMT");
+  size-adjust: 76.49%;
+  ascent-override: 130.73%;
+  descent-override: 26.15%;
+  line-gap-override: 0%;
+}
+
+@font-face {
+  font-family: "DM Sans Fallback";
+  font-style: normal;
+  font-weight: 100 500;
+  src: local("Arial"), local("ArialMT");
+  size-adjust: 104.53%;
+  ascent-override: 94.9%;
+  descent-override: 29.66%;
+  line-gap-override: 0%;
+}
+
+@font-face {
+  font-family: "DM Sans Fallback";
+  font-style: normal;
+  font-weight: 600 900;
+  src: local("Arial Bold"), local("Arial-BoldMT");
+  size-adjust: 104.53%;
+  ascent-override: 94.9%;
+  descent-override: 29.66%;
+  line-gap-override: 0%;
+}
+
+@font-face {
+  font-family: "DM Sans Fallback";
+  font-style: italic;
+  font-weight: 100 500;
+  src: local("Arial Italic"), local("Arial-ItalicMT");
+  size-adjust: 104.53%;
+  ascent-override: 94.9%;
+  descent-override: 29.66%;
+  line-gap-override: 0%;
+}
+
+@font-face {
+  font-family: "DM Sans Fallback";
+  font-style: italic;
+  font-weight: 600 900;
+  src: local("Arial Bold Italic"), local("Arial-BoldItalicMT");
+  size-adjust: 104.53%;
+  ascent-override: 94.9%;
+  descent-override: 29.66%;
+  line-gap-override: 0%;
+}

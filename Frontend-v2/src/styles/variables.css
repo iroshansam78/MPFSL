@@ -41,8 +41,8 @@
 
   --accent: var(--brand);
 
-  --display: "Barlow Condensed", "Arial Narrow", Impact, sans-serif;
-  --body: "DM Sans", system-ui, "Noto Sans Sinhala", sans-serif;
+  --display: "Barlow Condensed", "Barlow Condensed Fallback", "Arial Narrow", Impact, sans-serif;
+  --body: "DM Sans", "DM Sans Fallback", system-ui, "Noto Sans Sinhala", sans-serif;
   --si: "Noto Sans Sinhala", "DM Sans", sans-serif;
 
   --header-h: 72px;

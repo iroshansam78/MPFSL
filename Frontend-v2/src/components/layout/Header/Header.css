@@ -102,8 +102,13 @@ body.scrolled .site-header::before,
   opacity: 1;
 }
 
-.main-nav a:hover::after {
+.main-nav a:hover::after,
+.main-nav a[aria-current="page"]::after {
   transform: scaleX(1);
+}
+
+.main-nav a[aria-current="page"] {
+  opacity: 1;
 }
 
 /* Over the hero photo the Contact button uses the bright blue, like the hero's own button */

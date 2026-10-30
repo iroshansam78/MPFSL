@@ -21,6 +21,57 @@ Keep entries short and factual. If something was tried and didn't work, log that
 
 ---
 
+### 2026-10-30 — Website row back in Contact; footer simplified; old `mpfsl.net` replaced
+
+- **Area:** Content
+- **Target:** No placeholder or unfinished content; consistent contact details
+- **Done:** The Contact section's Website row is back (removed in Sprint 1 because it showed
+  `mpfsl.net`) and now shows `mpfsl.lk`. On request the footer was simplified: the website link added
+  next to the Facebook link and the Sprint 2 footer menu (About … Contact) were removed, so the footer
+  is back to copyright, Sinhala name and the Facebook link. The header menu and breadcrumbs remain.
+  `mpfsl.net` was replaced with `mpfsl.lk` in the old `Frontend/` app, the root `index.html` and the
+  `mpfsl-preview*.html` files. Frontend-v2 already had no mentions. Doc lines that record its
+  removal, and the question of redirecting the old domain, stay as history.
+- **Evidence:** `Frontend-v2/src/sections/Contact/Contact.jsx`, `components/layout/Footer/`; lint and build pass;
+  the Website row is in the pre-rendered home and `/contact` pages.
+- **Tracker:** no status change (contact details were already 🟡 → kept consistent)
+
+### 2026-10-30 — Sprint 2: real pages, pre-rendered for search engines
+
+- **Area:** Technical, SEO, Design, Performance
+- **Target:** clean URLs, sitemap, canonical URLs + structured data, breadcrumbs, professional 404,
+  unique title + description per page, pages readable without JavaScript, Lighthouse 90+ on mobile
+- **Done:**
+  - The single scrolling page became real pages: `/`, `/about`, `/programmes`, `/news`, `/gallery`,
+    `/contact` and a branded 404 (real HTTP 404, `noindex`). One list (`src/data/pages.js`) drives
+    the routes, menu, footer menu, breadcrumbs, titles, descriptions and sitemap.
+  - Every page is **pre-rendered** to HTML at build time (`scripts/prerender.js`) with its own
+    `<title>`, description, canonical URL, Open Graph tags and `BreadcrumbList`; `sitemap.xml` is
+    generated. The browser **hydrates** that HTML instead of rebuilding it; theme, reduced motion and
+    the footer year were made hydration-safe.
+  - Inner pages get a dark banner with breadcrumbs and the `<h1>`; the active menu item is marked;
+    moving between pages scrolls to the top and moves focus to the content (screen readers).
+  - Performance work so the pre-rendering didn't cost speed (first attempt: mobile home fell to
+    47–66): CSS inlined; pre-rendered content laid out only once the app is ready (behind the
+    preloader); scroll-reveal only hides what's below the first screen; size-matched fallback fonts
+    (no shift when fonts load); WebGL slideshow skipped on phones / slow connections / reduced
+    motion; federation photos as WebP 480/960/1440 px via `srcset` (`npm run images`, ~80% smaller);
+    the featured story photo loads first on `/news`.
+  - Fixed along the way: duplicate React keys in the hero caption (since Sprint 1's `localPhotos`
+    change); the admin host would have received the public pages — it now starts clean on an
+    empty page with only its own CSS, and `vercel.json` rewrites every admin path to `index.html`.
+- **Evidence:** local production build served with the `vercel.json` headers. Lighthouse
+  mobile / desktop performance: `/` 96/96, `/about` 95/100, `/programmes` 91/100, `/news` 85–93/99,
+  `/gallery` 97/100, `/contact` 94/100; **accessibility, best practices and SEO 100 on every page**;
+  CLS 0–0.02. Puppeteer checks: every page hydrates without errors in light and dark mode and with
+  reduced motion; menu, logo, back button, 404 → page navigation update the title, description and
+  canonical URL; admin host starts cleanly. See [measurements](bestweb-2027.md#measurements).
+- **Tracker:** sitemap/robots/clean URLs → ✅; canonical + structured data → ✅; breadcrumbs ❌ → ✅;
+  404 ❌ → ✅; unique titles ❌ → ✅; pre-rendered pages ❌ → ✅; hero on phones → ✅; images → ✅;
+  navigation → ✅
+- **Next:** push, then measure on `www.mpfsl.lk` and log it. `/news` mobile sits around 90: one page
+  per story (Sprint 3) will make the list page lighter. Google Search Console + sitemap submission.
+
 ### 2026-10-29 — Sprint 1: dependency audit in CI, 2 vulnerabilities fixed
 
 - **Area:** Security

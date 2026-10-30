@@ -1,7 +1,9 @@
 import { useEffect, useState } from 'react'
+import { Link, NavLink } from 'react-router'
 import logoForDarkBg from '../../../assets/images/logo-dark.png'
 import logoForLightBg from '../../../assets/images/logo-light.png'
-import { navLinks, site } from '../../../data/site.js'
+import { menuPages } from '../../../data/pages.js'
+import { site } from '../../../data/site.js'
 import ThemeToggle from '../ThemeToggle/ThemeToggle.jsx'
 import './Header.css'
 
@@ -9,10 +11,10 @@ import './Header.css'
 // (white lettering over the hero photo / in dark mode, navy lettering on the light header).
 function Logo() {
   return (
-    <a href="#top" className="logo" aria-label={`${site.name} home`}>
+    <Link to="/" className="logo" aria-label={`${site.name} home`}>
       <img className="logo-on-dark" src={logoForDarkBg} alt={`${site.name} logo`} width="231" height="180" />
       <img className="logo-on-light" src={logoForLightBg} alt="" aria-hidden="true" width="231" height="180" />
-    </a>
+    </Link>
   )
 }
 
@@ -32,10 +34,10 @@ function Header() {
         <Logo />
 
         <nav id="main-nav" className="main-nav" aria-label="Main navigation" onClick={() => setOpen(false)}>
-          {navLinks.map((link) => (
-            <a key={link.href} href={link.href}>
-              {link.label}
-            </a>
+          {menuPages.map((page) => (
+            <NavLink key={page.path} to={page.path}>
+              {page.label}
+            </NavLink>
           ))}
         </nav>
 

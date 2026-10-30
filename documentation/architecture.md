@@ -77,9 +77,10 @@ uses Tailwind classes, so its components are single `.jsx` files.
 
 ## Public site pages
 
-Today the public site is **one scrolling page** (`App.jsx` → `HomePage`), and the menu jumps to its
-sections. That can't meet the [BestWeb.LK 2027 targets](bestweb-2027.md): search engines see one
-page with one title, and there's no room for athletes, results or competitions. The target structure:
+Since Sprint 2 (Oct 2026) the public site has real pages, each pre-rendered to HTML with its own title,
+description, canonical URL and breadcrumbs: **`/`, `/about`, `/programmes`, `/news`, `/gallery`,
+`/contact`** and a 404 page. The home page still shows every section as an overview. The target
+structure ([BestWeb.LK 2027](bestweb-2027.md)), which new pages are added towards:
 
 | URL | Page | Data from |
 |---|---|---|
@@ -99,19 +100,32 @@ page with one title, and there's no room for athletes, results or competitions. 
 
 How it's built:
 
-- **Routing:** `react-router` (already a dependency) in `App.jsx`. Every page sets its own `<title>`,
-  meta description, canonical URL, Open Graph tags and JSON-LD (`SportsOrganization` on every page;
-  `Event`, `Article`, `Person`, `BreadcrumbList` where they fit).
-- **Pre-rendering:** each URL is rendered to HTML at build time (static site generation), so crawlers,
-  social-media previews and slow phones get real content before any JavaScript runs. Pages built from
-  API data (athletes, results, news) are re-built by a Vercel deploy hook when an editor
-  publishes, and still fetch fresh data in the browser.
-- **SEO files:** `robots.txt` and `sitemap.xml` generated at build time; `admin.mpfsl.lk` stays
-  `noindex`.
-- **Performance budget:** Lighthouse ≥ 90 on mobile. The hero already paints a still photo before the WebGL
-  slideshow; the slideshow should also be skipped on small screens and slow connections. The
-  preloader in `index.html` is plain HTML/CSS and is lifted within 2.5 s at most. Images use
-  `srcset` with the WebP variants from R2.
+- **One list of pages:** `src/data/pages.js` (path, menu label, title, description, banner heading).
+  It feeds the router (`App.jsx`), the menu and footer, each page's `<head>`, breadcrumbs, and the
+  build's HTML files and `sitemap.xml`. **To add a page:** add it to that list and a `<Route>` in `App.jsx`.
+- **Routing:** `react-router` — `BrowserRouter` in the browser (`PublicSite.jsx`), `StaticRouter` at
+  build time (`entry-server.jsx`). `hooks/usePageChange.js` updates `<head>`, scrolls to the top and
+  moves focus to the main content when the page changes.
+- **Pre-rendering** (`npm run build`): `vite build` → `vite build --ssr src/entry-server.jsx` →
+  `scripts/prerender.js`, which writes `dist/about.html` etc. (served at `/about` via `cleanUrls`),
+  `404.html` (`noindex`) and `sitemap.xml`. Each file gets the page's rendered HTML, its `<title>`,
+  description, canonical URL, Open Graph tags and `BreadcrumbList` JSON-LD, with the CSS inline.
+- **Hydration:** the browser takes over the pre-rendered HTML instead of rebuilding it
+  (`hydrateRoot` in `main.jsx`). The first browser render must match the build exactly, so anything
+  that depends on the visitor uses `useSyncExternalStore` with a server value: the theme
+  (`hooks/useTheme.js`), reduced motion (`hooks/useReducedMotion.js`); the footer year is the build
+  year. **Don't read `window`, `document`, the date or random numbers while rendering** — only in
+  effects. A mismatch shows up as a console error and costs Lighthouse points.
+- **Behind the preloader:** the pre-rendered content is in the HTML (for search engines, link
+  previews, no-JS visitors) but not laid out until the app has loaded (`:root:not(.app-ready) #root`
+  in `index.html`), so a phone only fetches what the preloader needs first. Scroll-reveal hides
+  only what's below the first screen (`hooks/useReveal.js`).
+- **Admin host:** `admin.mpfsl.lk` is served the same files (`vercel.json` rewrites every path to
+  `index.html`); `main.jsx` drops the public content and CSS and renders the admin panel.
+- **Performance budget:** Lighthouse ≥ 90 on mobile for every page. Phones, slow connections and
+  reduced motion get the hero's still photo only (no WebGL). Federation photos are served as WebP
+  in 480/960/1440 px (`npm run images` → `SafeImage` adds the `srcset`). Fonts are self-hosted,
+  with size-matched fallback fonts so the swap doesn't move anything (`styles/fonts.css`).
 - **Languages (later):** `/si/…` and `/ta/…` with `hreflang` links, translations checked by a person.
 
 ## Main flows
